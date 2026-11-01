@@ -740,17 +740,6 @@
           </div>
 
           <div>
-            <label class="block text-sm text-secondary mb-2" for="bizType">תחום עיסוק</label>
-            <select id="bizType" name="bizType"
-              class="w-full rounded-xl bg-white hairline px-4 py-3 text-primary focus:border-royal/60 outline-none transition-colors appearance-none">
-              <option>בעל עסק עצמאי</option>
-              <option>חברת שירותים</option>
-              <option>סוכנות</option>
-              <option>אחר</option>
-            </select>
-          </div>
-
-          <div>
             <label class="block text-sm text-secondary mb-2" for="message">ספרו לנו בקצרה על האתגר המרכזי שלכם</label>
             <textarea id="message" name="message" rows="3" maxlength="1000" placeholder="לדוגמה: לידים נכנסים מהאתר, מפייסבוק ומוואטסאפ, ואנחנו מעתיקים אותם ידנית ל-CRM ומפספסים פניות. רוצים שכל ליד ייקלט, יסווג ויקבל מענה ראשוני אוטומטית..."
               class="w-full rounded-xl bg-white hairline px-4 py-3 text-primary placeholder:text-muted focus:border-royal/60 outline-none transition-colors resize-none"></textarea>
@@ -1077,7 +1066,6 @@
       phone: form.phone.value.trim().slice(0, 20),
       email: form.email.value.trim().slice(0, 120),
       company: form.company.value.trim().slice(0, 100),
-      bizType: form.bizType.value,
       message: form.message.value.trim().slice(0, 1000)
     };
 
@@ -1089,7 +1077,6 @@
         'טלפון: ' + data.phone + '\n' +
         'אימייל: ' + data.email + '\n' +
         'שם העסק: ' + data.company + '\n' +
-        'תחום עיסוק: ' + data.bizType + '\n' +
         'הודעה: ' + data.message
       );
       window.location.href = 'mailto:' + CONTACT_EMAIL + '?subject=' + subject + '&body=' + body;
@@ -1104,7 +1091,7 @@
     // in the EmailJS template itself (see setup notes above), not controlled from the client.
     // reply_to is included so the business can hit "reply" and write straight back to the lead.
     // The EmailJS template only defines {{name}}, {{email}} and {{message}} as variables —
-    // so phone / company / business type are folded into a clearly-labeled message body
+    // so phone / company are folded into a clearly-labeled message body
     // instead of being dropped, while reply_to still lets you hit "reply" straight to the lead.
     const templateParams = {
       reply_to: data.email,
@@ -1113,7 +1100,6 @@
       message:
         'טלפון: ' + data.phone + '\n' +
         'שם העסק: ' + (data.company || '-') + '\n' +
-        'תחום עיסוק: ' + data.bizType + '\n\n' +
         'הודעה:\n' + (data.message || '-')
     };
 

@@ -143,6 +143,16 @@
   .live-dot { position: relative; }
   .live-dot::after { content: ''; position: absolute; inset: -4px; border-radius: 999px; border: 2px solid #3fa44d; animation: ping 2s cubic-bezier(0,0,.2,1) infinite; }
   @keyframes ping { 0% { transform: scale(.6); opacity: .8; } 100% { transform: scale(1.8); opacity: 0; } }
+
+  .social-btn { transition: transform .3s cubic-bezier(.2,.8,.2,1), background .3s ease, border-color .3s ease; }
+  .social-btn:hover { transform: translateY(-3px); }
+  .btn-dark { border: 1.5px solid rgba(255,255,255,0.25); transition: transform .3s cubic-bezier(.2,.8,.2,1), background .3s ease, border-color .3s ease; }
+  .btn-dark:hover { background: rgba(255,255,255,0.08); border-color: #8fe09b; transform: translateY(-2px); }
+  .faq-item:has(.faq-toggle[aria-expanded="true"]) { border-color: rgba(42,125,53,0.35); box-shadow: 0 18px 40px -28px rgba(29,94,39,0.45); }
+  .faq-item .faq-toggle:hover span { color: #1d5e27; }
+  .wa-float { box-shadow: 0 12px 30px -8px rgba(37,211,102,0.6); transition: transform .3s cubic-bezier(.2,.8,.2,1); }
+  .wa-float:hover { transform: scale(1.08) rotate(-6deg); }
+  .wa-float::after { content: ''; position: absolute; inset: 0; border-radius: 999px; border: 2px solid #25d366; animation: ping 2.4s cubic-bezier(0,0,.2,1) infinite; }
   #scrollBar { position: fixed; top: 0; right: 0; height: 3px; width: 100%; transform-origin: right; transform: scaleX(0); background: linear-gradient(90deg, #1d5e27, #46ad55); z-index: 60; }
 
   .bg-radial-glow {
@@ -613,128 +623,152 @@
   </div>
 </section>
 <!-- ============ FAQ ============ -->
-<section id="faq" class="relative bg-ink py-24 md:py-32 hairline-top">
-  <div class="max-w-4xl mx-auto px-6 md:px-10">
-    <div class="text-center" data-reveal>
-      <span class="eyebrow justify-center"><span class="dot"></span>שאלות נפוצות</span>
+<section id="faq" class="relative bg-ink py-24 md:py-32 hairline-top overflow-hidden">
+  <div class="blob -bottom-40 -right-40 w-[28rem] h-[28rem] bg-[#7fd18c]/15"></div>
+  <div class="relative max-w-6xl mx-auto px-6 md:px-10 grid lg:grid-cols-5 gap-12 items-start">
+
+    <div class="lg:col-span-2 lg:sticky lg:top-28" data-reveal>
+      <span class="eyebrow"><span class="dot"></span>שאלות נפוצות</span>
       <h2 class="mt-4 font-display font-extrabold text-3xl md:text-[2.6rem] leading-tight text-primary">
-        כל מה שרציתם לדעת לפני שמתחילים
+        כל מה שרציתם לדעת <span class="text-gradient">לפני שמתחילים</span>
       </h2>
+      <p class="mt-5 text-[17px] text-secondary leading-relaxed">התשובות הקצרות לשאלות שאנחנו שומעים הכי הרבה בשיחות האבחון.</p>
+
+      <div class="mt-8 relative overflow-hidden rounded-3xl bg-night p-7 text-white">
+        <div class="absolute -top-16 -left-16 w-48 h-48 rounded-full bg-[#46ad55]/30 blur-3xl pointer-events-none"></div>
+        <div class="relative flex items-center gap-3">
+          <span class="relative grid place-items-center w-11 h-11 rounded-full bg-[#25d366] text-white"><svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.24 8.24 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.55-3.7 8.24-8.24 8.24Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28Z"/></svg><span class="absolute top-0 right-0 w-3 h-3 rounded-full bg-[#7CFC8A] border-2 border-night live-dot"></span></span>
+          <div>
+            <p class="font-display font-bold text-lg">לא מצאתם תשובה?</p>
+            <p class="text-sm text-white/65">שלחו הודעה, עונים בדרך כלל באותו יום</p>
+          </div>
+        </div>
+        <a href="https://wa.me/972586555442" target="_blank" rel="noopener noreferrer" class="relative mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-grad-royal text-white font-medium px-6 py-3.5">
+          כתבו לנו בוואטסאפ
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        </a>
+      </div>
     </div>
 
-    <div class="mt-14 flex flex-col gap-4" id="faqList">
-
-      <div class="hairline rounded-2xl bg-card overflow-hidden" data-reveal>
-        <button class="faq-toggle w-full flex items-center justify-between gap-4 text-right p-6" aria-expanded="false">
+    <div class="lg:col-span-3 flex flex-col gap-4" id="faqList">
+      <div class="faq-item hairline rounded-2xl bg-card overflow-hidden transition-colors" data-reveal>
+        <button class="faq-toggle w-full flex items-center justify-between gap-4 text-right p-6" aria-expanded="true">
           <span class="font-display font-semibold text-base md:text-lg text-primary">למה לא פשוט להשתמש ב-ChatGPT?</span>
           <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-royal-light shrink-0 transition-transform"></i>
         </button>
         <div class="faq-panel"><div class="px-6 pb-6 text-[15px] text-secondary leading-relaxed">כלים כלליים מצוינים למשימות חד-פעמיות, אבל הם לא מחוברים למערכות שלכם, לא זוכרים את ההקשר העסקי שלכם ולא פועלים באופן עצמאי לאורך זמן. Servi בונה מערכת שמותאמת לתהליכים שלכם, מחוברת לכלים שלכם ופועלת ברקע — בלי שמישהו צריך להפעיל אותה בכל פעם מחדש.</div></div>
       </div>
-
-      <div class="hairline rounded-2xl bg-card overflow-hidden" data-reveal>
-        <button class="faq-toggle w-full flex items-center justify-between gap-4 text-right p-6" aria-expanded="false">
-          <span class="font-display font-semibold text-base md:text-lg text-primary">כמה זמן לוקח להטמיע מערכת בעסק?</span>
-          <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-royal-light shrink-0 transition-transform"></i>
-        </button>
-        <div class="faq-panel"><div class="px-6 pb-6 text-[15px] text-secondary leading-relaxed">שלב האפיון אורך בדרך כלל שבוע עד שבועיים, ולאחריו בניית המערכת וההתאמה האישית. ברוב המקרים המערכת עולה לאוויר תוך מספר שבועות, בהתאם להיקף ולמורכבות התהליכים.</div></div>
-      </div>
-
-      <div class="hairline rounded-2xl bg-card overflow-hidden" data-reveal>
-        <button class="faq-toggle w-full flex items-center justify-between gap-4 text-right p-6" aria-expanded="false">
-          <span class="font-display font-semibold text-base md:text-lg text-primary">האם המערכת מתאימה גם לעסק קטן, או רק לחברות גדולות?</span>
-          <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-royal-light shrink-0 transition-transform"></i>
-        </button>
-        <div class="faq-panel"><div class="px-6 pb-6 text-[15px] text-secondary leading-relaxed">Servi בונה מערכות בהתאמה אישית לעסקים בכל גודל — מעסק עצמאי ועד חברה עם מספר סניפים. ההיקף והמורכבות מותאמים לצרכים ולתקציב שלכם.</div></div>
-      </div>
-
-      <div class="hairline rounded-2xl bg-card overflow-hidden" data-reveal>
-        <button class="faq-toggle w-full flex items-center justify-between gap-4 text-right p-6" aria-expanded="false">
-          <span class="font-display font-semibold text-base md:text-lg text-primary">האם המערכת יכולה להתחבר לכלים שאני כבר עובד איתם?</span>
-          <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-royal-light shrink-0 transition-transform"></i>
-        </button>
-        <div class="faq-panel"><div class="px-6 pb-6 text-[15px] text-secondary leading-relaxed">כן. המערכת מתחברת לכלים הקיימים שלכם — CRM, וואטסאפ עסקי, מייל, יומן, מערכות סליקה ועוד — כך שלא צריך להחליף תשתיות קיימות כדי להתחיל.</div></div>
-      </div>
-
-      <div class="hairline rounded-2xl bg-card overflow-hidden" data-reveal>
+      <div class="faq-item hairline rounded-2xl bg-card overflow-hidden transition-colors" data-reveal>
         <button class="faq-toggle w-full flex items-center justify-between gap-4 text-right p-6" aria-expanded="false">
           <span class="font-display font-semibold text-base md:text-lg text-primary">כמה זה עולה?</span>
           <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-royal-light shrink-0 transition-transform"></i>
         </button>
         <div class="faq-panel"><div class="px-6 pb-6 text-[15px] text-secondary leading-relaxed">העלות תלויה בהיקף המערכת ובמורכבות התהליכים שמוטמעים. בשיחת האבחון נבין את הצרכים שלכם ונציע הצעת מחיר מותאמת אישית, בלי התחייבות.</div></div>
       </div>
-
-      <div class="hairline rounded-2xl bg-card overflow-hidden" data-reveal>
+      <div class="faq-item hairline rounded-2xl bg-card overflow-hidden transition-colors" data-reveal>
         <button class="faq-toggle w-full flex items-center justify-between gap-4 text-right p-6" aria-expanded="false">
-          <span class="font-display font-semibold text-base md:text-lg text-primary">מה קורה אם ללקוח יש שאלה שהמערכת לא יודעת לענות עליה?</span>
+          <span class="font-display font-semibold text-base md:text-lg text-primary">כמה זמן לוקח להטמיע מערכת בעסק?</span>
           <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-royal-light shrink-0 transition-transform"></i>
         </button>
-        <div class="faq-panel"><div class="px-6 pb-6 text-[15px] text-secondary leading-relaxed">המערכת מזהה מקרים שדורשים מענה אנושי ומעבירה אותם אוטומטית לנציג המתאים, יחד עם כל ההקשר הרלוונטי — כך שאף פנייה לא נשארת בלי טיפול.</div></div>
+        <div class="faq-panel"><div class="px-6 pb-6 text-[15px] text-secondary leading-relaxed">שלב האפיון אורך בדרך כלל שבוע עד שבועיים, ולאחריו בניית המערכת וההתאמה האישית. ברוב המקרים המערכת עולה לאוויר תוך מספר שבועות, בהתאם להיקף ולמורכבות התהליכים.</div></div>
       </div>
-
-      <div class="hairline rounded-2xl bg-card overflow-hidden" data-reveal>
+      <div class="faq-item hairline rounded-2xl bg-card overflow-hidden transition-colors" data-reveal>
+        <button class="faq-toggle w-full flex items-center justify-between gap-4 text-right p-6" aria-expanded="false">
+          <span class="font-display font-semibold text-base md:text-lg text-primary">האם המערכת יכולה להתחבר לכלים שאני כבר עובד איתם?</span>
+          <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-royal-light shrink-0 transition-transform"></i>
+        </button>
+        <div class="faq-panel"><div class="px-6 pb-6 text-[15px] text-secondary leading-relaxed">כן. המערכת מתחברת לכלים הקיימים שלכם — CRM, וואטסאפ עסקי, מייל, יומן, מערכות סליקה ועוד — כך שלא צריך להחליף תשתיות קיימות כדי להתחיל.</div></div>
+      </div>
+      <div class="faq-item hairline rounded-2xl bg-card overflow-hidden transition-colors" data-reveal>
         <button class="faq-toggle w-full flex items-center justify-between gap-4 text-right p-6" aria-expanded="false">
           <span class="font-display font-semibold text-base md:text-lg text-primary">האם המידע של העסק והלקוחות שלי מאובטח?</span>
           <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-royal-light shrink-0 transition-transform"></i>
         </button>
         <div class="faq-panel"><div class="px-6 pb-6 text-[15px] text-secondary leading-relaxed">כן. אנחנו עובדים בהתאם לסטנדרטים מחמירים של אבטחת מידע ופרטיות, וכל מערכת נבנית כך שהגישה למידע רגיש מוגבלת ומבוקרת.</div></div>
       </div>
-
-      <div class="hairline rounded-2xl bg-card overflow-hidden" data-reveal>
-        <button class="faq-toggle w-full flex items-center justify-between gap-4 text-right p-6" aria-expanded="false">
-          <span class="font-display font-semibold text-base md:text-lg text-primary">האם יש תמיכה וליווי אחרי ההטמעה?</span>
-          <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-royal-light shrink-0 transition-transform"></i>
-        </button>
-        <div class="faq-panel"><div class="px-6 pb-6 text-[15px] text-secondary leading-relaxed">כן. הליווי לא נגמר בהפעלה — אנחנו עוקבים אחרי ביצועי המערכת, מבצעים אופטימיזציה ומתאימים אותה ככל שהעסק שלכם משתנה וגדל.</div></div>
-      </div>
-
     </div>
   </div>
 </section>
 
 
 <!-- ============ FOOTER ============ -->
-<footer class="bg-ink hairline-top py-14">
-  <div class="max-w-7xl mx-auto px-6 md:px-10">
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
+<footer class="relative overflow-hidden bg-night text-white">
+  <div class="blob -top-40 left-1/3 w-[34rem] h-[34rem] bg-[#2a7d35]/35"></div>
+  <div class="relative max-w-7xl mx-auto px-6 md:px-10">
 
-      <div class="lg:col-span-2">
-        <div class="flex items-center gap-3">
-          <img src="assets/logo-mark.png" alt="" class="w-8 h-8" width="36" height="36">
-          <span class="font-display font-extrabold text-lg text-royal-dark">Servi</span>
-        </div>
-        <p class="mt-4 text-[15px] text-secondary leading-relaxed max-w-xs">
-          תשתית AI מותאמת אישית לעסקים שרוצים לצמוח בלי לגדול בכוח אדם.
-        </p>
-      </div>
-
+    <div class="py-16 md:py-20 grid lg:grid-cols-2 gap-10 items-center border-b border-white/10">
       <div>
-        <h4 class="font-display font-semibold text-sm text-primary">יכולות</h4>
-        <ul class="mt-4 flex flex-col gap-3 text-[14px] text-secondary">
-          <li><a href="#contact" class="hover:text-primary transition-colors">סוכני AI אוטונומיים</a></li>
-          <li><a href="#contact" class="hover:text-primary transition-colors">תפעול אוטונומי</a></li>
-          <li><a href="#contact" class="hover:text-primary transition-colors">תשתית ניהול לקוחות</a></li>
-          <li><a href="#contact" class="hover:text-primary transition-colors">מערכת שירות אוטונומית</a></li>
-        </ul>
+        <h2 class="font-display font-extrabold text-3xl md:text-[2.6rem] leading-tight">יש לכם תהליך שגוזל זמן?<br><span class="text-[#8fe09b]">בואו נהפוך אותו לאוטומטי.</span></h2>
+        <p class="mt-4 text-white/65 text-[17px]">שיחת אבחון של 20 דקות, בלי התחייבות.</p>
       </div>
-
-      <div>
-        <h4 class="font-display font-semibold text-sm text-primary">חברה</h4>
-        <ul class="mt-4 flex flex-col gap-3 text-[14px] text-secondary">
-          <li><a href="#portfolio" class="hover:text-primary transition-colors">תיק עבודות</a></li>
-          <li><a href="#faq" class="hover:text-primary transition-colors">שאלות נפוצות</a></li>
-          <li><a href="#contact" class="hover:text-primary transition-colors">צרו קשר</a></li>
-        </ul>
+      <div class="flex flex-col sm:flex-row gap-4 lg:justify-end">
+        <a href="#contact" class="inline-flex items-center justify-center gap-2 rounded-full bg-grad-royal text-white font-medium text-base px-7 py-3.5">קבעו שיחת אבחון<i data-lucide="arrow-left" class="w-4 h-4"></i></a>
+        <a href="https://wa.me/972586555442" target="_blank" rel="noopener noreferrer" class="btn-dark inline-flex items-center justify-center gap-2 rounded-full text-white font-medium text-base px-7 py-3.5"><svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.24 8.24 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.55-3.7 8.24-8.24 8.24Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28Z"/></svg>וואטסאפ</a>
       </div>
-
     </div>
 
-    <div class="mt-14 pt-7 border-t border-hairline flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted">
+    <div class="py-14 grid sm:grid-cols-2 lg:grid-cols-12 gap-10">
+      <div class="lg:col-span-4">
+        <div class="flex items-center gap-3">
+          <span class="grid place-items-center w-11 h-11 rounded-2xl bg-white"><img src="assets/logo-mark.png" alt="" class="w-8 h-8" width="36" height="36"></span>
+          <span class="font-display font-extrabold text-2xl">Servi</span>
+        </div>
+        <p class="mt-5 text-[15px] text-white/65 leading-relaxed max-w-xs">תשתית AI מותאמת אישית לעסקים שרוצים לצמוח בלי לגדול בכוח אדם.</p>
+      </div>
+
+      <div class="lg:col-span-2">
+        <h4 class="font-display font-semibold text-sm text-white">יכולות</h4>
+        <ul class="mt-4 flex flex-col gap-3 text-[14px] text-white/60">
+          <li><a href="#portfolio" class="hover:text-[#8fe09b] transition-colors">צ'אט AI ארגוני</a></li>
+          <li><a href="#portfolio" class="hover:text-[#8fe09b] transition-colors">ניתוח שיחות מכירה</a></li>
+          <li><a href="#portfolio" class="hover:text-[#8fe09b] transition-colors">אוטומציה למסמכים</a></li>
+          <li><a href="#portfolio" class="hover:text-[#8fe09b] transition-colors">מיון וחיפוש מיילים</a></li>
+        </ul>
+      </div>
+
+      <div class="lg:col-span-2">
+        <h4 class="font-display font-semibold text-sm text-white">ניווט</h4>
+        <ul class="mt-4 flex flex-col gap-3 text-[14px] text-white/60">
+          <li><a href="#portfolio" class="hover:text-[#8fe09b] transition-colors">תיק עבודות</a></li>
+          <li><a href="#faq" class="hover:text-[#8fe09b] transition-colors">שאלות נפוצות</a></li>
+          <li><a href="#contact" class="hover:text-[#8fe09b] transition-colors">צרו קשר</a></li>
+        </ul>
+      </div>
+
+      <div class="sm:col-span-2 lg:col-span-4">
+        <h4 class="font-display font-semibold text-sm text-white">עקבו אחרינו</h4>
+        <div class="mt-4 grid grid-cols-2 gap-3">
+          <a href="https://instagram.com/servi_ai" target="_blank" rel="noopener noreferrer" aria-label="אינסטגרם" class="social-btn group flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 hover:bg-[#2a7d35] hover:border-[#2a7d35]">
+            <span class="grid place-items-center w-10 h-10 rounded-xl bg-white/10 text-[#8fe09b] group-hover:bg-white group-hover:text-[#1d5e27] transition-colors"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="0.6" fill="currentColor" stroke="none"/></svg></span>
+            <span class="flex flex-col leading-tight"><span class="text-sm font-medium text-white">אינסטגרם</span><span class="text-xs text-white/55 group-hover:text-white/80" dir="ltr">@servi_ai</span></span>
+          </a>
+          <a href="https://www.linkedin.com/in/gevarozner" target="_blank" rel="noopener noreferrer" aria-label="לינקדאין" class="social-btn group flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 hover:bg-[#2a7d35] hover:border-[#2a7d35]">
+            <span class="grid place-items-center w-10 h-10 rounded-xl bg-white/10 text-[#8fe09b] group-hover:bg-white group-hover:text-[#1d5e27] transition-colors"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7.5 10.5v6M7.5 7.5v.01M11.5 16.5v-3.5c0-1.4 1-2.5 2.5-2.5s2.5 1.1 2.5 2.5v3.5M11.5 10.5v6"/></svg></span>
+            <span class="flex flex-col leading-tight"><span class="text-sm font-medium text-white">לינקדאין</span><span class="text-xs text-white/55 group-hover:text-white/80" dir="ltr">gevarozner</span></span>
+          </a>
+          <a href="https://wa.me/972586555442" target="_blank" rel="noopener noreferrer" aria-label="וואטסאפ" class="social-btn group flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 hover:bg-[#2a7d35] hover:border-[#2a7d35]">
+            <span class="grid place-items-center w-10 h-10 rounded-xl bg-white/10 text-[#8fe09b] group-hover:bg-white group-hover:text-[#1d5e27] transition-colors"><svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.24 8.24 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.55-3.7 8.24-8.24 8.24Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28Z"/></svg></span>
+            <span class="flex flex-col leading-tight"><span class="text-sm font-medium text-white">וואטסאפ</span><span class="text-xs text-white/55 group-hover:text-white/80" dir="ltr">058-655-5442</span></span>
+          </a>
+          <a href="mailto:servichatbot@gmail.com" aria-label="מייל" class="social-btn group flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 hover:bg-[#2a7d35] hover:border-[#2a7d35]">
+            <span class="grid place-items-center w-10 h-10 rounded-xl bg-white/10 text-[#8fe09b] group-hover:bg-white group-hover:text-[#1d5e27] transition-colors"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+            <span class="flex flex-col leading-tight"><span class="text-sm font-medium text-white">מייל</span><span class="text-xs text-white/55 group-hover:text-white/80" dir="ltr">servichatbot</span></span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="py-7 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/45">
       <span>© 2026 Servi. כל הזכויות שמורות.</span>
       <span class="flex items-center gap-1.5"><i data-lucide="map-pin" class="w-3.5 h-3.5"></i> ישראל</span>
     </div>
   </div>
 </footer>
+
+<!-- floating WhatsApp -->
+<a href="https://wa.me/972586555442" target="_blank" rel="noopener noreferrer" aria-label="דברו איתנו בוואטסאפ" class="wa-float fixed bottom-5 left-5 z-50 grid place-items-center w-14 h-14 rounded-full bg-[#25d366] text-white">
+  <span class="w-7 h-7 [&>svg]:w-7 [&>svg]:h-7"><svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.24 8.24 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.55-3.7 8.24-8.24 8.24Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28Z"/></svg></span>
+</a>
 
 <script>
   lucide.createIcons();

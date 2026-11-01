@@ -94,34 +94,56 @@
   /* ---------- buttons ---------- */
   .bg-grad-royal {
     position: relative; isolation: isolate; overflow: hidden;
-    background: linear-gradient(180deg, #34923f 0%, #2a7d35 55%, #236b2d 100%);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), 0 1px 2px rgba(14,31,19,0.18), 0 10px 26px -12px rgba(29,94,39,0.65);
-    transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s ease, background .25s ease !important;
+    background: linear-gradient(135deg, #2f8f3c 0%, #1d5e27 100%);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 12px 26px -14px rgba(29,94,39,0.75);
+    transition: transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s ease !important;
   }
-  .bg-grad-royal::after {
-    content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
-    background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.32) 50%, transparent 70%);
-    transform: translateX(120%); transition: transform .7s cubic-bezier(.2,.8,.2,1);
+  a.bg-grad-royal::before, button.bg-grad-royal::before {
+    content: ''; position: absolute; z-index: -1; left: 0; top: 50%; width: 140%; aspect-ratio: 1; border-radius: 999px;
+    background: radial-gradient(circle, #43a851 0%, #2f8f3c 60%);
+    transform: translate(-50%, -50%) scale(0); transition: transform .55s cubic-bezier(.2,.8,.2,1);
   }
+  a.bg-grad-royal:hover::before, button.bg-grad-royal:hover:not(:disabled)::before { transform: translate(-30%, -50%) scale(1.6); }
   a.bg-grad-royal:hover, button.bg-grad-royal:hover:not(:disabled) {
     transform: translateY(-2px) !important;
-    background: linear-gradient(180deg, #3aa046 0%, #2e8a3a 55%, #26732f 100%);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 2px 4px rgba(14,31,19,0.15), 0 18px 34px -14px rgba(29,94,39,0.7);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 18px 34px -14px rgba(29,94,39,0.8);
   }
-  a.bg-grad-royal:hover::after, button.bg-grad-royal:hover:not(:disabled)::after { transform: translateX(-120%); }
-  a.bg-grad-royal:active, button.bg-grad-royal:active { transform: translateY(0) scale(.98) !important; }
-  .bg-grad-royal svg, .btn-ghost svg { transition: transform .3s cubic-bezier(.2,.8,.2,1); }
-  a.bg-grad-royal:hover svg, button.bg-grad-royal:hover svg, a.btn-ghost:hover svg { transform: translateX(-4px); }
+  a.bg-grad-royal:active, button.bg-grad-royal:active { transform: translateY(0) scale(.97) !important; }
+  a.bg-grad-royal:has(> svg), button.bg-grad-royal:has(> svg) { padding-left: .4rem !important; gap: .8rem !important; }
+  a.bg-grad-royal > svg, button.bg-grad-royal > svg {
+    width: 2em !important; height: 2em !important; margin-block: -.4em; padding: .45em; flex-shrink: 0;
+    border-radius: 999px; background: #fff; color: #1d5e27; stroke-width: 2.4;
+    transition: transform .4s cubic-bezier(.2,.8,.2,1), background .3s ease;
+  }
+  a.bg-grad-royal:hover > svg, button.bg-grad-royal:hover:not(:disabled) > svg { transform: translateX(-4px) rotate(-8deg); background: #ecfbee; }
   span.bg-grad-royal { box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 8px 20px -10px rgba(29,94,39,0.6); }
 
-  .btn-ghost { background: #fff; border: 1px solid rgba(14,31,19,0.14); transition: transform .25s cubic-bezier(.2,.8,.2,1), border-color .25s ease, background .25s ease, box-shadow .25s ease, color .25s ease; }
-  .btn-ghost:hover { border-color: #2a7d35; color: #1d5e27; background: #f3faf4; transform: translateY(-2px); box-shadow: 0 12px 26px -16px rgba(29,94,39,0.5); }
+  .btn-ghost { background: rgba(255,255,255,0.7); border: 1.5px solid rgba(29,94,39,0.28); color: #1d5e27; backdrop-filter: blur(6px);
+    transition: transform .3s cubic-bezier(.2,.8,.2,1), border-color .3s ease, background .3s ease, box-shadow .3s ease; }
+  .btn-ghost:hover { border-color: #2a7d35; background: #e8f4ea; transform: translateY(-2px); box-shadow: 0 12px 26px -16px rgba(29,94,39,0.55); }
+  .btn-ghost svg { transition: transform .3s cubic-bezier(.2,.8,.2,1); }
+  .btn-ghost:hover svg { transform: translateX(-4px); }
 
   .cta-hero { animation: ctaPulse 3.2s ease-in-out infinite; }
   @keyframes ctaPulse {
-    0%,100% { box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), 0 0 0 0 rgba(42,125,53,0.35), 0 10px 26px -12px rgba(29,94,39,0.65); }
-    50% { box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), 0 0 0 10px rgba(42,125,53,0), 0 10px 26px -12px rgba(29,94,39,0.65); }
+    0%,100% { box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 0 0 0 rgba(42,125,53,0.35), 0 12px 26px -14px rgba(29,94,39,0.75); }
+    50% { box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 0 0 12px rgba(42,125,53,0), 0 12px 26px -14px rgba(29,94,39,0.75); }
   }
+
+  /* ---------- motion ---------- */
+  .text-gradient { background-size: 200% 100%; animation: gradShift 7s ease-in-out infinite; }
+  @keyframes gradShift { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+  .blob { position: absolute; border-radius: 999px; filter: blur(70px); pointer-events: none; animation: drift 18s ease-in-out infinite; }
+  @keyframes drift { 0%,100% { transform: translate(0,0) scale(1); } 33% { transform: translate(40px,-30px) scale(1.08); } 66% { transform: translate(-30px,25px) scale(.95); } }
+  .float-chip { animation: floatSlow 6s ease-in-out infinite; }
+  .marquee { -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
+  .marquee-track { display: flex; width: max-content; animation: marquee 36s linear infinite; }
+  .marquee:hover .marquee-track { animation-play-state: paused; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .live-dot { position: relative; }
+  .live-dot::after { content: ''; position: absolute; inset: -4px; border-radius: 999px; border: 2px solid #3fa44d; animation: ping 2s cubic-bezier(0,0,.2,1) infinite; }
+  @keyframes ping { 0% { transform: scale(.6); opacity: .8; } 100% { transform: scale(1.8); opacity: 0; } }
+  #scrollBar { position: fixed; top: 0; right: 0; height: 3px; width: 100%; transform-origin: right; transform: scaleX(0); background: linear-gradient(90deg, #1d5e27, #46ad55); z-index: 60; }
 
   .bg-radial-glow {
     background: radial-gradient(60% 55% at 50% 0%, rgba(63,164,77,0.13) 0%, rgba(255,255,255,0) 70%);
@@ -177,6 +199,7 @@
 </head>
 
 <body class="bg-ink text-primary font-body antialiased selection:bg-royal">
+<div id="scrollBar" aria-hidden="true"></div>
 
 <!-- ============ HEADER ============ -->
 <header class="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-white/80 hairline-top border-b border-hairline">
@@ -189,7 +212,6 @@
 
       <nav class="hidden lg:flex items-center gap-10 font-body text-[15px] text-secondary">
         <a href="#portfolio" class="nav-link hover:text-primary transition-colors">תיק עבודות</a>
-        <a href="#case-study" class="nav-link hover:text-primary transition-colors">תוצאות</a>
         <a href="#faq" class="nav-link hover:text-primary transition-colors">שאלות נפוצות</a>
       </nav>
 
@@ -209,7 +231,6 @@
   <div id="mobileMenu" class="lg:hidden hidden border-t border-hairline bg-white/95 backdrop-blur-xl">
     <div class="px-6 py-6 flex flex-col gap-5 text-secondary font-body">
       <a href="#portfolio" class="mobile-link hover:text-primary">תיק עבודות</a>
-      <a href="#case-study" class="mobile-link hover:text-primary">תוצאות</a>
       <a href="#faq" class="mobile-link hover:text-primary">שאלות נפוצות</a>
       <a href="#contact" class="mobile-link mt-2 text-center rounded-full bg-grad-royal text-white font-medium px-5 py-3">קבעו שיחת אבחון</a>
     </div>
@@ -220,13 +241,14 @@
 <section id="hero" class="relative overflow-hidden bg-ink pt-36 pb-24 md:pt-44 md:pb-28">
   <div class="absolute inset-0 bg-dots pointer-events-none"></div>
   <div class="absolute inset-0 bg-radial-glow pointer-events-none"></div>
-  <div class="absolute -top-40 -left-40 w-[36rem] h-[36rem] rounded-full bg-royal/10 blur-[120px] pointer-events-none"></div>
+  <div class="blob -top-32 -left-24 w-[30rem] h-[30rem] bg-[#7fd18c]/25"></div>
+  <div class="blob top-40 -right-32 w-[26rem] h-[26rem] bg-[#2a7d35]/10" style="animation-delay:-6s"></div>
   <svg class="absolute inset-0 w-full h-full opacity-[0.045] pointer-events-none" viewBox="0 0 1200 400" preserveAspectRatio="none" aria-hidden="true">
     <polyline points="0,360 150,330 300,340 450,260 600,280 750,180 900,200 1050,90 1200,60" fill="none" stroke="#2a7d35" stroke-width="3"/>
   </svg>
 
   <div class="relative max-w-4xl mx-auto px-6 md:px-10 text-center" data-reveal>
-    <span class="eyebrow justify-center rounded-full hairline bg-card/60 px-4 py-1.5"><span class="dot animate-pulseGlow"></span>Servi · תשתית AI לעסקים</span>
+    <span class="eyebrow justify-center rounded-full hairline bg-card/60 px-4 py-1.5"><span class="dot live-dot"></span>Servi · תשתית AI לעסקים</span>
     <h1 class="mt-6 font-display font-extrabold text-[2.5rem] leading-[1.12] sm:text-[3.4rem] sm:leading-[1.1] tracking-tight text-primary">
       העולם כבר השתנה.<br>
       <span class="text-gradient">העסק שלכם מוכן?</span>
@@ -286,6 +308,31 @@
       <span class="text-gradient">השאלה היא אם זה יקרה לפני המתחרים שלכם.</span>
     </p>
   </div>
+
+  <!-- floating activity chips (desktop) -->
+  <div class="hidden xl:block pointer-events-none" aria-hidden="true">
+    <div class="float-chip absolute top-[22%] right-[5%] flex items-center gap-2.5 rounded-2xl bg-white/90 backdrop-blur hairline2 px-4 py-3 text-sm text-primary">
+      <span class="grid place-items-center w-8 h-8 rounded-xl bg-mint"><i data-lucide="mail-check" class="w-4 h-4 text-royal"></i></span>מייל חדש סווג אוטומטית
+    </div>
+    <div class="float-chip absolute top-[39%] right-[7%] flex items-center gap-2.5 rounded-2xl bg-white/90 backdrop-blur hairline2 px-4 py-3 text-sm text-primary" style="animation-delay:1.4s">
+      <span class="grid place-items-center w-8 h-8 rounded-xl bg-mint"><i data-lucide="file-chart-column" class="w-4 h-4 text-royal"></i></span>דוח שבועי נשלח להנהלה
+    </div>
+    <div class="float-chip absolute top-[26%] left-[5%] flex items-center gap-2.5 rounded-2xl bg-white/90 backdrop-blur hairline2 px-4 py-3 text-sm text-primary" style="animation-delay:.7s">
+      <span class="grid place-items-center w-8 h-8 rounded-xl bg-mint"><i data-lucide="user-plus" class="w-4 h-4 text-royal"></i></span>ליד חדש עודכן ב-CRM
+    </div>
+    <div class="float-chip absolute top-[42%] left-[4%] flex items-center gap-2.5 rounded-2xl bg-white/90 backdrop-blur hairline2 px-4 py-3 text-sm text-primary" style="animation-delay:2.1s">
+      <span class="grid place-items-center w-8 h-8 rounded-xl bg-mint"><i data-lucide="audio-lines" class="w-4 h-4 text-royal"></i></span>שיחת מכירה נותחה · ציון 88
+    </div>
+  </div>
+</section>
+
+
+<!-- ============ INTEGRATIONS STRIP ============ -->
+<section class="relative bg-white py-12 border-t border-hairline overflow-hidden" aria-label="כלים שהמערכות מתחברות אליהם">
+  <p class="text-center text-sm font-medium text-muted mb-6">מתחברים לכלים שאתם כבר עובדים איתם</p>
+  <div class="marquee" dir="ltr">
+    <div class="marquee-track"><span class="mx-2 inline-flex items-center gap-2 rounded-full bg-white hairline px-5 py-2.5 text-[15px] text-secondary whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-royal/70"></span>CRM</span><span class="mx-2 inline-flex items-center gap-2 rounded-full bg-white hairline px-5 py-2.5 text-[15px] text-secondary whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-royal/70"></span>וואטסאפ עסקי</span><span class="mx-2 inline-flex items-center gap-2 rounded-full bg-white hairline px-5 py-2.5 text-[15px] text-secondary whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-royal/70"></span>Gmail</span><span class="mx-2 inline-flex items-center gap-2 rounded-full bg-white hairline px-5 py-2.5 text-[15px] text-secondary whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-royal/70"></span>Outlook</span><span class="mx-2 inline-flex items-center gap-2 rounded-full bg-white hairline px-5 py-2.5 text-[15px] text-secondary whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-royal/70"></span>יומן Google</span><span class="mx-2 inline-flex items-center gap-2 rounded-full bg-white hairline px-5 py-2.5 text-[15px] text-secondary whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-royal/70"></span>Excel</span><span class="mx-2 inline-flex items-center gap-2 rounded-full bg-white hairline px-5 py-2.5 text-[15px] text-secondary whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-royal/70"></span>Word</span><span class="mx-2 inline-flex items-center gap-2 rounded-full bg-white hairline px-5 py-2.5 text-[15px] text-secondary whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-royal/70"></span>Google Sheets</span><span class="mx-2 inline-flex items-center gap-2 rounded-full bg-white hairline px-5 py-2.5 text-[15px] text-secondary whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-royal/70"></span>מרכזייה טלפונית</span><span class="mx-2 inline-flex items-center gap-2 rounded-full bg-white hairline px-5 py-2.5 text-[15px] text-secondary whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-royal/70"></span>מערכות סליקה</span><span class="mx-2 inline-flex items-center gap-2 rounded-full bg-white hairline px-5 py-2.5 text-[15px] text-secondary whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-royal/70"></span>Google Drive</span><span class="mx-2 inline-flex items-center gap-2 rounded-full bg-white hairline px-5 py-2.5 text-[15px] text-secondary whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-royal/70"></span>מסמכי PDF</span><span class="mx-2 inline-flex items-center gap-2 rounded-full bg-white hairline px-5 py-2.5 text-[15px] text-secondary whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-royal/70"></span>CRM</span><span class="mx-2 inline-flex items-center gap-2 rounded-full bg-white hairline px-5 py-2.5 text-[15px] text-secondary whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-royal/70"></span>וואטסאפ עסקי</span><span class="mx-2 inline-flex items-center gap-2 rounded-full bg-white hairline px-5 py-2.5 text-[15px] text-secondary whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-royal/70"></span>Gmail</span><span class="mx-2 inline-flex items-center gap-2 rounded-full bg-white hairline px-5 py-2.5 text-[15px] text-secondary whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-royal/70"></span>Outlook</span><span class="mx-2 inline-flex items-center gap-2 rounded-full bg-white hairline px-5 py-2.5 text-[15px] text-secondary whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-royal/70"></span>יומן Google</span><span class="mx-2 inline-flex items-center gap-2 rounded-full bg-white hairline px-5 py-2.5 text-[15px] text-secondary whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-royal/70"></span>Excel</span><span class="mx-2 inline-flex items-center gap-2 rounded-full bg-white hairline px-5 py-2.5 text-[15px] text-secondary whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-royal/70"></span>Word</span><span class="mx-2 inline-flex items-center gap-2 rounded-full bg-white hairline px-5 py-2.5 text-[15px] text-secondary whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-royal/70"></span>Google Sheets</span><span class="mx-2 inline-flex items-center gap-2 rounded-full bg-white hairline px-5 py-2.5 text-[15px] text-secondary whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-royal/70"></span>מרכזייה טלפונית</span><span class="mx-2 inline-flex items-center gap-2 rounded-full bg-white hairline px-5 py-2.5 text-[15px] text-secondary whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-royal/70"></span>מערכות סליקה</span><span class="mx-2 inline-flex items-center gap-2 rounded-full bg-white hairline px-5 py-2.5 text-[15px] text-secondary whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-royal/70"></span>Google Drive</span><span class="mx-2 inline-flex items-center gap-2 rounded-full bg-white hairline px-5 py-2.5 text-[15px] text-secondary whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-royal/70"></span>מסמכי PDF</span></div>
+  </div>
 </section>
 
 <!-- ============ PORTFOLIO ============
@@ -298,7 +345,7 @@
         מערכות שבנינו לעסקים
       </h2>
       <p class="mt-5 text-lg text-secondary leading-relaxed">
-        כל מערכת נבנית מאפס סביב התהליכים של הלקוח. המערכות עצמן פרטיות, ולכן התמונות כאן הן הדמיה של הממשק.
+        כל מערכת נבנית מאפס סביב התהליכים של הלקוח. המערכות עצמן פרטיות, ולכן הנתונים שמופיעים בתמונות הם להמחשה בלבד.
       </p>
     </div>
 
@@ -306,8 +353,6 @@
       <article class="card-hover rounded-3xl overflow-hidden hairline2 bg-gradient-to-br from-card2 to-card flex flex-col" data-reveal>
         <a href="projects/org-chat.html" target="_blank" rel="noopener" aria-label="לצפייה בפרויקט: צ&#x27;אט AI ארגוני שמחובר ל-CRM (נפתח בחלון חדש)" class="group relative block aspect-[16/10] overflow-hidden bg-ink">
           <img src="assets/project-chat.jpg" alt="הדמיית ממשק צ'אט ארגוני בעברית שעונה על שאלות מתוך מערכת ה-CRM" loading="lazy" class="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]">
-          <div class="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-card2 to-transparent"></div>
-          <span class="absolute top-4 right-4 text-xs text-white bg-night/55 backdrop-blur rounded-full px-3 py-1.5">הדמיה</span>
         
           <span class="absolute inset-0 grid place-items-center bg-night/0 group-hover:bg-night/40 transition-colors">
             <span class="inline-flex items-center gap-2 rounded-full bg-white text-night text-sm font-medium px-5 py-2.5 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all">לצפייה בפרויקט<i data-lucide="external-link" class="w-4 h-4"></i></span>
@@ -329,8 +374,6 @@
       <article class="card-hover rounded-3xl overflow-hidden hairline2 bg-gradient-to-br from-card2 to-card flex flex-col" data-reveal data-reveal-delay="2">
         <a href="projects/sales-calls.html" target="_blank" rel="noopener" aria-label="לצפייה בפרויקט: תמלול וניתוח שיחות מכירה (נפתח בחלון חדש)" class="group relative block aspect-[16/10] overflow-hidden bg-ink">
           <img src="assets/project-calls.jpg" alt="הדמיית לוח בקרה לניתוח שיחות מכירה עם ציון לכל נציג ותמלול שיחה" loading="lazy" class="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]">
-          <div class="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-card2 to-transparent"></div>
-          <span class="absolute top-4 right-4 text-xs text-white bg-night/55 backdrop-blur rounded-full px-3 py-1.5">הדמיה</span>
         
           <span class="absolute inset-0 grid place-items-center bg-night/0 group-hover:bg-night/40 transition-colors">
             <span class="inline-flex items-center gap-2 rounded-full bg-white text-night text-sm font-medium px-5 py-2.5 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all">לצפייה בפרויקט<i data-lucide="external-link" class="w-4 h-4"></i></span>
@@ -352,8 +395,6 @@
       <article class="card-hover rounded-3xl overflow-hidden hairline2 bg-gradient-to-br from-card2 to-card flex flex-col" data-reveal>
         <a href="projects/spec-sync.html" target="_blank" rel="noopener" aria-label="לצפייה בפרויקט: ניהול וסנכרון מפרטים טכניים (נפתח בחלון חדש)" class="group relative block aspect-[16/10] overflow-hidden bg-ink">
           <img src="assets/project-spec.jpg" alt="הדמיית תוסף Word לסימון סעיפי מפרט וקובץ מעקב משותף שנוצר ממנו" loading="lazy" class="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]">
-          <div class="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-card2 to-transparent"></div>
-          <span class="absolute top-4 right-4 text-xs text-white bg-night/55 backdrop-blur rounded-full px-3 py-1.5">הדמיה</span>
         
           <span class="absolute inset-0 grid place-items-center bg-night/0 group-hover:bg-night/40 transition-colors">
             <span class="inline-flex items-center gap-2 rounded-full bg-white text-night text-sm font-medium px-5 py-2.5 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all">לצפייה בפרויקט<i data-lucide="external-link" class="w-4 h-4"></i></span>
@@ -374,9 +415,7 @@
 
       <article class="card-hover rounded-3xl overflow-hidden hairline2 bg-gradient-to-br from-card2 to-card flex flex-col" data-reveal data-reveal-delay="2">
         <a href="projects/email-search.html" target="_blank" rel="noopener" aria-label="לצפייה בפרויקט: מנוע חיפוש ומיון מיילים (נפתח בחלון חדש)" class="group relative block aspect-[16/10] overflow-hidden bg-ink">
-          <img src="assets/case-study-screenshot.jpg" alt="ממשק מנוע החיפוש במיילים שנבנה עבור הארגון" loading="lazy" class="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]">
-          <div class="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-card2 to-transparent"></div>
-          <span class="absolute top-4 right-4 text-xs text-white bg-night/55 backdrop-blur rounded-full px-3 py-1.5">צילום מסך</span>
+          <img src="assets/project-email.jpg" alt="ממשק מנוע החיפוש במיילים שנבנה עבור הארגון" loading="lazy" class="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]">
         
           <span class="absolute inset-0 grid place-items-center bg-night/0 group-hover:bg-night/40 transition-colors">
             <span class="inline-flex items-center gap-2 rounded-full bg-white text-night text-sm font-medium px-5 py-2.5 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all">לצפייה בפרויקט<i data-lucide="external-link" class="w-4 h-4"></i></span>
@@ -426,79 +465,6 @@
         <div class="mb-6 inline-flex items-center rounded-2xl bg-night px-5 py-1.5"><img src="assets/landman-logo-white.png" alt="לוגו לנדמן אלומיניום" class="h-12 w-auto"></div>
         <h3 class="font-display font-bold text-lg text-primary">לנדמן אלומיניום</h3>
         <p class="mt-3 text-[15px] text-secondary leading-relaxed">משרד ייעוץ הנדסי למעטפת הבניין הפועל מאז 1971, מהוותיקים והמובילים בתחומו בישראל. למעלה מ-50 שנות ניסיון בליווי פרויקטים אדריכליים מהגדולים בארץ.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ============ CASE STUDY ============ -->
-<section id="case-study" class="relative bg-panel py-24 md:py-32 hairline-top">
-  <div class="max-w-7xl mx-auto px-6 md:px-10">
-    <div class="grid lg:grid-cols-5 gap-12 items-start">
-
-      <div class="lg:col-span-2" data-reveal>
-        <span class="inline-flex items-center gap-1.5 text-xs hairline rounded-full px-3 py-1 text-muted">
-          <i data-lucide="info" class="w-3 h-3"></i> דוגמה להמחשה
-        </span>
-        <h2 class="mt-5 font-display font-extrabold text-3xl md:text-[2.4rem] leading-tight text-primary">
-          כך נראית הטמעה בארגון<br>שמוצף בפניות מייל
-        </h2>
-        <p class="mt-6 text-[15px] text-secondary leading-relaxed">
-          ארגון בינוני מקבל מדי שבוע מאות מיילים — מלקוחות, מספקים, משותפים עסקיים, פניות שירות ובקשות
-          מידע. הצוות הפנימי בילה חלק ניכר מהיום רק במיון תיבת הדואר, עוד לפני שבכלל התחיל לטפל בתוכן
-          של כל פנייה.
-        </p>
-        <p class="mt-4 text-[15px] text-secondary leading-relaxed">
-          צוות Servi מיפה את כל סוגי הפניות שמגיעות לתיבה, ובנה מערכת AI שיושבת על תיבת המייל הארגונית
-          ומלווה כל הודעה מהרגע שהיא נכנסת ועד שהיא מטופלת ומתועדת כראוי.
-        </p>
-      </div>
-
-      <div class="lg:col-span-3 min-w-0" data-reveal data-reveal-delay="2">
-        <div class="rounded-2xl overflow-hidden hairline2 bg-card2 shadow-card mb-6">
-          <div class="flex items-center gap-1.5 px-4 py-3 hairline-top bg-card">
-            <span class="w-2.5 h-2.5 rounded-full bg-black/10"></span>
-            <span class="w-2.5 h-2.5 rounded-full bg-black/10"></span>
-            <span class="w-2.5 h-2.5 rounded-full bg-black/10"></span>
-          </div>
-          <img src="assets/case-study-screenshot.jpg" alt="ממשק מנוע חיפוש המיילים שנבנה עבור הארגון" class="w-full max-h-[280px] object-cover object-top">
-        </div>
-        <div class="grid sm:grid-cols-2 gap-5 items-stretch min-w-0">
-
-          <div class="rounded-2xl p-[1px] bg-gradient-to-br from-royal/50 to-royal-dark/20 min-w-0">
-            <div class="rounded-2xl bg-card2 p-6 h-full min-w-0">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-medium text-royal-light tracking-wide">המערכת שבנינו</span>
-                <span class="grid place-items-center w-7 h-7 rounded-lg bg-grad-royal shrink-0">
-                  <i data-lucide="arrow-left" class="w-3.5 h-3.5 text-white"></i>
-                </span>
-              </div>
-              <ul class="mt-4 flex flex-col gap-3.5">
-                <li class="flex items-start gap-2.5 text-[15px] text-primary leading-relaxed min-w-0"><i data-lucide="check" class="w-4 h-4 text-royal-light mt-0.5 shrink-0"></i>מזהה כל מייל חדש ומסווגת את סוג הפנייה</li>
-                <li class="flex items-start gap-2.5 text-[15px] text-primary leading-relaxed min-w-0"><i data-lucide="check" class="w-4 h-4 text-royal-light mt-0.5 shrink-0"></i>מייצרת כותרת ברורה ושומרת את המידע במקום הנכון</li>
-                <li class="flex items-start gap-2.5 text-[15px] text-primary leading-relaxed min-w-0"><i data-lucide="check" class="w-4 h-4 text-royal-light mt-0.5 shrink-0"></i>מנסחת טיוטת תשובה על בסיס תגובות עבר</li>
-                <li class="flex items-start gap-2.5 text-[15px] text-primary leading-relaxed min-w-0"><i data-lucide="check" class="w-4 h-4 text-royal-light mt-0.5 shrink-0"></i>מתעדת את הפעילות ומפנה כל פנייה לגורם הרלוונטי</li>
-                <li class="flex items-start gap-2.5 text-[15px] text-primary leading-relaxed min-w-0"><i data-lucide="check" class="w-4 h-4 text-royal-light mt-0.5 shrink-0"></i>מונעת איבוד מידע</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="hairline rounded-2xl bg-card p-6 flex flex-col min-w-0">
-            <span class="text-xs font-medium text-muted tracking-wide">לפני</span>
-            <ul class="mt-4 flex flex-col gap-5">
-              <li class="flex items-start gap-2.5 text-[15px] text-secondary leading-relaxed min-w-0"><i data-lucide="x" class="w-4 h-4 text-muted mt-0.5 shrink-0"></i>כל מייל נקרא וממוין ידנית, אחד אחד, בלי שום עזרה אוטומטית</li>
-              <li class="flex items-start gap-2.5 text-[15px] text-secondary leading-relaxed min-w-0"><i data-lucide="x" class="w-4 h-4 text-muted mt-0.5 shrink-0"></i>פניות של לקוחות, ספקים ושירות מגיעות לאותה תיבה ומתערבבות זו בזו</li>
-              <li class="flex items-start gap-2.5 text-[15px] text-secondary leading-relaxed min-w-0"><i data-lucide="x" class="w-4 h-4 text-muted mt-0.5 shrink-0"></i>אי אפשר לדעת בקלות מי כבר טיפל בפנייה ומי לא</li>
-              <li class="flex items-start gap-2.5 text-[15px] text-secondary leading-relaxed min-w-0"><i data-lucide="x" class="w-4 h-4 text-muted mt-0.5 shrink-0"></i>מידע חשוב לפעמים פשוט הולך לאיבוד בין עשרות הודעות שממתינות לטיפול</li>
-            </ul>
-          </div>
-
-        </div>
-
-        <p class="mt-5 text-xs text-muted leading-relaxed">
-          * הדוגמה מבוססת על תרחיש מייצג להמחשת סוג השיפור האפשרי בעקבות הטמעת מערכת AI מותאמת אישית.
-        </p>
       </div>
 
     </div>
@@ -757,7 +723,6 @@
         <h4 class="font-display font-semibold text-sm text-primary">חברה</h4>
         <ul class="mt-4 flex flex-col gap-3 text-[14px] text-secondary">
           <li><a href="#portfolio" class="hover:text-primary transition-colors">תיק עבודות</a></li>
-          <li><a href="#case-study" class="hover:text-primary transition-colors">תוצאות</a></li>
           <li><a href="#faq" class="hover:text-primary transition-colors">שאלות נפוצות</a></li>
           <li><a href="#contact" class="hover:text-primary transition-colors">צרו קשר</a></li>
         </ul>
@@ -774,6 +739,17 @@
 
 <script>
   lucide.createIcons();
+
+  // scroll progress bar
+  (function () {
+    var bar = document.getElementById('scrollBar');
+    if (!bar) return;
+    function upd() {
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.transform = 'scaleX(' + (h > 0 ? Math.min(1, window.scrollY / h) : 0) + ')';
+    }
+    window.addEventListener('scroll', upd, { passive: true }); upd();
+  })();
 
   // mobile menu
   const menuBtn = document.getElementById('menuBtn');

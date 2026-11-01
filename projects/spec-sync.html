@@ -94,34 +94,56 @@
   /* ---------- buttons ---------- */
   .bg-grad-royal {
     position: relative; isolation: isolate; overflow: hidden;
-    background: linear-gradient(180deg, #34923f 0%, #2a7d35 55%, #236b2d 100%);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), 0 1px 2px rgba(14,31,19,0.18), 0 10px 26px -12px rgba(29,94,39,0.65);
-    transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s ease, background .25s ease !important;
+    background: linear-gradient(135deg, #2f8f3c 0%, #1d5e27 100%);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 12px 26px -14px rgba(29,94,39,0.75);
+    transition: transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s ease !important;
   }
-  .bg-grad-royal::after {
-    content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
-    background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.32) 50%, transparent 70%);
-    transform: translateX(120%); transition: transform .7s cubic-bezier(.2,.8,.2,1);
+  a.bg-grad-royal::before, button.bg-grad-royal::before {
+    content: ''; position: absolute; z-index: -1; left: 0; top: 50%; width: 140%; aspect-ratio: 1; border-radius: 999px;
+    background: radial-gradient(circle, #43a851 0%, #2f8f3c 60%);
+    transform: translate(-50%, -50%) scale(0); transition: transform .55s cubic-bezier(.2,.8,.2,1);
   }
+  a.bg-grad-royal:hover::before, button.bg-grad-royal:hover:not(:disabled)::before { transform: translate(-30%, -50%) scale(1.6); }
   a.bg-grad-royal:hover, button.bg-grad-royal:hover:not(:disabled) {
     transform: translateY(-2px) !important;
-    background: linear-gradient(180deg, #3aa046 0%, #2e8a3a 55%, #26732f 100%);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 2px 4px rgba(14,31,19,0.15), 0 18px 34px -14px rgba(29,94,39,0.7);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 18px 34px -14px rgba(29,94,39,0.8);
   }
-  a.bg-grad-royal:hover::after, button.bg-grad-royal:hover:not(:disabled)::after { transform: translateX(-120%); }
-  a.bg-grad-royal:active, button.bg-grad-royal:active { transform: translateY(0) scale(.98) !important; }
-  .bg-grad-royal svg, .btn-ghost svg { transition: transform .3s cubic-bezier(.2,.8,.2,1); }
-  a.bg-grad-royal:hover svg, button.bg-grad-royal:hover svg, a.btn-ghost:hover svg { transform: translateX(-4px); }
+  a.bg-grad-royal:active, button.bg-grad-royal:active { transform: translateY(0) scale(.97) !important; }
+  a.bg-grad-royal:has(> svg), button.bg-grad-royal:has(> svg) { padding-left: .4rem !important; gap: .8rem !important; }
+  a.bg-grad-royal > svg, button.bg-grad-royal > svg {
+    width: 2em !important; height: 2em !important; margin-block: -.4em; padding: .45em; flex-shrink: 0;
+    border-radius: 999px; background: #fff; color: #1d5e27; stroke-width: 2.4;
+    transition: transform .4s cubic-bezier(.2,.8,.2,1), background .3s ease;
+  }
+  a.bg-grad-royal:hover > svg, button.bg-grad-royal:hover:not(:disabled) > svg { transform: translateX(-4px) rotate(-8deg); background: #ecfbee; }
   span.bg-grad-royal { box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 8px 20px -10px rgba(29,94,39,0.6); }
 
-  .btn-ghost { background: #fff; border: 1px solid rgba(14,31,19,0.14); transition: transform .25s cubic-bezier(.2,.8,.2,1), border-color .25s ease, background .25s ease, box-shadow .25s ease, color .25s ease; }
-  .btn-ghost:hover { border-color: #2a7d35; color: #1d5e27; background: #f3faf4; transform: translateY(-2px); box-shadow: 0 12px 26px -16px rgba(29,94,39,0.5); }
+  .btn-ghost { background: rgba(255,255,255,0.7); border: 1.5px solid rgba(29,94,39,0.28); color: #1d5e27; backdrop-filter: blur(6px);
+    transition: transform .3s cubic-bezier(.2,.8,.2,1), border-color .3s ease, background .3s ease, box-shadow .3s ease; }
+  .btn-ghost:hover { border-color: #2a7d35; background: #e8f4ea; transform: translateY(-2px); box-shadow: 0 12px 26px -16px rgba(29,94,39,0.55); }
+  .btn-ghost svg { transition: transform .3s cubic-bezier(.2,.8,.2,1); }
+  .btn-ghost:hover svg { transform: translateX(-4px); }
 
   .cta-hero { animation: ctaPulse 3.2s ease-in-out infinite; }
   @keyframes ctaPulse {
-    0%,100% { box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), 0 0 0 0 rgba(42,125,53,0.35), 0 10px 26px -12px rgba(29,94,39,0.65); }
-    50% { box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), 0 0 0 10px rgba(42,125,53,0), 0 10px 26px -12px rgba(29,94,39,0.65); }
+    0%,100% { box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 0 0 0 rgba(42,125,53,0.35), 0 12px 26px -14px rgba(29,94,39,0.75); }
+    50% { box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 0 0 12px rgba(42,125,53,0), 0 12px 26px -14px rgba(29,94,39,0.75); }
   }
+
+  /* ---------- motion ---------- */
+  .text-gradient { background-size: 200% 100%; animation: gradShift 7s ease-in-out infinite; }
+  @keyframes gradShift { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+  .blob { position: absolute; border-radius: 999px; filter: blur(70px); pointer-events: none; animation: drift 18s ease-in-out infinite; }
+  @keyframes drift { 0%,100% { transform: translate(0,0) scale(1); } 33% { transform: translate(40px,-30px) scale(1.08); } 66% { transform: translate(-30px,25px) scale(.95); } }
+  .float-chip { animation: floatSlow 6s ease-in-out infinite; }
+  .marquee { -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
+  .marquee-track { display: flex; width: max-content; animation: marquee 36s linear infinite; }
+  .marquee:hover .marquee-track { animation-play-state: paused; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .live-dot { position: relative; }
+  .live-dot::after { content: ''; position: absolute; inset: -4px; border-radius: 999px; border: 2px solid #3fa44d; animation: ping 2s cubic-bezier(0,0,.2,1) infinite; }
+  @keyframes ping { 0% { transform: scale(.6); opacity: .8; } 100% { transform: scale(1.8); opacity: 0; } }
+  #scrollBar { position: fixed; top: 0; right: 0; height: 3px; width: 100%; transform-origin: right; transform: scaleX(0); background: linear-gradient(90deg, #1d5e27, #46ad55); z-index: 60; }
 
   .bg-radial-glow {
     background: radial-gradient(60% 55% at 50% 0%, rgba(63,164,77,0.13) 0%, rgba(255,255,255,0) 70%);
@@ -177,6 +199,7 @@
 </head>
 
 <body class="bg-ink text-primary font-body antialiased selection:bg-royal">
+<div id="scrollBar" aria-hidden="true"></div>
 
 <header class="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-white/80 border-b border-hairline">
   <div class="max-w-7xl mx-auto px-6 md:px-10">
@@ -207,9 +230,7 @@
   <div class="relative max-w-6xl mx-auto px-4 sm:px-6 md:px-10 mt-14">
     <figure class="relative rounded-3xl overflow-hidden hairline2 shadow-glow bg-card">
       <img src="../assets/project-spec.jpg" alt="ניהול וסנכרון מפרטים טכניים" class="w-full h-auto block">
-      <span class="absolute top-4 right-4 text-xs text-white bg-night/55 backdrop-blur rounded-full px-3 py-1.5">הדמיה</span>
     </figure>
-    <figcaption class="mt-4 text-center text-xs text-muted">התמונה היא הדמיה של הממשק. המערכת עצמה פרטית ונמצאת בשימוש פנימי אצל הלקוח, וכל הנתונים בתמונה מומצאים.</figcaption>
   </div>
 </section>
 
@@ -340,7 +361,7 @@
           </div>
         </a>
         <a href="email-search.html" class="card-hover group block rounded-2xl overflow-hidden hairline bg-card">
-          <div class="relative aspect-[16/10] overflow-hidden bg-ink"><img src="../assets/case-study-screenshot.jpg" alt="" loading="lazy" class="absolute inset-0 w-full h-full object-cover object-top"></div>
+          <div class="relative aspect-[16/10] overflow-hidden bg-ink"><img src="../assets/project-email.jpg" alt="" loading="lazy" class="absolute inset-0 w-full h-full object-cover object-top"></div>
           <div class="p-5 flex items-center justify-between gap-3">
             <span class="font-display font-bold text-primary">מנוע חיפוש ומיון מיילים</span>
             <i data-lucide="arrow-left" class="w-4 h-4 text-royal-light shrink-0 transition-transform group-hover:-translate-x-1"></i>
@@ -358,6 +379,17 @@
   </div>
 </footer>
 
-<script>lucide.createIcons();</script>
+<script>lucide.createIcons();
+  // scroll progress bar
+  (function () {
+    var bar = document.getElementById('scrollBar');
+    if (!bar) return;
+    function upd() {
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.transform = 'scaleX(' + (h > 0 ? Math.min(1, window.scrollY / h) : 0) + ')';
+    }
+    window.addEventListener('scroll', upd, { passive: true }); upd();
+  })();
+</script>
 </body>
 </html>

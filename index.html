@@ -172,41 +172,22 @@
   .try-opt-icon { display: grid; place-items: center; flex-shrink: 0; width: 38px; height: 38px; border-radius: 11px; background: #E6F4F3; color: #115E59; }
   .try-fade { animation: tryIn .45s cubic-bezier(.16,1,.3,1) both; }
   @keyframes tryIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-  /* Demo preview window: its own dark "product" palette (indigo/violet/cyan), distinct from the site's greens */
-  .app-win { position: relative; border-radius: 1.25rem; background: #0f1224; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 40px 80px -40px rgba(49,46,129,0.75), 0 0 0 1px rgba(124,92,255,0.12); overflow: hidden; color: #e8eaf6; }
-  .app-win::before { content: ''; position: absolute; inset: -40% -20% auto auto; width: 70%; height: 90%; background: radial-gradient(closest-side, rgba(124,92,255,0.35), transparent); filter: blur(20px); pointer-events: none; animation: appGlow 8s ease-in-out infinite alternate; }
-  .app-win::after { content: ''; position: absolute; inset: auto auto -40% -20%; width: 60%; height: 80%; background: radial-gradient(closest-side, rgba(34,211,238,0.22), transparent); filter: blur(20px); pointer-events: none; animation: appGlow 10s ease-in-out infinite alternate-reverse; }
-  @keyframes appGlow { from { transform: translate(0,0); } to { transform: translate(-30px, 20px); } }
-  .app-win > * { position: relative; z-index: 1; }
-  .app-bar { display: flex; align-items: center; gap: .5rem; padding: .7rem 1rem; background: rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.07); }
-  .app-bar i.dot { width: 10px; height: 10px; border-radius: 99px; background: rgba(255,255,255,0.14); display: inline-block; }
-  .app-muted { color: #8d93b8; }
-  .demo-badge { margin-inline-start: auto; border-radius: 99px; background: rgba(255,255,255,0.07); color: #a9aecd; font-size: 11px; padding: .15rem .55rem; }
-  .app-label { margin-bottom: .6rem; font-size: 12px; font-weight: 600; color: #a9aecd; }
-  .flow3 { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: stretch; gap: .5rem; }
-  .flow-step { display: flex; flex-direction: column; align-items: center; gap: .3rem; text-align: center; border-radius: .9rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.09); padding: .8rem .5rem; }
-  .flow-step b { font-size: .85rem; line-height: 1.3; color: #fff; }
-  .flow-step small { font-size: 11px; color: #a9aecd; }
-  .flow-step-ai { background: linear-gradient(135deg, rgba(124,92,255,0.35), rgba(34,211,238,0.18)); border-color: rgba(124,92,255,0.45); }
-  .flow-ico { display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 999px; background: rgba(255,255,255,0.1); color: #e8eaf6; }
-  .flow-step-ai .flow-ico { background: linear-gradient(135deg, #7c5cff, #22d3ee); color: #fff; }
-  .flow-arrow { align-self: center; color: #8d93b8; font-size: 1.1rem; }
-  @media (max-width: 560px) { .flow3 { grid-template-columns: 1fr; } .flow-arrow { transform: rotate(-90deg); justify-self: center; } }
-  .feat-list { display: grid; gap: .5rem; }
-  @media (min-width: 640px) { .feat-list { grid-template-columns: 1fr 1fr; } }
-  .feat { display: flex; align-items: center; gap: .5rem; border-radius: .7rem; background: rgba(255,255,255,0.04); padding: .55rem .7rem; font-size: .85rem; color: #e8eaf6; }
-  .feat svg { color: #22d3ee; }
-  .act-row { display: flex; align-items: center; gap: .65rem; padding: .6rem .75rem; border-radius: .8rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); font-size: .84rem; color: #e8eaf6; animation: actIn .55s cubic-bezier(.16,1,.3,1) both; }
-  .act-row.fresh { background: linear-gradient(90deg, rgba(124,92,255,0.18), rgba(34,211,238,0.08)); border-color: rgba(124,92,255,0.35); }
-  .act-row .ok { width: 8px; height: 8px; border-radius: 99px; background: #34d399; flex-shrink: 0; box-shadow: 0 0 10px rgba(52,211,153,0.8); }
-  @keyframes actIn { from { opacity: 0; transform: translateY(-8px) scale(.98); } to { opacity: 1; transform: none; } }
-  @media (prefers-reduced-motion: reduce) { .app-win::before, .app-win::after, .act-row { animation: none; } }
+  /* Demo result: a light screen of the visitor's system (reuses the .mock styles) plus 3 plain steps */
+  .demo-shot { position: relative; aspect-ratio: 16 / 10; border-radius: 1.5rem; overflow: hidden; border: 1px solid rgba(17,94,89,0.14); box-shadow: 0 30px 60px -40px rgba(17,94,89,0.5); }
+  .demo-shot .mock-win { inset: 8% 5% -5% 5%; font-size: max(2.2cqw, 8.5px); }
+  @media (max-width: 639px) { .demo-shot { aspect-ratio: 4 / 3; } .demo-shot .mock-body { grid-template-columns: 34% 1fr; } }
+  .demo-tag { position: absolute; top: .7rem; left: .8rem; border-radius: 99px; background: rgba(255,255,255,0.85); color: #64748B; font-size: 11px; padding: .15rem .6rem; }
+  .demo-steps { display: grid; gap: .6rem; margin-top: 1rem; }
+  @media (min-width: 640px) { .demo-steps { grid-template-columns: repeat(3, 1fr); } }
+  .demo-steps li { display: flex; align-items: center; gap: .6rem; border-radius: 1rem; background: #fff; border: 1px solid rgba(17,94,89,0.12); padding: .7rem .85rem; font-size: .88rem; line-height: 1.35; color: #0F172A; }
+  .demo-steps li span { display: grid; place-items: center; flex-shrink: 0; width: 1.6rem; height: 1.6rem; border-radius: 99px; background: #0F766E; color: #fff; font-size: .8rem; font-weight: 700; }
   /* Portfolio card mockups: light, schematic views of a system, scaled to the card via container units */
   .mock { position: absolute; inset: 0; container-type: inline-size; overflow: hidden; background: radial-gradient(80% 90% at 85% 0%, rgba(20,184,166,0.16), transparent 60%), linear-gradient(180deg, #F1F8F7, #E3F0EE); }
   .mock-win { position: absolute; inset: 9% 6% -6% 6%; font-size: 2.35cqw; line-height: 1.35; display: flex; flex-direction: column; overflow: hidden; background: #fff; color: #0F172A; border: 1px solid rgba(15,23,42,0.1); border-radius: 1.1em 1.1em 0 0; box-shadow: 0 1.6em 3em -1.6em rgba(17,94,89,0.45); transition: transform .7s cubic-bezier(.16,1,.3,1); }
   .group:hover .mock-win { transform: translateY(-3%); }
   .mock-bar { display: flex; align-items: center; gap: .6em; padding: .65em 1em; border-bottom: 1px solid rgba(15,23,42,0.07); font-weight: 600; white-space: nowrap; }
   .mock-dots { display: flex; gap: .3em; }
+  .mock-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
   .mock-dots i { width: .55em; height: .55em; border-radius: 99px; background: #E2E8F0; }
   .mock-status { margin-inline-start: auto; display: inline-flex; align-items: center; gap: .35em; border-radius: 99px; background: #E6F4F3; color: #0F766E; font-size: .85em; font-weight: 500; padding: .15em .65em; }
   .mock-status::before { content: ''; width: .45em; height: .45em; border-radius: 99px; background: #14B8A6; }
@@ -1205,19 +1186,52 @@
       ] },
     ];
 
+    // Per-industry sample data for the demo screen
+    const samples = {
+      realestate: { items: ['מגדלי הים', 'פארק העסקים', 'שכונת הגפן'], ask: 'כמה לידים נכנסו החודש?', ans: '128 לידים החודש' },
+      pro:        { items: ['תיק לוי', 'תיק כהן בע"מ', 'תיק מזרחי'], ask: 'כמה תיקים חדשים נפתחו החודש?', ans: '34 תיקים חדשים' },
+      retail:     { items: ['הזמנה 4821', 'הזמנה 4819', 'הזמנה 4815'], ask: 'כמה הזמנות התקבלו השבוע?', ans: '412 הזמנות השבוע' },
+      agency:     { items: ['קפה נחת', 'סטודיו אור', 'רשת פיט'], ask: 'כמה לקוחות חדשים הצטרפו החודש?', ans: '17 לקוחות חדשים' },
+    };
+    const teamGets = { solo: 'אתם מקבלים הכול מוכן, ישר לוואטסאפ', small: 'הצוות מקבל משימות והתראות בזמן', large: 'כל עובד רואה בדיוק את מה שרלוונטי לו' };
+    // Hebrew "from" prefix: "מ-CRM" before Latin text, "מוואטסאפ" before Hebrew.
+    const from = (x) => (/^[A-Za-z]/.test(x) ? 'מ-' : 'מ') + x;
+    const tag = (text, bg, fg) => `<em class="mock-tag" style="background:${bg};color:${fg}">${text}</em>`;
+    const row = (ava, name, sub, t, on) => `<div class="mock-mail${on ? ' on' : ''}"><span class="mock-ava">${ava}</span><b>${name}</b><span>${sub}</span>${t}</div>`;
+    const side = (label, items) => `<div class="mock-side"><p class="mock-label">${label}</p>${items.map((it, i) =>
+      `<span class="mock-item${i === 0 ? ' on' : ''}">${it[1] ? `<i class="mock-pin" style="background:${it[1]}"></i>` : ''}${it[0]}${it[2] ? `<small>${it[2]}</small>` : ''}</span>`).join('')}</div>`;
+    const TEAL = ['#E6F4F3', '#0F766E'], AMBER = ['#FEF3C7', '#B45309'], RED = ['#FEE2E2', '#B91C1C'];
+
+    // Each system draws a small screen of what it would look like, filled with the visitor's answers
     const systems = {
-      leads:   { name: 'מרכז לידים חכם', icon: 'user-plus', modules: () => ['קליטת לידים מכל הערוצים', 'סיווג אוטומטי לפי חום', 'מענה ראשוני אוטומטי', 'שיוך לנציג ותזכורות'],
-                 acts: (e, s) => ['ליד חדש מוואטסאפ נקלט וסווג: ליד חם', 'נשלחה הודעת מענה ראשונית בשם העסק', `הליד שויך לנציג ועודכן ב-${s}`, 'ליד מטופס האתר נקלט וסווג: בירור מחיר', 'תזכורת נשלחה לנציג: ליד ממתין לחזרה', 'ליד מפייסבוק זוהה ככפול ואוחד'] },
-      email:   { name: 'מנוע מיילים ומסמכים', icon: 'mail', modules: (e) => ['סיווג כל מייל נכנס', `שיוך אוטומטי ${le(e)}`, 'טיוטות תשובה לאישור', 'חיפוש חופשי בכל ההיסטוריה'],
-                 acts: (e, s) => [`מייל חדש סווג ושויך ${le(e)}`, 'נוצרה טיוטת תשובה ומחכה לאישור', 'קובץ PDF מצורף נשמר בתיקייה הנכונה', 'מייל דחוף זוהה והועבר לראש התור', 'חשבונית מצורפת זוהתה ונשמרה', `חיפוש: "הצעת מחיר אחרונה" ← נמצא תוך שנייה`] },
-      calls:   { name: 'ניתוח שיחות מכירה', icon: 'audio-lines', modules: () => ['תמלול אוטומטי בעברית', 'ציון לכל שיחה', 'זיהוי התנגדויות חוזרות', 'לוח בקרה להנהלה'],
-                 acts: (e, s) => ['שיחת מכירה תומללה ונותחה', 'זוהתה התנגדות חוזרת: מחיר', `סיכום השיחה עודכן ב-${s}`, 'שיחה קיבלה ציון 86 · נציג: דנה', 'טיפ אימון נשלח לנציג אחרי השיחה', 'לקוח ביקש הצעת מחיר ← נוצרה משימת מעקב'] },
-      reports: { name: 'עוזר נתונים ארגוני', icon: 'bar-chart-3', modules: (e, s) => ['שאלות בעברית חופשית', `חיבור ישיר ${le(s)}`, 'דוח שבועי אוטומטי', 'התראות על חריגות'],
-                 acts: (e, s, es) => [`"כמה ${es} נפתחו החודש?" ← תשובה מיידית`, 'דוח שבועי נשלח להנהלה', 'זוהתה חריגה ונשלחה התראה', `"מה המגמה ברבעון?" ← גרף נוצר`, `נתונים סונכרנו מ-${s}`, 'סיכום יומי נשלח בוואטסאפ'] },
+      leads: { name: 'מרכז לידים חכם', does: 'קולט כל ליד, מסווג אותו ועונה תוך דקה',
+        screen: (c) => side('ערוצים', [['וואטסאפ', '#25D366', 12], ['טופס באתר', '#0F766E', 8], ['פייסבוק', '#6366F1', 5]]) +
+          `<div class="mock-main"><p class="mock-label">לידים מהיום</p>
+            ${row('ד', 'דנה כהן', 'שאלה על מחיר · מענה נשלח תוך דקה', tag('ליד חם', ...RED), true)}
+            ${row('י', 'יוסי לוי', 'השאיר פרטים באתר · שויך לנציג', tag('חדש', ...TEAL))}
+            ${row('מ', 'מיכל אברהם', 'ממתינה לחזרה · נשלחה תזכורת', tag('במעקב', ...AMBER))}</div>` },
+      email: { name: 'מנוע מיילים ומסמכים', does: 'מסווג כל מייל ושומר אותו במקום הנכון',
+        search: 'הצעת מחיר אחרונה',
+        screen: (c) => side(c.entities, c.items.map((x, i) => [x, ['#0F766E', '#F59E0B', '#6366F1'][i], [12, 8, 5][i]])) +
+          `<div class="mock-main">
+            ${row('ס', 'ספק ראשי', 'חוזה מעודכן · שויך ל' + c.items[0], tag('חוזה', ...TEAL), true)}
+            ${row('ה', 'הנהלת חשבונות', 'חשבונית לחודש אוקטובר', tag('חשבונית', ...AMBER))}
+            ${row('ל', 'לקוח', 'בקשה דחופה · טיוטת תשובה מוכנה', tag('דחוף', ...RED))}</div>` },
+      calls: { name: 'ניתוח שיחות מכירה', does: 'מתמלל כל שיחה, נותן ציון ומזהה התנגדויות',
+        screen: (c) => side('נציגים', [['דנה', '', 92], ['יואב', '', 84], ['מיכל', '', 78]]) +
+          `<div class="mock-main">
+            ${row('ד', 'שיחה עם לקוח · 12 דק\'', 'תומללה ונותחה אוטומטית', tag('ציון 86', ...TEAL), true)}
+            <div class="mock-a" style="width:92%"><b style="font-size:1em">לקוח:</b> נשמע טוב, אבל המחיר קצת גבוה ${tag('התנגדות: מחיר', ...AMBER)}</div>
+            <div class="mock-q" style="max-width:92%">נציג: אפשר לפרוס לתשלומים, אשלח הצעה מסודרת</div></div>` },
+      reports: { name: 'עוזר נתונים ארגוני', does: 'עונה על כל שאלה מתוך הנתונים שלכם',
+        screen: (c) => side('שאלות אחרונות', [['שאלה חדשה'], ['דוח שבועי'], ['מגמה ברבעון']]) +
+          `<div class="mock-main"><div class="mock-q">${c.ask}</div>
+            <div class="mock-a"><b>${c.ans}</b>, 23% יותר מהתקופה הקודמת.
+              <div class="mock-bars"><span style="height:45%"></span><span style="height:60%"></span><span style="height:52%"></span><span style="height:100%"></span></div>
+              <span class="mock-src">מקור: ${c.src}</span></div></div>` },
     };
     // Hebrew "to" prefix: "ל-CRM" before Latin text, "לוואטסאפ" before Hebrew.
     const le = (x) => (/^[A-Za-z]/.test(x) ? 'ל-' : 'ל') + x;
-    const teamModule = { solo: 'עוזר אישי בוואטסאפ', small: 'התראות ומשימות לצוות', large: 'הרשאות לפי תפקיד' };
 
     let step = 0;
     let liveTimer = null;
@@ -1265,37 +1279,38 @@
     }
 
     function renderResult() {
+      stopLive();
       const ind = pick(questions[0], answers.industry);
       const pain = pick(questions[1], answers.pain);
       const src = pick(questions[2], answers.source);
       const team = pick(questions[3], answers.team);
       const sys = systems[answers.pain];
-      const modules = [...sys.modules(ind.entity, src.name), teamModule[answers.team]];
-      const acts = sys.acts(ind.entity, src.name, ind.entities);
-      const title = `${sys.name} · ${ind.label.split(' (')[0]}`;
+      const indName = ind.label.split(' (')[0];
+      const ctx = { ...samples[answers.industry], entities: ind.entities, src: src.name };
+      const bar = sys.search
+        ? `<span class="mock-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>${sys.search}</span>`
+        : `<span class="mock-status">מסונכרן עם ${src.name}</span>`;
 
-      body.innerHTML = `<div class="try-fade grid lg:grid-cols-5 gap-6 items-start">
-        <div class="lg:col-span-3 app-win">
-          <div class="app-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i><span class="mr-2 text-sm font-semibold truncate">${title}</span><span class="demo-badge">דמו להמחשה</span></div>
-          <div class="p-5 sm:p-6">
-            <p class="app-label">1 · איך זה עובד</p>
-            <div class="flow3">
-              <div class="flow-step"><span class="flow-ico"><i data-lucide="${src.icon}" class="w-4 h-4"></i></span><b>${src.name}</b><small>המידע נכנס מכאן</small></div>
-              <span class="flow-arrow" aria-hidden="true">←</span>
-              <div class="flow-step flow-step-ai"><span class="flow-ico"><i data-lucide="sparkles" class="w-4 h-4"></i></span><b>${sys.name}</b><small>מטפל בזה אוטומטית</small></div>
-              <span class="flow-arrow" aria-hidden="true">←</span>
-              <div class="flow-step"><span class="flow-ico"><i data-lucide="${team.icon}" class="w-4 h-4"></i></span><b>${team.label.split(' (')[0]}</b><small>מקבלים את התוצאה</small></div>
+      body.innerHTML = `<div class="try-fade grid lg:grid-cols-5 gap-8 items-center">
+        <div class="lg:col-span-3">
+          <div class="demo-shot">
+            <div class="mock" role="img" aria-label="הדמיה של ${sys.name} לתחום ${indName}">
+              <div class="mock-win" aria-hidden="true">
+                <div class="mock-bar"><span class="mock-dots"><i></i><i></i><i></i></span><span class="mock-title">${sys.name} · ${indName}</span>${bar}</div>
+                <div class="mock-body">${sys.screen(ctx)}</div>
+              </div>
             </div>
-            <p class="app-label mt-6">2 · מה המערכת עושה בשבילכם</p>
-            <ul class="feat-list">${modules.map(m =>
-              `<li class="feat"><i data-lucide="check" class="w-4 h-4 shrink-0"></i>${m}</li>`).join('')}</ul>
-            <p class="app-label mt-6">3 · ככה זה נראה ביום רגיל</p>
-            <div id="appFeed" class="flex flex-col gap-2"></div>
+            <span class="demo-tag">דמו להמחשה</span>
           </div>
+          <ol class="demo-steps">
+            <li><span>1</span>המידע נכנס ${from(src.name)}</li>
+            <li><span>2</span>${sys.does}</li>
+            <li><span>3</span>${teamGets[answers.team]}</li>
+          </ol>
         </div>
         <div class="lg:col-span-2">
           <p class="font-display font-bold text-xl text-primary">זו הטיוטה הראשונה שלכם</p>
-          <p class="mt-2 text-secondary leading-relaxed">${sys.name} לתחום ${ind.label.split(' (')[0]}, שמתחבר ${le(src.name)} ומותאם ${le(team.label.split(' (')[0])}. בשיחת האבחון נבין את התהליך המדויק שלכם ונהפוך את הטיוטה הזו למערכת אמיתית.</p>
+          <p class="mt-2 text-secondary leading-relaxed">${sys.name} לתחום ${indName}, שמתחבר ${le(src.name)}. בשיחת האבחון נבין את התהליך המדויק שלכם ונהפוך את הטיוטה הזו למערכת אמיתית.</p>
           <div class="mt-6 flex flex-col sm:flex-row lg:flex-col gap-3">
             <a href="#contact" id="tryCta" class="inline-flex items-center justify-center gap-2 rounded-full bg-grad-royal text-white font-medium px-6 py-3">קבעו שיחת אבחון על המערכת הזו<i data-lucide="arrow-left" class="w-4 h-4"></i></a>
             <button type="button" id="tryAgain" class="text-sm text-secondary hover:text-primary">להתחיל מחדש</button>
@@ -1303,23 +1318,6 @@
           <p class="mt-4 text-xs text-muted">ללא עלות וללא התחייבות · 20 דקות</p>
         </div>
       </div>`;
-
-      // Example feed: a new action slides in every few seconds to show the system at work.
-      // Illustrative only (the window is labelled "דמו להמחשה").
-      const feed = document.getElementById('appFeed');
-      let n = 0;
-      const pushAct = () => {
-        const row = document.createElement('div');
-        row.className = 'act-row fresh';
-        row.innerHTML = `<span class="ok"></span><span>${acts[n % acts.length]}</span>`;
-        feed.prepend(row);
-        setTimeout(() => row.classList.remove('fresh'), 1400);
-        while (feed.children.length > 3) feed.lastElementChild.remove();
-        n++;
-      };
-      [0, 1, 2].forEach(i => setTimeout(pushAct, 250 + i * 450));
-      stopLive();
-      setTimeout(() => { if (document.body.contains(feed)) liveTimer = setInterval(pushAct, 3500); }, 1600);
 
       document.getElementById('tryAgain').addEventListener('click', () => { step = 0; Object.keys(answers).forEach(k => delete answers[k]); renderQuestion(); });
       document.getElementById('tryCta').addEventListener('click', () => {

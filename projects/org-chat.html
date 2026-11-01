@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>צ&#x27;אט AI ארגוני שמחובר ל-CRM | Servi</title>
+<meta name="description" content="עוזר חכם בסגנון ChatGPT, סגור לעובדי החברה בלבד, שעונה בעברית על כל שאלה עסקית מתוך הנתונים האמיתיים של החברה: לקוחות, לידים, פרויקטים, דירות ועסקאות.">
+
+<!-- Security hardening: restrict which origins this page may load/connect to.
+     Note: 'unsafe-inline' is required for script-src/style-src because this page uses the
+     Tailwind Play CDN (which injects compiled styles at runtime) and inline <script> blocks.
+     For a stricter CSP, migrate Tailwind to a compiled build and move scripts to external
+     files with a nonce — frame-ancestors / X-Frame-Options also require a real HTTP header
+     from your hosting server to take effect; this meta tag cannot enforce them. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.emailjs.com https://unpkg.com https://cdn.jsdelivr.net; object-src 'none'; base-uri 'self'; form-action 'self';">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- NOTE: pin lucide to an exact tested version (e.g. lucide@1.21.0) once you've verified
+     your icon names still resolve under it — some icon names were renamed in Lucide v1
+     (e.g. the old "bar-chart-3" became "chart-column"). Using @latest here trades a small
+     amount of version-drift risk for guaranteed compatibility with the icon names below. -->
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4.4.1/dist/email.min.js"></script>
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#08090b',
+          panel: '#0c0d10',
+          card: '#121317',
+          card2: '#15161b',
+          hairline: 'rgba(255,255,255,0.08)',
+          hairline2: 'rgba(255,255,255,0.15)',
+          primary: '#f1f2f4',
+          secondary: '#989aa4',
+          muted: '#5a5c66',
+          royal: { DEFAULT: '#3a56c9', dark: '#23339b', light: '#7e94ea' },
+        },
+        fontFamily: {
+          heebo: ['Heebo', 'sans-serif'],
+          rubik: ['Rubik', 'sans-serif'],
+        },
+        boxShadow: {
+          glow: '0 0 0 1px rgba(58,86,201,0.3), 0 20px 60px -15px rgba(58,86,201,0.35)',
+          'glow-sm': '0 8px 30px -10px rgba(58,86,201,0.5)',
+          card: '0 1px 0 0 rgba(255,255,255,0.04) inset, 0 20px 50px -25px rgba(0,0,0,0.65)',
+        },
+        keyframes: {
+          fadeUp: { '0%': { opacity: 0, transform: 'translateY(24px)' }, '100%': { opacity: 1, transform: 'translateY(0)' } },
+          pulseGlow: { '0%,100%': { opacity: 0.4, transform: 'scale(1)' }, '50%': { opacity: 1, transform: 'scale(1.15)' } },
+          floatSlow: { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } },
+          dashFlow: { 'to': { 'stroke-dashoffset': -200 } },
+        },
+        animation: {
+          fadeUp: 'fadeUp 0.8s cubic-bezier(.16,1,.3,1) both',
+          pulseGlow: 'pulseGlow 2.8s ease-in-out infinite',
+          floatSlow: 'floatSlow 6s ease-in-out infinite',
+        },
+      }
+    }
+  }
+</script>
+
+<style>
+  :root { color-scheme: dark; }
+  html { scroll-behavior: smooth; }
+  body { background-color: #08090b; font-feature-settings: "tnum" 1; }
+  ::selection { background: #3a56c9; color: #fff; }
+
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: #08090b; }
+  ::-webkit-scrollbar-thumb { background: #202126; border-radius: 8px; border: 2px solid #08090b; }
+
+  .font-display { font-family: 'Heebo', sans-serif; }
+  .font-body { font-family: 'Rubik', sans-serif; }
+
+  .text-gradient {
+    background: linear-gradient(90deg, #c3cdf5, #7e94ea 55%, #3a56c9);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .bg-grad-royal { background: linear-gradient(135deg, #7e94ea, #23339b); }
+  .bg-grad-royal:hover { background: linear-gradient(135deg, #93a6ee, #2c3fac); }
+
+  .bg-radial-glow {
+    background: radial-gradient(60% 60% at 50% 30%, rgba(58,86,201,0.14) 0%, rgba(8,9,11,0) 70%);
+  }
+
+  .hairline-top { border-top: 1px solid rgba(255,255,255,0.08); }
+  .hairline { border: 1px solid rgba(255,255,255,0.08); }
+
+  .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; letter-spacing: 0.06em; color: #989aa4; }
+  .eyebrow .dot { width: 6px; height: 6px; border-radius: 999px; background: #7e94ea; }
+
+  [data-reveal] { opacity: 0; transform: translateY(28px); transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1); }
+  [data-reveal].is-visible { opacity: 1; transform: translateY(0); }
+  [data-reveal-delay="1"] { transition-delay: .08s; }
+  [data-reveal-delay="2"] { transition-delay: .16s; }
+  [data-reveal-delay="3"] { transition-delay: .24s; }
+  [data-reveal-delay="4"] { transition-delay: .32s; }
+
+  .node-dot { animation: pulseGlow 3s ease-in-out infinite; }
+  .dash-line { stroke-dasharray: 6 10; animation: dashFlow 6s linear infinite; }
+
+  .faq-toggle[aria-expanded="true"] .faq-icon { transform: rotate(180deg); }
+  .faq-toggle[aria-expanded="true"] + .faq-panel { grid-template-rows: 1fr; opacity: 1; }
+  .faq-panel { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows .45s cubic-bezier(.16,1,.3,1), opacity .35s ease; }
+  .faq-panel > div { overflow: hidden; }
+
+  .card-hover { transition: transform .45s cubic-bezier(.16,1,.3,1), border-color .45s ease, box-shadow .45s ease; }
+  .card-hover:hover { transform: translateY(-6px); border-color: rgba(126,148,234,0.45); box-shadow: 0 24px 60px -25px rgba(58,86,201,0.4); }
+
+  .nav-link { position: relative; }
+  .nav-link::after { content: ''; position: absolute; right: 0; bottom: -6px; width: 0; height: 1px; background: #7e94ea; transition: width .35s ease; }
+  .nav-link:hover::after { width: 100%; }
+
+  input::placeholder, textarea::placeholder { color: #5a5c66; }
+  input, textarea, select { color-scheme: dark; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+    [data-reveal] { opacity: 1; transform: none; }
+  }
+
+  :focus-visible { outline: 2px solid #7e94ea; outline-offset: 3px; border-radius: 4px; }
+</style>
+</head>
+
+<body class="bg-ink text-primary font-body antialiased selection:bg-royal">
+
+<header class="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-ink/70 border-b border-hairline">
+  <div class="max-w-7xl mx-auto px-6 md:px-10">
+    <div class="flex items-center justify-between h-20">
+      <a href="../index.html" class="flex items-center gap-3">
+        <span class="grid place-items-center w-9 h-9 rounded-xl bg-grad-royal shadow-glow-sm">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="6" cy="18" r="2.4" fill="white"/><circle cx="18" cy="6" r="2.4" fill="white"/><circle cx="18" cy="18" r="2.4" fill="white" fill-opacity="0.55"/><path d="M8 16.5L16 7.5" stroke="white" stroke-width="1.4" stroke-linecap="round"/><path d="M18 8.4V15.6" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-opacity="0.6"/></svg>
+        </span>
+        <span class="font-display font-extrabold text-xl tracking-tight text-primary">Servi</span>
+      </a>
+      <div class="flex items-center gap-3 sm:gap-5">
+        <a href="../index.html#portfolio" class="hidden sm:inline-flex items-center gap-2 text-[15px] text-secondary hover:text-primary transition-colors"><i data-lucide="arrow-right" class="w-4 h-4"></i>לכל הפרויקטים</a>
+        <a href="../index.html#contact" class="inline-flex items-center gap-2 rounded-full bg-grad-royal text-white text-sm sm:text-[15px] font-medium px-4 sm:px-5 py-2.5 shadow-glow-sm transition-all hover:scale-[1.03]">קבעו שיחת אבחון<i data-lucide="arrow-left" class="w-4 h-4"></i></a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="relative overflow-hidden pt-36 pb-16 md:pt-44 md:pb-20">
+  <div class="absolute inset-0 bg-radial-glow pointer-events-none"></div>
+  <div class="relative max-w-4xl mx-auto px-6 md:px-10 text-center">
+    <span class="eyebrow justify-center rounded-full hairline bg-card/60 px-4 py-1.5"><span class="dot"></span>תיק עבודות · חברת יזמות ובנייה</span>
+    <h1 class="mt-6 font-display font-extrabold text-[2.3rem] leading-[1.15] sm:text-[3.2rem] sm:leading-[1.1] tracking-tight text-primary">צ&#x27;אט AI ארגוני שמחובר ל-CRM</h1>
+    <p class="mt-6 text-lg md:text-xl text-secondary leading-relaxed max-w-3xl mx-auto">עוזר חכם בסגנון ChatGPT, סגור לעובדי החברה בלבד, שעונה בעברית על כל שאלה עסקית מתוך הנתונים האמיתיים של החברה: לקוחות, לידים, פרויקטים, דירות ועסקאות.</p>
+    <div class="mt-8 flex flex-wrap justify-center gap-2.5"><span class="text-sm text-secondary hairline rounded-full px-3.5 py-1.5 bg-card/60">צ&#x27;אט בעברית</span><span class="text-sm text-secondary hairline rounded-full px-3.5 py-1.5 bg-card/60">חיבור ל-CRM</span><span class="text-sm text-secondary hairline rounded-full px-3.5 py-1.5 bg-card/60">הרשאות לפי תפקיד</span><span class="text-sm text-secondary hairline rounded-full px-3.5 py-1.5 bg-card/60">זיכרון שיחה</span></div>
+  </div>
+
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-6 md:px-10 mt-14">
+    <figure class="relative rounded-3xl overflow-hidden hairline2 shadow-glow bg-card">
+      <img src="../assets/project-chat.jpg" alt="צ&#x27;אט AI ארגוני שמחובר ל-CRM" class="w-full h-auto block">
+      <span class="absolute top-4 right-4 text-xs text-white/85 bg-ink/60 backdrop-blur rounded-full px-3 py-1.5">הדמיה</span>
+    </figure>
+    <figcaption class="mt-4 text-center text-xs text-muted">התמונה היא הדמיה של הממשק. המערכת עצמה פרטית ונמצאת בשימוש פנימי אצל הלקוח, וכל הנתונים בתמונה מומצאים.</figcaption>
+  </div>
+</section>
+
+<section class="bg-panel py-20 md:py-24 border-t border-hairline">
+  <div class="max-w-6xl mx-auto px-6 md:px-10 grid md:grid-cols-2 gap-6">
+    <div class="hairline rounded-3xl bg-card p-7 md:p-9">
+      <span class="inline-flex items-center gap-2 text-sm font-medium text-muted"><i data-lucide="target" class="w-4 h-4"></i>האתגר</span>
+      <p class="mt-4 text-[17px] text-primary/90 leading-relaxed">החברה מנהלת אלפי יחידות דיור בכמה פרויקטים במקביל. המידע על לקוחות, לידים, דירות פנויות וסטטוס עסקאות פזור במערכת ה-CRM, ועובדים רבים מבזבזים זמן יקר בחיפוש ידני, במסננים ובדוחות כדי לענות על שאלה פשוטה.</p>
+    </div>
+    <div class="rounded-3xl p-[1px] bg-gradient-to-br from-royal-light/60 to-royal-dark/40">
+      <div class="rounded-3xl bg-card2 p-7 md:p-9 h-full">
+        <span class="inline-flex items-center gap-2 text-sm font-medium text-royal-light"><i data-lucide="lightbulb" class="w-4 h-4"></i>הפתרון שבנינו</span>
+        <p class="mt-4 text-[17px] text-primary leading-relaxed">בנינו צ&#x27;אט ארגוני שמחובר ישירות ל-CRM. העובד שואל בשפה חופשית, המערכת מבינה מה צריך לשלוף, מושכת רק את הנתונים שהוא מורשה לראות, ומנסחת תשובה ברורה בעברית, עם הפניה לרשומה המקורית.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-ink py-20 md:py-24 border-t border-hairline">
+  <div class="max-w-6xl mx-auto px-6 md:px-10">
+    <div class="text-center max-w-2xl mx-auto">
+      <span class="eyebrow justify-center"><span class="dot"></span>יכולות</span>
+      <h2 class="mt-4 font-display font-extrabold text-3xl md:text-[2.4rem] leading-tight text-primary">מה המערכת עושה</h2>
+    </div>
+    <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div class="hairline rounded-2xl bg-card p-6">
+          <span class="grid place-items-center w-10 h-10 rounded-xl bg-ink hairline"><i data-lucide="messages-square" class="w-5 h-5 text-royal-light"></i></span>
+          <h3 class="mt-4 font-display font-bold text-lg text-primary">ממשק צ&#x27;אט בעברית</h3>
+          <p class="mt-2 text-[15px] text-secondary leading-relaxed">ממשק מימין לשמאל במחשב ובנייד, עם רשימת שיחות קודמות, חיפוש בהיסטוריה ופתיחת שיחה חדשה.</p>
+        </div>
+        <div class="hairline rounded-2xl bg-card p-6">
+          <span class="grid place-items-center w-10 h-10 rounded-xl bg-ink hairline"><i data-lucide="database" class="w-5 h-5 text-royal-light"></i></span>
+          <h3 class="mt-4 font-display font-bold text-lg text-primary">מחובר ל-CRM בזמן אמת</h3>
+          <p class="mt-2 text-[15px] text-secondary leading-relaxed">שליפת לקוחות, לידים, פרויקטים, דירות, עסקאות ומשימות ישירות ממערכת ה-CRM של החברה.</p>
+        </div>
+        <div class="hairline rounded-2xl bg-card p-6">
+          <span class="grid place-items-center w-10 h-10 rounded-xl bg-ink hairline"><i data-lucide="brain" class="w-5 h-5 text-royal-light"></i></span>
+          <h3 class="mt-4 font-display font-bold text-lg text-primary">זוכר את השיחה</h3>
+          <p class="mt-2 text-[15px] text-secondary leading-relaxed">מבין שאלות המשך כמו &quot;ומה לגבי הפרויקט השני?&quot; ושומר היסטוריה, כך שאפשר לחזור לכל שיחה ולהמשיך ממנה.</p>
+        </div>
+        <div class="hairline rounded-2xl bg-card p-6">
+          <span class="grid place-items-center w-10 h-10 rounded-xl bg-ink hairline"><i data-lucide="shield-check" class="w-5 h-5 text-royal-light"></i></span>
+          <h3 class="mt-4 font-display font-bold text-lg text-primary">הרשאות לפי תפקיד</h3>
+          <p class="mt-2 text-[15px] text-secondary leading-relaxed">כניסה מאובטחת לעובדי החברה בלבד. כל עובד רואה רק את המידע שבתחום האחריות שלו.</p>
+        </div>
+        <div class="hairline rounded-2xl bg-card p-6">
+          <span class="grid place-items-center w-10 h-10 rounded-xl bg-ink hairline"><i data-lucide="file-search" class="w-5 h-5 text-royal-light"></i></span>
+          <h3 class="mt-4 font-display font-bold text-lg text-primary">לא ממציא תשובות</h3>
+          <p class="mt-2 text-[15px] text-secondary leading-relaxed">כל תשובה מבוססת על הנתונים שנשלפו ומציינת את המקור. כשאין מספיק מידע, המערכת אומרת את זה במקום לנחש.</p>
+        </div>
+        <div class="hairline rounded-2xl bg-card p-6">
+          <span class="grid place-items-center w-10 h-10 rounded-xl bg-ink hairline"><i data-lucide="lock" class="w-5 h-5 text-royal-light"></i></span>
+          <h3 class="mt-4 font-display font-bold text-lg text-primary">אבטחת מידע ופרטיות</h3>
+          <p class="mt-2 text-[15px] text-secondary leading-relaxed">הצפנה, לוג פעולות לכל שאלה ותשובה, ועמידה בחוק הגנת הפרטיות ובתקנות אבטחת המידע.</p>
+        </div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-panel py-20 md:py-24 border-t border-hairline">
+  <div class="max-w-6xl mx-auto px-6 md:px-10 grid lg:grid-cols-5 gap-12 items-start">
+    <div class="lg:col-span-3">
+      <span class="eyebrow"><span class="dot"></span>איך זה עובד</span>
+      <h2 class="mt-4 font-display font-extrabold text-3xl md:text-[2.4rem] leading-tight text-primary">ארבעה שלבים, בלי עבודה ידנית</h2>
+      <div class="mt-10 grid sm:grid-cols-2 gap-5">
+        <div class="relative hairline rounded-2xl bg-card p-6">
+          <span class="font-display font-extrabold text-3xl text-gradient">01</span>
+          <h3 class="mt-3 font-display font-bold text-lg text-primary">העובד שואל</h3>
+          <p class="mt-2 text-[15px] text-secondary leading-relaxed">שאלה בעברית חופשית, בלי מסננים ובלי דוחות.</p>
+        </div>
+        <div class="relative hairline rounded-2xl bg-card p-6">
+          <span class="font-display font-extrabold text-3xl text-gradient">02</span>
+          <h3 class="mt-3 font-display font-bold text-lg text-primary">המערכת מבינה</h3>
+          <p class="mt-2 text-[15px] text-secondary leading-relaxed">מזהה איזה מידע צריך ומאילו טבלאות לשלוף אותו.</p>
+        </div>
+        <div class="relative hairline rounded-2xl bg-card p-6">
+          <span class="font-display font-extrabold text-3xl text-gradient">03</span>
+          <h3 class="mt-3 font-display font-bold text-lg text-primary">שליפה מורשית</h3>
+          <p class="mt-2 text-[15px] text-secondary leading-relaxed">מושכת מה-CRM רק את מה שהעובד מורשה לראות.</p>
+        </div>
+        <div class="relative hairline rounded-2xl bg-card p-6">
+          <span class="font-display font-extrabold text-3xl text-gradient">04</span>
+          <h3 class="mt-3 font-display font-bold text-lg text-primary">תשובה עם מקור</h3>
+          <p class="mt-2 text-[15px] text-secondary leading-relaxed">מנסחת תשובה ברורה ומפנה לרשומה המקורית.</p>
+        </div>
+      </div>
+    </div>
+    <div class="lg:col-span-2 hairline2 rounded-3xl bg-card2 p-7 md:p-8 lg:mt-16">
+      <h3 class="font-display font-bold text-xl text-primary">שאלות שעובדים שואלים</h3>
+      <ul class="mt-5 flex flex-col gap-3">
+          <li class="flex items-start gap-3 rounded-xl bg-ink hairline px-4 py-3.5 text-[15px] text-primary/90"><i data-lucide="quote" class="w-4 h-4 text-royal-light mt-1 shrink-0"></i>כמה לידים חדשים נכנסו לפרויקט החודש?</li>
+          <li class="flex items-start gap-3 rounded-xl bg-ink hairline px-4 py-3.5 text-[15px] text-primary/90"><i data-lucide="quote" class="w-4 h-4 text-royal-light mt-1 shrink-0"></i>מה הסטטוס של הלקוח שנפגשנו איתו ביום ראשון?</li>
+          <li class="flex items-start gap-3 rounded-xl bg-ink hairline px-4 py-3.5 text-[15px] text-primary/90"><i data-lucide="quote" class="w-4 h-4 text-royal-light mt-1 shrink-0"></i>אילו דירות 4 חדרים עדיין פנויות?</li>
+          <li class="flex items-start gap-3 rounded-xl bg-ink hairline px-4 py-3.5 text-[15px] text-primary/90"><i data-lucide="quote" class="w-4 h-4 text-royal-light mt-1 shrink-0"></i>ומה לגבי הפרויקט השני?</li>
+      </ul>
+          <p class="mt-6 flex items-start gap-2.5 text-sm text-secondary"><i data-lucide="clock" class="w-4 h-4 text-royal-light mt-0.5 shrink-0"></i>כ-3 חודשים מאפיון ועד השקה, כולל פיילוט עם צוות עובדים נבחר.</p>
+    </div>
+  </div>
+</section>
+
+<section class="relative overflow-hidden bg-ink py-24 md:py-28 border-t border-hairline">
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[50rem] h-[24rem] bg-royal/10 blur-[140px] pointer-events-none"></div>
+  <div class="relative max-w-3xl mx-auto px-6 md:px-10 text-center">
+    <h2 class="font-display font-extrabold text-3xl md:text-[2.6rem] leading-tight text-primary">רוצים מערכת כזו <span class="text-gradient">לעסק שלכם?</span></h2>
+    <p class="mt-5 text-lg text-secondary leading-relaxed">בשיחת אבחון של 20 דקות נבין איפה הולכים אצלכם זמן וכסף, ונראה לכם מה אפשר לבנות.</p>
+    <div class="mt-9 flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="../index.html#contact" class="inline-flex items-center justify-center gap-2 rounded-full bg-grad-royal text-white font-medium text-base px-7 py-3.5 shadow-glow transition-all hover:scale-[1.03] w-full sm:w-auto">קבעו שיחת אבחון ללא עלות<i data-lucide="arrow-left" class="w-4 h-4"></i></a>
+      <a href="https://wa.me/972586555442" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 rounded-full hairline text-primary font-medium text-base px-7 py-3.5 hover:bg-card transition-all w-full sm:w-auto">דברו איתנו בוואטסאפ</a>
+    </div>
+  </div>
+</section>
+
+<section class="bg-panel py-20 border-t border-hairline">
+  <div class="max-w-6xl mx-auto px-6 md:px-10">
+    <h2 class="font-display font-bold text-2xl text-primary">פרויקטים נוספים</h2>
+    <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <a href="sales-calls.html" class="card-hover group block rounded-2xl overflow-hidden hairline bg-card">
+          <div class="relative aspect-[16/10] overflow-hidden bg-ink"><img src="../assets/project-calls.jpg" alt="" loading="lazy" class="absolute inset-0 w-full h-full object-cover object-top"></div>
+          <div class="p-5 flex items-center justify-between gap-3">
+            <span class="font-display font-bold text-primary">תמלול וניתוח שיחות מכירה</span>
+            <i data-lucide="arrow-left" class="w-4 h-4 text-royal-light shrink-0 transition-transform group-hover:-translate-x-1"></i>
+          </div>
+        </a>
+        <a href="spec-sync.html" class="card-hover group block rounded-2xl overflow-hidden hairline bg-card">
+          <div class="relative aspect-[16/10] overflow-hidden bg-ink"><img src="../assets/project-spec.jpg" alt="" loading="lazy" class="absolute inset-0 w-full h-full object-cover object-top"></div>
+          <div class="p-5 flex items-center justify-between gap-3">
+            <span class="font-display font-bold text-primary">ניהול וסנכרון מפרטים טכניים</span>
+            <i data-lucide="arrow-left" class="w-4 h-4 text-royal-light shrink-0 transition-transform group-hover:-translate-x-1"></i>
+          </div>
+        </a>
+        <a href="email-search.html" class="card-hover group block rounded-2xl overflow-hidden hairline bg-card">
+          <div class="relative aspect-[16/10] overflow-hidden bg-ink"><img src="../assets/case-study-screenshot.jpg" alt="" loading="lazy" class="absolute inset-0 w-full h-full object-cover object-top"></div>
+          <div class="p-5 flex items-center justify-between gap-3">
+            <span class="font-display font-bold text-primary">מנוע חיפוש ומיון מיילים</span>
+            <i data-lucide="arrow-left" class="w-4 h-4 text-royal-light shrink-0 transition-transform group-hover:-translate-x-1"></i>
+          </div>
+        </a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="bg-ink border-t border-hairline py-10">
+  <div class="max-w-6xl mx-auto px-6 md:px-10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted">
+    <span>© 2026 Servi. כל הזכויות שמורות.</span>
+    <a href="../index.html" class="hover:text-primary transition-colors">חזרה לאתר הראשי</a>
+  </div>
+</footer>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>

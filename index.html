@@ -18,7 +18,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Rubik:wght@300;400;500;600;700&family=Fredoka:wght@600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/mockups.css">
 
 <script src="https://cdn.tailwindcss.com"></script>
@@ -166,6 +166,9 @@
   .rail-icon { display: grid; place-items: center; flex-shrink: 0; width: 28px; height: 28px; border-radius: 9px; background: #fde8e8; color: #c0392b; }
   .rail-step { display: grid; place-items: center; flex-shrink: 0; width: 26px; height: 26px; border-radius: 999px; background: #E6F4F3; color: #115E59; font-weight: 700; font-size: .8rem; }
   .tryit { background: radial-gradient(60% 80% at 100% 0%, rgba(20,184,166,0.14), transparent 70%), linear-gradient(180deg, #ffffff, #EEF6F5); border: 1px solid rgba(17,94,89,0.14); box-shadow: 0 30px 60px -40px rgba(17,94,89,0.45); }
+  .try-hook { font-family: "Fredoka", "Heebo", sans-serif; font-weight: 600; font-size: clamp(1.35rem, 2.4vw, 1.9rem); line-height: 1.2; color: #0F766E; transform: rotate(-2deg); transform-origin: center; }
+  @media (min-width: 768px) { .try-hook { white-space: nowrap; margin-bottom: .4rem; } }
+  .try-hook::after { content: ""; display: block; height: 6px; margin-top: .2rem; border-radius: 99px; background: linear-gradient(90deg, rgba(20,184,166,0), rgba(20,184,166,0.45), rgba(20,184,166,0)); }
   .try-dot { width: 28px; height: 6px; border-radius: 99px; background: rgba(17,94,89,0.15); transition: background .3s; }
   .try-dot.on { background: #0F766E; }
   .try-opt { display: flex; align-items: center; gap: .75rem; width: 100%; text-align: right; border-radius: 1rem; background: #fff; border: 1px solid rgba(17,94,89,0.14); padding: 1rem 1.1rem; font-size: .95rem; color: #0F172A; transition: border-color .2s, transform .2s, box-shadow .2s; }
@@ -582,6 +585,7 @@
           <h3 class="mt-3 font-display font-extrabold text-2xl md:text-3xl text-primary">איך תיראה מערכת שנבנית בשבילכם?</h3>
           <p class="mt-2 text-secondary">4 שאלות קצרות, ותקבלו טיוטה ראשונית של מערכת מותאמת לעסק שלכם.</p>
         </div>
+        <p id="tryHook" class="try-hook">נסו עכשיו, 2 דקות ויש לכם תוצאה!</p>
         <div id="tryProgress" class="hidden items-center gap-1.5" aria-hidden="true"></div>
       </div>
       <div id="tryBody" class="mt-8" aria-live="polite"></div>
@@ -636,6 +640,7 @@
           <div class="review-track">
             <div class="review-slide"><img src="assets/review-omri.png" alt="צילום מסך של הודעת הוואטסאפ מעומרי (TERA) עם ביקורת על העבודה"></div>
             <div class="review-slide"><img src="assets/review-gilad.png" alt="צילום מסך של הודעת הוואטסאפ מגלעד ביטוח עם ביקורת על העבודה"></div>
+            <div class="review-slide"><img src="assets/review-amir.png" alt="צילום מסך של מייל מאמיר (BonimIL) עם ביקורת על העבודה"></div>
           </div>
         </div>
         <div class="review-nav" id="review-nav">
@@ -1209,6 +1214,7 @@
 
     function renderProgress() {
       progress.classList.remove('hidden'); progress.classList.add('flex');
+      document.getElementById('tryHook')?.classList.add('hidden');
       progress.innerHTML = questions.map((_, i) => `<span class="try-dot ${i < step || step === questions.length ? 'on' : ''}"></span>`).join('');
     }
 

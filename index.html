@@ -206,6 +206,12 @@
   .review-empty { border-style: dashed; border-color: rgba(17,94,89,0.3); background: rgba(255,255,255,0.6); }
   .review-stars { color: #f5b301; letter-spacing: 2px; font-size: 1rem; }
   .review-avatar { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 999px; background: #E6F4F3; color: #115E59; font-weight: 700; }
+  .review-proof { display: inline-flex; align-items: center; gap: .4rem; margin-top: 1.25rem; font-size: .8rem; font-weight: 600; color: #115E59; background: #E6F4F3; border-radius: 999px; padding: .4rem .9rem; transition: background .2s; }
+  .review-proof:hover { background: #d3ecea; }
+  .review-dialog { padding: 0; border: 0; border-radius: 1.25rem; background: transparent; width: min(92vw, 438px); max-height: 92vh; overflow: visible; }
+  .review-dialog::backdrop { background: rgba(4,20,19,0.7); backdrop-filter: blur(3px); }
+  .review-dialog img { display: block; width: 100%; height: auto; max-height: 92vh; object-fit: contain; border-radius: 1.25rem; }
+  .review-dialog-close { position: absolute; top: .6rem; left: .6rem; width: 2rem; height: 2rem; border-radius: 999px; background: rgba(0,0,0,0.55); color: #fff; font-size: 1rem; line-height: 1; }
   .calc-range { width: 100%; accent-color: #0F766E; margin-top: .35rem; }
   .topbar { background: linear-gradient(90deg, #115E59, #0F766E 55%, #115E59); }
   .topbar-msg { color: rgba(255,255,255,0.92); transition: color .2s; }
@@ -632,6 +638,11 @@
           <span class="review-avatar">ע</span>
           <span class="text-right"><b class="block text-sm text-primary">עומרי</b><span class="text-xs text-muted">TERA</span></span>
         </figcaption>
+        <button type="button" class="review-proof" onclick="document.getElementById('review-omri').showModal()">📱 לצילום ההודעה המקורית</button>
+        <dialog id="review-omri" class="review-dialog" onclick="if (event.target === this) this.close()">
+          <img src="assets/review-omri.png" alt="צילום מסך של הודעת הוואטסאפ מעומרי (TERA) עם הביקורת" loading="lazy">
+          <button type="button" class="review-dialog-close" aria-label="סגירה" onclick="this.closest('dialog').close()">✕</button>
+        </dialog>
       </figure>
       <figure class="review-card review-empty" data-reveal data-reveal-delay="1">
         <div class="review-stars" aria-label="5 כוכבים">★★★★★</div>

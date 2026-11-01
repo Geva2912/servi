@@ -19,6 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/mockups.css">
 
 <script src="https://cdn.tailwindcss.com"></script>
 <!-- NOTE: pin lucide to an exact tested version (e.g. lucide@1.21.0) once you've verified
@@ -264,7 +265,26 @@
 
   <div class="relative max-w-6xl mx-auto px-4 sm:px-6 md:px-10 mt-14">
     <figure class="relative rounded-3xl overflow-hidden hairline2 shadow-glow bg-card">
-      <img src="../assets/project-email.jpg" alt="מנוע חיפוש ומיון מיילים" class="w-full h-auto block">
+      <div class="relative aspect-[16/10] mock-lg">
+        <div class="mock" role="img" aria-label="הדמיית מנוע חיפוש במיילים שממיין כל הודעה לפרויקט הנכון">
+          <div class="mock-win" aria-hidden="true">
+            <div class="mock-bar"><span class="mock-dots"><i></i><i></i><i></i></span>תיבת מייל ארגונית<span class="mock-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>חוזה קבלן חשמל</span></div>
+            <div class="mock-body">
+              <div class="mock-side">
+                <p class="mock-label">פרויקטים</p>
+                <span class="mock-item on"><i class="mock-pin" style="background:#0F766E"></i>מגדלי הים<small>12</small></span>
+                <span class="mock-item"><i class="mock-pin" style="background:#F59E0B"></i>פארק העסקים<small>8</small></span>
+                <span class="mock-item"><i class="mock-pin" style="background:#6366F1"></i>שכונת הגפן<small>5</small></span>
+              </div>
+              <div class="mock-main">
+                <div class="mock-mail on"><span class="mock-ava">א</span><b>אלון חשמל בע"מ</b><span>חוזה מעודכן · שויך למגדלי הים</span><em class="mock-tag" style="background:#E6F4F3;color:#0F766E">חוזה</em></div>
+                <div class="mock-mail"><span class="mock-ava">ר</span><b>רונית, הנהלת חשבונות</b><span>חשבונית לחודש אוקטובר</span><em class="mock-tag" style="background:#FEF3C7;color:#B45309">חשבונית</em></div>
+                <div class="mock-mail"><span class="mock-ava">מ</span><b>משה, מפקח באתר</b><span>תיקון נדרש בקומה 4</span><em class="mock-tag" style="background:#FEE2E2;color:#B91C1C">דחוף</em></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </figure>
   </div>
 </section>
@@ -301,7 +321,28 @@
     <h2 class="font-display font-bold text-2xl text-primary">פרויקטים נוספים</h2>
     <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
         <a href="org-chat.html" class="card-hover group block rounded-2xl overflow-hidden hairline bg-card">
-          <div class="relative aspect-[16/10] overflow-hidden bg-ink"><img src="../assets/project-chat.jpg" alt="" loading="lazy" class="absolute inset-0 w-full h-full object-cover object-top"></div>
+          <div class="relative aspect-[16/10] overflow-hidden bg-ink">
+            <div class="mock" role="img" aria-label="הדמיית ממשק צ'אט ארגוני בעברית שעונה על שאלות מתוך מערכת ה-CRM">
+              <div class="mock-win" aria-hidden="true">
+                <div class="mock-bar"><span class="mock-dots"><i></i><i></i><i></i></span>צ'אט ארגוני<span class="mock-status">מחובר ל-CRM</span></div>
+                <div class="mock-body">
+                  <div class="mock-side">
+                    <p class="mock-label">שיחות</p>
+                    <span class="mock-item on">לידים החודש</span>
+                    <span class="mock-item">דירות פנויות</span>
+                    <span class="mock-item">דוח מכירות</span>
+                  </div>
+                  <div class="mock-main">
+                    <div class="mock-q">כמה לידים נכנסו החודש?</div>
+                    <div class="mock-a"><b>128 לידים החודש</b>, 23% יותר מהחודש שעבר.
+                      <div class="mock-bars"><span style="height:45%"></span><span style="height:60%"></span><span style="height:52%"></span><span style="height:100%"></span></div>
+                      <span class="mock-src">מקור: CRM</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="p-5 flex items-center justify-between gap-3">
             <span class="font-display font-bold text-primary">צ&#x27;אט AI ארגוני שמחובר ל-CRM</span>
             <i data-lucide="arrow-left" class="w-4 h-4 text-royal-light shrink-0 transition-transform group-hover:-translate-x-1"></i>

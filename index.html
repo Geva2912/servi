@@ -159,6 +159,20 @@
   .bg-radial-glow {
     background: radial-gradient(60% 55% at 50% 0%, rgba(63,164,77,0.13) 0%, rgba(255,255,255,0) 70%);
   }
+  .contact-bg {
+    background:
+      radial-gradient(45% 60% at 100% 0%, rgba(70,173,85,0.16) 0%, transparent 70%),
+      radial-gradient(40% 55% at 0% 100%, rgba(29,94,39,0.12) 0%, transparent 70%),
+      linear-gradient(180deg, #f4f8f3 0%, #eef6ee 100%);
+  }
+  .contact-grid {
+    background-image:
+      linear-gradient(rgba(29,94,39,0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(29,94,39,0.07) 1px, transparent 1px);
+    background-size: 44px 44px;
+    -webkit-mask-image: radial-gradient(75% 70% at 50% 45%, #000 20%, transparent 80%);
+            mask-image: radial-gradient(75% 70% at 50% 45%, #000 20%, transparent 80%);
+  }
   .bg-dots {
     background-image: radial-gradient(rgba(14,31,19,0.07) 1px, transparent 1px);
     background-size: 22px 22px;
@@ -513,8 +527,10 @@
 </section>
 
 <!-- ============ FINAL CTA ============ -->
-<section id="contact" class="relative bg-panel py-24 md:py-32 hairline-top overflow-hidden">
-  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[50rem] h-[28rem] bg-royal/10 blur-[140px] pointer-events-none"></div>
+<section id="contact" class="relative contact-bg py-24 md:py-32 hairline-top overflow-hidden">
+  <div class="absolute inset-0 contact-grid pointer-events-none"></div>
+  <div class="blob -top-24 -right-24 w-[28rem] h-[28rem] bg-[#7fd18c]/30"></div>
+  <div class="blob -bottom-32 -left-24 w-[26rem] h-[26rem] bg-[#2a7d35]/15" style="animation-delay:-9s"></div>
 
   <div class="relative max-w-7xl mx-auto px-6 md:px-10">
     <div class="grid lg:grid-cols-2 gap-16 items-start">
@@ -578,7 +594,7 @@
         <form id="contactForm" class="flex flex-col gap-5">
           <div>
             <label class="block text-sm text-secondary mb-2" for="fullName">שם מלא *</label>
-            <input required id="fullName" name="fullName" type="text" placeholder="ישראל ישראלי" maxlength="80" autocomplete="name"
+            <input required id="fullName" name="fullName" type="text" placeholder="דנה לוי" maxlength="80" autocomplete="name"
               class="w-full rounded-xl bg-white hairline px-4 py-3 text-primary placeholder:text-muted focus:border-royal/60 outline-none transition-colors">
           </div>
 
@@ -598,7 +614,7 @@
 
           <div>
             <label class="block text-sm text-secondary mb-2" for="company">שם העסק</label>
-            <input id="company" name="company" type="text" placeholder="שם החברה שלכם" maxlength="100" autocomplete="organization"
+            <input id="company" name="company" type="text" placeholder="לדוגמה: לוי הנדסה ובנייה" maxlength="100" autocomplete="organization"
               class="w-full rounded-xl bg-white hairline px-4 py-3 text-primary placeholder:text-muted focus:border-royal/60 outline-none transition-colors">
           </div>
 
@@ -615,7 +631,7 @@
 
           <div>
             <label class="block text-sm text-secondary mb-2" for="message">ספרו לנו בקצרה על האתגר המרכזי שלכם</label>
-            <textarea id="message" name="message" rows="3" maxlength="1000" placeholder="לדוגמה: פניות של דיירים על יחידות ותיקוני בדק מתפזרות בין וואטסאפ, מייל וטלפון בלי מעקב מסודר..."
+            <textarea id="message" name="message" rows="3" maxlength="1000" placeholder="לדוגמה: לידים נכנסים מהאתר, מפייסבוק ומוואטסאפ, ואנחנו מעתיקים אותם ידנית ל-CRM ומפספסים פניות. רוצים שכל ליד ייקלט, יסווג ויקבל מענה ראשוני אוטומטית..."
               class="w-full rounded-xl bg-white hairline px-4 py-3 text-primary placeholder:text-muted focus:border-royal/60 outline-none transition-colors resize-none"></textarea>
           </div>
 

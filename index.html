@@ -201,13 +201,19 @@
   .act-row time { margin-inline-start: auto; font-size: 11px; color: #8d93b8; white-space: nowrap; }
   @keyframes actIn { from { opacity: 0; transform: translateY(-8px) scale(.98); } to { opacity: 1; transform: none; } }
   @media (prefers-reduced-motion: reduce) { .app-win::before, .app-win::after, .flow-line::after, .live-badge::before, .act-row { animation: none; } }
-  .review-card { width: 100%; max-width: 22rem; border-radius: 1.5rem; background: #fff; border: 1px solid rgba(17,94,89,0.12); padding: 1.75rem; box-shadow: 0 18px 40px -28px rgba(17,94,89,0.45); transition: transform .3s, box-shadow .3s; }
-  .review-card:hover { transform: translateY(-4px); box-shadow: 0 24px 50px -26px rgba(17,94,89,0.5); }
-  .review-empty { border-style: dashed; border-color: rgba(17,94,89,0.3); background: rgba(255,255,255,0.6); }
-  .review-stars { color: #f5b301; letter-spacing: 2px; font-size: 1rem; }
-  .review-avatar { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 999px; background: #E6F4F3; color: #115E59; font-weight: 700; }
-  .review-proof { display: inline-flex; align-items: center; gap: .4rem; margin-top: 1.25rem; font-size: .8rem; font-weight: 600; color: #115E59; background: #E6F4F3; border-radius: 999px; padding: .4rem .9rem; transition: background .2s; }
-  .review-proof:hover { background: #d3ecea; }
+  .review-slider { position: relative; max-width: 64rem; margin: 0 auto; }
+  .review-track { display: flex; gap: 1.25rem; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding: .5rem .25rem 1.5rem; scrollbar-width: none; outline: none; }
+  .review-track::-webkit-scrollbar { display: none; }
+  .review-track:not(.is-scrollable) { justify-content: center; }
+  .review-slide { flex: 0 0 auto; width: min(72vw, 15.5rem); scroll-snap-align: center; border-radius: 1.5rem; overflow: hidden; background: #fff; border: 1px solid rgba(17,94,89,0.12); box-shadow: 0 18px 40px -28px rgba(17,94,89,0.45); cursor: zoom-in; padding: 0; transition: transform .3s, box-shadow .3s; }
+  .review-slide:hover { transform: translateY(-4px); box-shadow: 0 24px 50px -26px rgba(17,94,89,0.5); }
+  .review-slide img { display: block; width: 100%; height: auto; }
+  .review-arrow { position: absolute; top: 50%; transform: translateY(-60%); z-index: 2; width: 2.75rem; height: 2.75rem; border-radius: 999px; background: #fff; color: #115E59; font-size: 1.25rem; font-weight: 700; border: 1px solid rgba(17,94,89,0.2); box-shadow: 0 10px 24px -12px rgba(17,94,89,0.5); transition: background .2s, opacity .2s; }
+  .review-arrow:hover { background: #E6F4F3; }
+  .review-arrow[disabled] { opacity: .35; cursor: default; }
+  .review-arrow-prev { right: -.5rem; }
+  .review-arrow-next { left: -.5rem; }
+  @media (max-width: 767px) { .review-arrow { display: none; } }
   .review-dialog { padding: 0; border: 0; border-radius: 1.25rem; background: transparent; width: min(92vw, 438px); max-height: 92vh; overflow: visible; }
   .review-dialog::backdrop { background: rgba(4,20,19,0.7); backdrop-filter: blur(3px); }
   .review-dialog img { display: block; width: 100%; height: auto; max-height: 92vh; object-fit: contain; border-radius: 1.25rem; }
@@ -625,58 +631,23 @@
 
     </div>
 
-    <!-- Reviews: 5 empty slots. To fill one, replace the quote, name and role,
-         and remove the "review-empty" class from its card. -->
+    <!-- Reviews slider: one <button class="review-slide"> per screenshot.
+         To add a review: copy a slide, change the img src (assets/review-*.png) and alt. -->
     <div class="mt-20 max-w-2xl mx-auto text-center" data-reveal>
       <h3 class="font-display font-extrabold text-2xl md:text-3xl text-primary">מה הלקוחות אומרים</h3>
+      <p class="mt-3 text-[15px] text-secondary">הודעות אמיתיות מלקוחות, בלי עריכה</p>
     </div>
-    <div class="mt-10 flex flex-wrap justify-center gap-6">
-      <figure class="review-card" data-reveal>
-        <div class="review-stars" aria-label="5 כוכבים">★★★★★</div>
-        <blockquote class="mt-4 text-[15px] text-secondary leading-relaxed">"העבודה התנהלה בצורה מסודרת ומקצועית, עם הרבה ירידה לפרטים וסבלנות. גם כשהיו שינויים ובקשות תוך כדי הדרך, תמיד היית זמין ומצאת פתרונות. בסופו של דבר אני מרוצה מאוד מהתוצאה. אחלה עבודה, אחלה שירות ואחלה בן אדם. בהחלט ממליץ."</blockquote>
-        <figcaption class="mt-6 flex items-center gap-3">
-          <span class="review-avatar">ע</span>
-          <span class="text-right"><b class="block text-sm text-primary">עומרי</b><span class="text-xs text-muted">TERA</span></span>
-        </figcaption>
-        <button type="button" class="review-proof" onclick="document.getElementById('review-omri').showModal()">📱 לצילום ההודעה המקורית</button>
-        <dialog id="review-omri" class="review-dialog" onclick="if (event.target === this) this.close()">
-          <img src="assets/review-omri.png" alt="צילום מסך של הודעת הוואטסאפ מעומרי (TERA) עם הביקורת" loading="lazy">
-          <button type="button" class="review-dialog-close" aria-label="סגירה" onclick="this.closest('dialog').close()">✕</button>
-        </dialog>
-      </figure>
-      <figure class="review-card review-empty" data-reveal data-reveal-delay="1">
-        <div class="review-stars" aria-label="5 כוכבים">★★★★★</div>
-        <blockquote class="mt-4 text-[15px] text-secondary leading-relaxed">[כאן תופיע ביקורת של לקוח: משפט או שניים על מה השתנה בעסק אחרי המערכת]</blockquote>
-        <figcaption class="mt-6 flex items-center gap-3">
-          <span class="review-avatar">?</span>
-          <span class="text-right"><b class="block text-sm text-primary">[שם הלקוח]</b><span class="text-xs text-muted">[תפקיד, שם החברה]</span></span>
-        </figcaption>
-      </figure>
-      <figure class="review-card review-empty" data-reveal data-reveal-delay="2">
-        <div class="review-stars" aria-label="5 כוכבים">★★★★★</div>
-        <blockquote class="mt-4 text-[15px] text-secondary leading-relaxed">[כאן תופיע ביקורת של לקוח: משפט או שניים על מה השתנה בעסק אחרי המערכת]</blockquote>
-        <figcaption class="mt-6 flex items-center gap-3">
-          <span class="review-avatar">?</span>
-          <span class="text-right"><b class="block text-sm text-primary">[שם הלקוח]</b><span class="text-xs text-muted">[תפקיד, שם החברה]</span></span>
-        </figcaption>
-      </figure>
-      <figure class="review-card review-empty" data-reveal>
-        <div class="review-stars" aria-label="5 כוכבים">★★★★★</div>
-        <blockquote class="mt-4 text-[15px] text-secondary leading-relaxed">[כאן תופיע ביקורת של לקוח: משפט או שניים על מה השתנה בעסק אחרי המערכת]</blockquote>
-        <figcaption class="mt-6 flex items-center gap-3">
-          <span class="review-avatar">?</span>
-          <span class="text-right"><b class="block text-sm text-primary">[שם הלקוח]</b><span class="text-xs text-muted">[תפקיד, שם החברה]</span></span>
-        </figcaption>
-      </figure>
-      <figure class="review-card review-empty" data-reveal data-reveal-delay="1">
-        <div class="review-stars" aria-label="5 כוכבים">★★★★★</div>
-        <blockquote class="mt-4 text-[15px] text-secondary leading-relaxed">[כאן תופיע ביקורת של לקוח: משפט או שניים על מה השתנה בעסק אחרי המערכת]</blockquote>
-        <figcaption class="mt-6 flex items-center gap-3">
-          <span class="review-avatar">?</span>
-          <span class="text-right"><b class="block text-sm text-primary">[שם הלקוח]</b><span class="text-xs text-muted">[תפקיד, שם החברה]</span></span>
-        </figcaption>
-      </figure>
+    <div class="review-slider mt-10" id="review-slider" data-reveal>
+      <button type="button" class="review-arrow review-arrow-prev" aria-label="הקודם" hidden>→</button>
+      <div class="review-track" tabindex="0" aria-label="ביקורות לקוחות">
+        <button type="button" class="review-slide" aria-label="הגדלת הביקורת של עומרי (TERA)"><img src="assets/review-omri.png" alt="צילום מסך של הודעת הוואטסאפ מעומרי (TERA) עם ביקורת על העבודה" loading="lazy"></button>
+      </div>
+      <button type="button" class="review-arrow review-arrow-next" aria-label="הבא" hidden>←</button>
     </div>
+    <dialog id="review-dialog" class="review-dialog" aria-label="ביקורת לקוח">
+      <img src="" alt="">
+      <button type="button" class="review-dialog-close" aria-label="סגירה">✕</button>
+    </dialog>
   </div>
 </section>
 
@@ -1349,6 +1320,43 @@
 
     renderStart();
   })();
+
+// Reviews slider: arrows scroll one slide, click on a slide opens it enlarged.
+(function () {
+  const slider = document.getElementById('review-slider');
+  if (!slider) return;
+  const track = slider.querySelector('.review-track');
+  const prev = slider.querySelector('.review-arrow-prev');
+  const next = slider.querySelector('.review-arrow-next');
+  const dlg = document.getElementById('review-dialog');
+  const dlgImg = dlg.querySelector('img');
+  const step = () => (track.querySelector('.review-slide').offsetWidth + 20);
+  function update() {
+    const max = track.scrollWidth - track.clientWidth;
+    const scrollable = max > 4;
+    track.classList.toggle('is-scrollable', scrollable);
+    prev.hidden = next.hidden = !scrollable;
+    // RTL: scrollLeft runs from 0 (start, right) down to -max (end, left)
+    const pos = Math.abs(track.scrollLeft);
+    prev.disabled = pos < 4;
+    next.disabled = pos > max - 4;
+  }
+  prev.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
+  next.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
+  track.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  window.addEventListener('load', update);
+  update();
+  track.addEventListener('click', (e) => {
+    const slide = e.target.closest('.review-slide');
+    if (!slide) return;
+    const img = slide.querySelector('img');
+    dlgImg.src = img.currentSrc || img.src;
+    dlgImg.alt = img.alt;
+    dlg.showModal();
+  });
+  dlg.addEventListener('click', (e) => { if (e.target === dlg || e.target.closest('.review-dialog-close')) dlg.close(); });
+})();
 </script>
 <script>
   // Side-rail savings calculator (demo)

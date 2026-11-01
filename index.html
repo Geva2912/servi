@@ -172,13 +172,35 @@
   .try-opt-icon { display: grid; place-items: center; flex-shrink: 0; width: 38px; height: 38px; border-radius: 11px; background: #e7f4e8; color: #1d5e27; }
   .try-fade { animation: tryIn .45s cubic-bezier(.16,1,.3,1) both; }
   @keyframes tryIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-  .app-win { border-radius: 1.25rem; background: #fff; border: 1px solid rgba(14,31,19,0.1); box-shadow: 0 30px 60px -35px rgba(14,31,19,0.35); overflow: hidden; }
-  .app-bar { display: flex; align-items: center; gap: .5rem; padding: .7rem 1rem; background: #f6f9f6; border-bottom: 1px solid rgba(14,31,19,0.08); }
-  .app-bar i.dot { width: 10px; height: 10px; border-radius: 99px; background: #d9e3da; display: inline-block; }
-  .flow-chip { display: inline-flex; align-items: center; gap: .4rem; border-radius: 99px; background: #fff; border: 1px solid rgba(29,94,39,0.16); padding: .35rem .8rem; font-size: .8rem; color: #0e1f13; }
-  .flow-ai { background: linear-gradient(135deg, #1d5e27, #46ad55); color: #fff; border: 0; }
-  .act-row { display: flex; align-items: center; gap: .65rem; padding: .65rem .8rem; border-radius: .8rem; background: #f6f9f6; font-size: .85rem; color: #0e1f13; opacity: 0; animation: tryIn .5s cubic-bezier(.16,1,.3,1) forwards; }
-  .act-row .ok { width: 8px; height: 8px; border-radius: 99px; background: #46ad55; flex-shrink: 0; }
+  /* Demo preview window: its own dark "product" palette (indigo/violet/cyan), distinct from the site's greens */
+  .app-win { position: relative; border-radius: 1.25rem; background: #0f1224; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 40px 80px -40px rgba(49,46,129,0.75), 0 0 0 1px rgba(124,92,255,0.12); overflow: hidden; color: #e8eaf6; }
+  .app-win::before { content: ''; position: absolute; inset: -40% -20% auto auto; width: 70%; height: 90%; background: radial-gradient(closest-side, rgba(124,92,255,0.35), transparent); filter: blur(20px); pointer-events: none; animation: appGlow 8s ease-in-out infinite alternate; }
+  .app-win::after { content: ''; position: absolute; inset: auto auto -40% -20%; width: 60%; height: 80%; background: radial-gradient(closest-side, rgba(34,211,238,0.22), transparent); filter: blur(20px); pointer-events: none; animation: appGlow 10s ease-in-out infinite alternate-reverse; }
+  @keyframes appGlow { from { transform: translate(0,0); } to { transform: translate(-30px, 20px); } }
+  .app-win > * { position: relative; z-index: 1; }
+  .app-bar { display: flex; align-items: center; gap: .5rem; padding: .7rem 1rem; background: rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.07); }
+  .app-bar i.dot { width: 10px; height: 10px; border-radius: 99px; background: rgba(255,255,255,0.14); display: inline-block; }
+  .app-muted { color: #8d93b8; }
+  .app-side { background: rgba(255,255,255,0.025); border-color: rgba(255,255,255,0.07); }
+  .app-mod { display: flex; align-items: center; gap: .5rem; border-radius: .6rem; padding: .4rem .55rem; font-size: .82rem; color: #a9aecd; transition: background .4s, color .4s; }
+  .app-mod.on { background: linear-gradient(90deg, rgba(124,92,255,0.28), rgba(34,211,238,0.12)); color: #fff; box-shadow: inset 0 0 0 1px rgba(124,92,255,0.35); }
+  .live-badge { display: inline-flex; align-items: center; gap: .35rem; border-radius: 99px; background: rgba(52,211,153,0.12); color: #6ee7b7; font-size: 11px; font-weight: 600; padding: .15rem .55rem; }
+  .live-badge::before { content: ''; width: 6px; height: 6px; border-radius: 99px; background: #34d399; box-shadow: 0 0 0 0 rgba(52,211,153,0.7); animation: livePulse 1.6s infinite; }
+  @keyframes livePulse { 70% { box-shadow: 0 0 0 7px rgba(52,211,153,0); } 100% { box-shadow: 0 0 0 0 rgba(52,211,153,0); } }
+  .demo-badge { margin-inline-start: auto; border-radius: 99px; background: rgba(255,255,255,0.07); color: #a9aecd; font-size: 11px; padding: .15rem .55rem; }
+  .kpi { border-radius: .9rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); padding: .6rem .75rem; }
+  .kpi b { display: block; font-size: 1.25rem; line-height: 1.2; font-weight: 800; background: linear-gradient(90deg, #a78bfa, #22d3ee); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .flow-chip { display: inline-flex; align-items: center; gap: .4rem; border-radius: 99px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); padding: .35rem .8rem; font-size: .8rem; color: #e8eaf6; white-space: nowrap; }
+  .flow-ai { background: linear-gradient(135deg, #7c5cff, #22d3ee); color: #fff; border: 0; box-shadow: 0 0 24px -4px rgba(124,92,255,0.7); }
+  .flow-line { position: relative; flex: 1; min-width: 28px; height: 2px; border-radius: 2px; background: rgba(255,255,255,0.1); overflow: hidden; }
+  .flow-line::after { content: ''; position: absolute; top: 0; right: -40%; width: 40%; height: 100%; background: linear-gradient(270deg, transparent, #22d3ee, #a78bfa, transparent); animation: flowRun 1.6s linear infinite; }
+  @keyframes flowRun { to { right: 100%; } }
+  .act-row { display: flex; align-items: center; gap: .65rem; padding: .6rem .75rem; border-radius: .8rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); font-size: .84rem; color: #e8eaf6; animation: actIn .55s cubic-bezier(.16,1,.3,1) both; }
+  .act-row.fresh { background: linear-gradient(90deg, rgba(124,92,255,0.18), rgba(34,211,238,0.08)); border-color: rgba(124,92,255,0.35); }
+  .act-row .ok { width: 8px; height: 8px; border-radius: 99px; background: #34d399; flex-shrink: 0; box-shadow: 0 0 10px rgba(52,211,153,0.8); }
+  .act-row time { margin-inline-start: auto; font-size: 11px; color: #8d93b8; white-space: nowrap; }
+  @keyframes actIn { from { opacity: 0; transform: translateY(-8px) scale(.98); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .app-win::before, .app-win::after, .flow-line::after, .live-badge::before, .act-row { animation: none; } }
   .review-card { width: 100%; max-width: 22rem; border-radius: 1.5rem; background: #fff; border: 1px solid rgba(29,94,39,0.12); padding: 1.75rem; box-shadow: 0 18px 40px -28px rgba(29,94,39,0.45); transition: transform .3s, box-shadow .3s; }
   .review-card:hover { transform: translateY(-4px); box-shadow: 0 24px 50px -26px rgba(29,94,39,0.5); }
   .review-empty { border-style: dashed; border-color: rgba(29,94,39,0.3); background: rgba(255,255,255,0.6); }
@@ -1169,19 +1191,25 @@
 
     const systems = {
       leads:   { name: 'מרכז לידים חכם', icon: 'user-plus', modules: () => ['קליטת לידים מכל הערוצים', 'סיווג אוטומטי לפי חום', 'מענה ראשוני אוטומטי', 'שיוך לנציג ותזכורות'],
-                 acts: (e, s) => ['ליד חדש מוואטסאפ נקלט וסווג: ליד חם', 'נשלחה הודעת מענה ראשונית בשם העסק', `הליד שויך לנציג ועודכן ב-${s}`] },
+                 kpis: ['לידים נקלטו', 'מענים נשלחו'],
+                 acts: (e, s) => ['ליד חדש מוואטסאפ נקלט וסווג: ליד חם', 'נשלחה הודעת מענה ראשונית בשם העסק', `הליד שויך לנציג ועודכן ב-${s}`, 'ליד מטופס האתר נקלט וסווג: בירור מחיר', 'תזכורת נשלחה לנציג: ליד ממתין לחזרה', 'ליד מפייסבוק זוהה ככפול ואוחד'] },
       email:   { name: 'מנוע מיילים ומסמכים', icon: 'mail', modules: (e) => ['סיווג כל מייל נכנס', `שיוך אוטומטי ${le(e)}`, 'טיוטות תשובה לאישור', 'חיפוש חופשי בכל ההיסטוריה'],
-                 acts: (e, s) => [`מייל חדש סווג ושויך ${le(e)}`, 'נוצרה טיוטת תשובה ומחכה לאישור', 'קובץ PDF מצורף נשמר בתיקייה הנכונה'] },
+                 kpis: ['מיילים סווגו', 'טיוטות נוצרו'],
+                 acts: (e, s) => [`מייל חדש סווג ושויך ${le(e)}`, 'נוצרה טיוטת תשובה ומחכה לאישור', 'קובץ PDF מצורף נשמר בתיקייה הנכונה', 'מייל דחוף זוהה והועבר לראש התור', 'חשבונית מצורפת זוהתה ונשמרה', `חיפוש: "הצעת מחיר אחרונה" ← נמצא תוך שנייה`] },
       calls:   { name: 'ניתוח שיחות מכירה', icon: 'audio-lines', modules: () => ['תמלול אוטומטי בעברית', 'ציון לכל שיחה', 'זיהוי התנגדויות חוזרות', 'לוח בקרה להנהלה'],
-                 acts: (e, s) => ['שיחת מכירה תומללה ונותחה', 'זוהתה התנגדות חוזרת: מחיר', `סיכום השיחה עודכן ב-${s}`] },
+                 kpis: ['שיחות נותחו', 'תובנות נשלחו'],
+                 acts: (e, s) => ['שיחת מכירה תומללה ונותחה', 'זוהתה התנגדות חוזרת: מחיר', `סיכום השיחה עודכן ב-${s}`, 'שיחה קיבלה ציון 86 · נציג: דנה', 'טיפ אימון נשלח לנציג אחרי השיחה', 'לקוח ביקש הצעת מחיר ← נוצרה משימת מעקב'] },
       reports: { name: 'עוזר נתונים ארגוני', icon: 'bar-chart-3', modules: (e, s) => ['שאלות בעברית חופשית', `חיבור ישיר ${le(s)}`, 'דוח שבועי אוטומטי', 'התראות על חריגות'],
-                 acts: (e, s, es) => [`"כמה ${es} נפתחו החודש?" ← תשובה מיידית`, 'דוח שבועי נשלח להנהלה', 'זוהתה חריגה ונשלחה התראה'] },
+                 kpis: ['שאלות נענו', 'דוחות נשלחו'],
+                 acts: (e, s, es) => [`"כמה ${es} נפתחו החודש?" ← תשובה מיידית`, 'דוח שבועי נשלח להנהלה', 'זוהתה חריגה ונשלחה התראה', `"מה המגמה ברבעון?" ← גרף נוצר`, `נתונים סונכרנו מ-${s}`, 'סיכום יומי נשלח בוואטסאפ'] },
     };
     // Hebrew "to" prefix: "ל-CRM" before Latin text, "לוואטסאפ" before Hebrew.
     const le = (x) => (/^[A-Za-z]/.test(x) ? 'ל-' : 'ל') + x;
     const teamModule = { solo: 'עוזר אישי בוואטסאפ', small: 'התראות ומשימות לצוות', large: 'הרשאות לפי תפקיד' };
 
     let step = 0;
+    let liveTimer = null;
+    const stopLive = () => { clearInterval(liveTimer); liveTimer = null; };
     const answers = {};
     const pick = (q, id) => q.options.find(o => o.id === id);
 
@@ -1197,6 +1225,7 @@
     }
 
     function renderQuestion() {
+      stopLive();
       renderProgress();
       const q = questions[step];
       body.innerHTML = `<div class="try-fade">
@@ -1235,25 +1264,29 @@
 
       body.innerHTML = `<div class="try-fade grid lg:grid-cols-5 gap-6 items-start">
         <div class="lg:col-span-3 app-win">
-          <div class="app-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i><span class="mr-2 text-xs text-muted">${title}</span><span class="mr-auto text-[11px] rounded-full bg-mint text-royal-dark px-2 py-0.5">דמו להמחשה</span></div>
+          <div class="app-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i><span class="mr-2 text-xs app-muted truncate">${title}</span><span class="live-badge mr-2">פעיל</span><span class="demo-badge">דמו להמחשה</span></div>
           <div class="grid sm:grid-cols-3">
-            <div class="sm:border-l border-hairline p-4 bg-[#fbfdfb]">
-              <p class="text-[11px] font-semibold text-muted mb-2">מודולים</p>
-              <ul class="flex flex-col gap-1.5 text-sm">${modules.map((m, i) =>
-                `<li class="flex items-center gap-2 rounded-lg px-2 py-1.5 ${i === 0 ? 'bg-mint text-royal-dark font-medium' : 'text-secondary'}"><i data-lucide="${i === 0 ? sys.icon : 'check'}" class="w-3.5 h-3.5"></i>${m}</li>`).join('')}</ul>
+            <div class="app-side sm:border-l p-4">
+              <p class="text-[11px] font-semibold app-muted mb-2">מודולים</p>
+              <ul id="appMods" class="flex flex-col gap-1">${modules.map((m, i) =>
+                `<li class="app-mod ${i === 0 ? 'on' : ''}"><i data-lucide="${i === 0 ? sys.icon : 'check'}" class="w-3.5 h-3.5 shrink-0"></i>${m}</li>`).join('')}</ul>
             </div>
             <div class="sm:col-span-2 p-5">
-              <p class="text-[11px] font-semibold text-muted">איך זה זורם</p>
+              <div class="grid grid-cols-3 gap-2">
+                <div class="kpi"><b id="kpi1">0</b><span class="text-[11px] app-muted">${sys.kpis[0]} היום</span></div>
+                <div class="kpi"><b id="kpi2">0</b><span class="text-[11px] app-muted">${sys.kpis[1]}</span></div>
+                <div class="kpi"><b><span id="kpi3">0</span> דק'</b><span class="text-[11px] app-muted">זמן שנחסך</span></div>
+              </div>
+              <p class="mt-5 text-[11px] font-semibold app-muted">איך זה זורם</p>
               <div class="mt-2 flex flex-wrap items-center gap-2">
                 <span class="flow-chip"><i data-lucide="${src.icon}" class="w-3.5 h-3.5"></i>${src.name}</span>
-                <i data-lucide="arrow-left" class="w-4 h-4 text-muted"></i>
+                <span class="flow-line"></span>
                 <span class="flow-chip flow-ai"><i data-lucide="sparkles" class="w-3.5 h-3.5"></i>Servi AI</span>
-                <i data-lucide="arrow-left" class="w-4 h-4 text-muted"></i>
+                <span class="flow-line"></span>
                 <span class="flow-chip"><i data-lucide="${team.icon}" class="w-3.5 h-3.5"></i>${team.label.split(' (')[0]}</span>
               </div>
-              <p class="mt-5 text-[11px] font-semibold text-muted">פעילות אחרונה</p>
-              <div class="mt-2 flex flex-col gap-2">${acts.map((a, i) =>
-                `<div class="act-row" style="animation-delay:${0.25 + i * 0.45}s"><span class="ok"></span>${a}</div>`).join('')}</div>
+              <p class="mt-5 text-[11px] font-semibold app-muted">פעילות בזמן אמת</p>
+              <div id="appFeed" class="mt-2 flex flex-col gap-2"></div>
             </div>
           </div>
         </div>
@@ -1267,6 +1300,30 @@
           <p class="mt-4 text-xs text-muted">ללא עלות וללא התחייבות · 20 דקות</p>
         </div>
       </div>`;
+
+      // Live simulation: a new activity slides into the feed every few seconds, counters tick up,
+      // and the highlighted module rotates. Illustrative only (the window is labelled "דמו להמחשה").
+      const feed = document.getElementById('appFeed');
+      const mods = [...document.querySelectorAll('#appMods .app-mod')];
+      const k1 = document.getElementById('kpi1'), k2 = document.getElementById('kpi2'), k3 = document.getElementById('kpi3');
+      let n = 0, c1 = 0, c2 = 0, saved = 0;
+      const stamp = (s) => s < 5 ? 'עכשיו' : `לפני ${s} שנ'`;
+      const pushAct = () => {
+        const row = document.createElement('div');
+        row.className = 'act-row fresh';
+        row.innerHTML = `<span class="ok"></span><span>${acts[n % acts.length]}</span><time data-t="${Date.now()}">עכשיו</time>`;
+        feed.prepend(row);
+        setTimeout(() => row.classList.remove('fresh'), 1400);
+        while (feed.children.length > 4) feed.lastElementChild.remove();
+        feed.querySelectorAll('time').forEach(t => { t.textContent = stamp(Math.round((Date.now() - t.dataset.t) / 1000)); });
+        c1 += 1 + (n % 2); c2 += n % 3 === 0 ? 1 : 0; saved += 3 + (n % 4);
+        k1.textContent = c1; k2.textContent = c2 || 1; k3.textContent = saved;
+        mods.forEach((m, i) => m.classList.toggle('on', i === n % mods.length));
+        n++;
+      };
+      [0, 1, 2].forEach(i => setTimeout(pushAct, 250 + i * 450));
+      stopLive();
+      setTimeout(() => { if (document.body.contains(feed)) liveTimer = setInterval(pushAct, 2600); }, 1600);
 
       document.getElementById('tryAgain').addEventListener('click', () => { step = 0; Object.keys(answers).forEach(k => delete answers[k]); renderQuestion(); });
       document.getElementById('tryCta').addEventListener('click', () => {

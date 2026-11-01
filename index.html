@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Servi — תשתית AI לעסקים שצומחים</title>
+<meta name="description" content="Servi ממפה את העסק שלכם, מזהה איפה זמן וכסף נשרפים, ובונה מערכת AI מותאמת אישית שמבצעת תהליכים שלמים במקום עבודה ידנית — וחוסכת עלויות כוח אדם.">
+
+<!-- Security hardening: restrict which origins this page may load/connect to.
+     Note: 'unsafe-inline' is required for script-src/style-src because this page uses the
+     Tailwind Play CDN (which injects compiled styles at runtime) and inline <script> blocks.
+     For a stricter CSP, migrate Tailwind to a compiled build and move scripts to external
+     files with a nonce — frame-ancestors / X-Frame-Options also require a real HTTP header
+     from your hosting server to take effect; this meta tag cannot enforce them. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.emailjs.com https://unpkg.com https://cdn.jsdelivr.net; object-src 'none'; base-uri 'self'; form-action 'self';">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- NOTE: pin lucide to an exact tested version (e.g. lucide@1.21.0) once you've verified
+     your icon names still resolve under it — some icon names were renamed in Lucide v1
+     (e.g. the old "bar-chart-3" became "chart-column"). Using @latest here trades a small
+     amount of version-drift risk for guaranteed compatibility with the icon names below. -->
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4.4.1/dist/email.min.js"></script>
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#08090b',
+          panel: '#0c0d10',
+          card: '#121317',
+          card2: '#15161b',
+          hairline: 'rgba(255,255,255,0.08)',
+          hairline2: 'rgba(255,255,255,0.15)',
+          primary: '#f1f2f4',
+          secondary: '#989aa4',
+          muted: '#5a5c66',
+          royal: { DEFAULT: '#3a56c9', dark: '#23339b', light: '#7e94ea' },
+        },
+        fontFamily: {
+          heebo: ['Heebo', 'sans-serif'],
+          rubik: ['Rubik', 'sans-serif'],
+        },
+        boxShadow: {
+          glow: '0 0 0 1px rgba(58,86,201,0.3), 0 20px 60px -15px rgba(58,86,201,0.35)',
+          'glow-sm': '0 8px 30px -10px rgba(58,86,201,0.5)',
+          card: '0 1px 0 0 rgba(255,255,255,0.04) inset, 0 20px 50px -25px rgba(0,0,0,0.65)',
+        },
+        keyframes: {
+          fadeUp: { '0%': { opacity: 0, transform: 'translateY(24px)' }, '100%': { opacity: 1, transform: 'translateY(0)' } },
+          pulseGlow: { '0%,100%': { opacity: 0.4, transform: 'scale(1)' }, '50%': { opacity: 1, transform: 'scale(1.15)' } },
+          floatSlow: { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } },
+          dashFlow: { 'to': { 'stroke-dashoffset': -200 } },
+        },
+        animation: {
+          fadeUp: 'fadeUp 0.8s cubic-bezier(.16,1,.3,1) both',
+          pulseGlow: 'pulseGlow 2.8s ease-in-out infinite',
+          floatSlow: 'floatSlow 6s ease-in-out infinite',
+        },
+      }
+    }
+  }
+</script>
+
+<style>
+  :root { color-scheme: dark; }
+  html { scroll-behavior: smooth; }
+  body { background-color: #08090b; font-feature-settings: "tnum" 1; }
+  ::selection { background: #3a56c9; color: #fff; }
+
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: #08090b; }
+  ::-webkit-scrollbar-thumb { background: #202126; border-radius: 8px; border: 2px solid #08090b; }
+
+  .font-display { font-family: 'Heebo', sans-serif; }
+  .font-body { font-family: 'Rubik', sans-serif; }
+
+  .text-gradient {
+    background: linear-gradient(90deg, #c3cdf5, #7e94ea 55%, #3a56c9);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .bg-grad-royal { background: linear-gradient(135deg, #7e94ea, #23339b); }
+  .bg-grad-royal:hover { background: linear-gradient(135deg, #93a6ee, #2c3fac); }
+
+  .bg-radial-glow {
+    background: radial-gradient(60% 60% at 50% 30%, rgba(58,86,201,0.14) 0%, rgba(8,9,11,0) 70%);
+  }
+
+  .hairline-top { border-top: 1px solid rgba(255,255,255,0.08); }
+  .hairline { border: 1px solid rgba(255,255,255,0.08); }
+
+  .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; letter-spacing: 0.06em; color: #989aa4; }
+  .eyebrow .dot { width: 6px; height: 6px; border-radius: 999px; background: #7e94ea; }
+
+  [data-reveal] { opacity: 0; transform: translateY(28px); transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1); }
+  [data-reveal].is-visible { opacity: 1; transform: translateY(0); }
+  [data-reveal-delay="1"] { transition-delay: .08s; }
+  [data-reveal-delay="2"] { transition-delay: .16s; }
+  [data-reveal-delay="3"] { transition-delay: .24s; }
+  [data-reveal-delay="4"] { transition-delay: .32s; }
+
+  .node-dot { animation: pulseGlow 3s ease-in-out infinite; }
+  .dash-line { stroke-dasharray: 6 10; animation: dashFlow 6s linear infinite; }
+
+  .faq-toggle[aria-expanded="true"] .faq-icon { transform: rotate(180deg); }
+  .faq-toggle[aria-expanded="true"] + .faq-panel { grid-template-rows: 1fr; opacity: 1; }
+  .faq-panel { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows .45s cubic-bezier(.16,1,.3,1), opacity .35s ease; }
+  .faq-panel > div { overflow: hidden; }
+
+  .card-hover { transition: transform .45s cubic-bezier(.16,1,.3,1), border-color .45s ease, box-shadow .45s ease; }
+  .card-hover:hover { transform: translateY(-6px); border-color: rgba(126,148,234,0.45); box-shadow: 0 24px 60px -25px rgba(58,86,201,0.4); }
+
+  .nav-link { position: relative; }
+  .nav-link::after { content: ''; position: absolute; right: 0; bottom: -6px; width: 0; height: 1px; background: #7e94ea; transition: width .35s ease; }
+  .nav-link:hover::after { width: 100%; }
+
+  input::placeholder, textarea::placeholder { color: #5a5c66; }
+  input, textarea, select { color-scheme: dark; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+    [data-reveal] { opacity: 1; transform: none; }
+  }
+
+  :focus-visible { outline: 2px solid #7e94ea; outline-offset: 3px; border-radius: 4px; }
+</style>
+</head>
+
+<body class="bg-ink text-primary font-body antialiased selection:bg-royal">
+
+<!-- ============ HEADER ============ -->
+<header class="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-ink/70 hairline-top border-b border-hairline">
+  <div class="max-w-7xl mx-auto px-6 md:px-10">
+    <div class="flex items-center justify-between h-20">
+      <a href="#hero" class="flex items-center gap-3 group">
+        <span class="relative grid place-items-center w-9 h-9 rounded-xl bg-grad-royal shadow-glow-sm">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <circle cx="6" cy="18" r="2.4" fill="white"/>
+            <circle cx="18" cy="6" r="2.4" fill="white"/>
+            <circle cx="18" cy="18" r="2.4" fill="white" fill-opacity="0.55"/>
+            <path d="M8 16.5L16 7.5" stroke="white" stroke-width="1.4" stroke-linecap="round"/>
+            <path d="M18 8.4V15.6" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-opacity="0.6"/>
+          </svg>
+        </span>
+        <span class="font-display font-extrabold text-xl tracking-tight text-primary">Servi</span>
+      </a>
+
+      <nav class="hidden lg:flex items-center gap-10 font-body text-[15px] text-secondary">
+        <a href="#how-it-works" class="nav-link hover:text-primary transition-colors">התהליך</a>
+        <a href="#case-study" class="nav-link hover:text-primary transition-colors">תוצאות</a>
+        <a href="#faq" class="nav-link hover:text-primary transition-colors">שאלות נפוצות</a>
+      </nav>
+
+      <div class="hidden lg:flex items-center gap-4">
+        <a href="#contact" class="inline-flex items-center gap-2 rounded-full bg-grad-royal text-white text-[15px] font-medium px-5 py-2.5 shadow-glow-sm transition-all hover:scale-[1.03]">
+          קבעו שיחת אבחון
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        </a>
+      </div>
+
+      <button id="menuBtn" class="lg:hidden grid place-items-center w-10 h-10 rounded-lg hairline text-primary" aria-label="פתיחת תפריט" aria-expanded="false">
+        <i data-lucide="menu" class="w-5 h-5"></i>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobileMenu" class="lg:hidden hidden border-t border-hairline bg-ink/95 backdrop-blur-xl">
+    <div class="px-6 py-6 flex flex-col gap-5 text-secondary font-body">
+      <a href="#how-it-works" class="mobile-link hover:text-primary">התהליך</a>
+      <a href="#case-study" class="mobile-link hover:text-primary">תוצאות</a>
+      <a href="#faq" class="mobile-link hover:text-primary">שאלות נפוצות</a>
+      <a href="#contact" class="mobile-link mt-2 text-center rounded-full bg-grad-royal text-white font-medium px-5 py-3">קבעו שיחת אבחון</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section id="hero" class="relative overflow-hidden bg-ink pt-40 pb-24 md:pt-48 md:pb-32">
+  <div class="absolute inset-0 bg-radial-glow pointer-events-none"></div>
+  <div class="absolute -top-40 -left-40 w-[36rem] h-[36rem] rounded-full bg-royal/10 blur-[120px] pointer-events-none"></div>
+
+  <div class="relative max-w-7xl mx-auto px-6 md:px-10 grid lg:grid-cols-2 gap-16 items-center">
+
+    <div data-reveal>
+      <span class="eyebrow rounded-full hairline bg-card/60 px-4 py-1.5 mb-7">
+        <span class="dot animate-pulseGlow"></span>
+        Servi · תשתית AI לעסקים
+      </span>
+
+      <h1 class="font-display font-extrabold text-[2.5rem] leading-[1.12] sm:text-[3.4rem] sm:leading-[1.1] tracking-tight text-primary">
+        העסק שלכם חייב להתקדם<br>
+        <span class="text-gradient">ל-2026.</span>
+      </h1>
+
+      <p class="mt-7 text-lg md:text-xl text-secondary leading-relaxed max-w-xl">
+        אנחנו ממפים את העסק שלכם לעומק, מגיעים פיזית, לומדים את התהליכים, מזהים איפה זמן וכסף
+        מתבזבזים, ובונים מערכות AI מותאמות אישית שמבצעות עבודה אמיתית וחוסכות שעות עבודה בכל שבוע.
+      </p>
+
+      <ul class="mt-9 flex flex-col gap-4">
+        <li class="flex items-center gap-3 text-primary/90">
+          <span class="grid place-items-center w-9 h-9 rounded-lg bg-card hairline shrink-0"><i data-lucide="wallet" class="w-4 h-4 text-royal-light"></i></span>
+          <span>חוסכים את עלות הגיוס של עובד נוסף</span>
+        </li>
+        <li class="flex items-center gap-3 text-primary/90">
+          <span class="grid place-items-center w-9 h-9 rounded-lg bg-card hairline shrink-0"><i data-lucide="trending-up" class="w-4 h-4 text-royal-light"></i></span>
+          <span>מגדילים תפוקה בלי להגדיל את הצוות</span>
+        </li>
+        <li class="flex items-center gap-3 text-primary/90">
+          <span class="grid place-items-center w-9 h-9 rounded-lg bg-card hairline shrink-0"><i data-lucide="shield-check" class="w-4 h-4 text-royal-light"></i></span>
+          <span>העסק ממשיך לפעול גם כשאתם לא נמצאים</span>
+        </li>
+      </ul>
+
+      <div class="mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+        <a href="#contact" class="inline-flex items-center justify-center gap-2 rounded-full bg-grad-royal text-white font-medium text-base px-7 py-3.5 shadow-glow transition-all hover:scale-[1.03] w-full sm:w-auto">
+          קבעו שיחת אבחון ללא עלות
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        </a>
+        <a href="#how-it-works" class="inline-flex items-center justify-center gap-2 rounded-full hairline text-primary font-medium text-base px-7 py-3.5 hover:bg-card transition-all w-full sm:w-auto">
+          איך זה עובד
+        </a>
+      </div>
+
+      <p class="mt-5 text-sm text-muted">ללא התחייבות · אבחון ראשוני של 20 דקות · מיפוי מותאם לעסק שלכם</p>
+    </div>
+
+    <!-- Constellation visual -->
+    <div class="relative h-[420px] md:h-[520px]" data-reveal data-reveal-delay="2" aria-hidden="true">
+      <div class="absolute inset-0 grid place-items-center">
+        <svg viewBox="0 0 480 480" class="w-full h-full max-w-[480px]">
+          <defs>
+            <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#9aabee" stop-opacity="0.5"/>
+              <stop offset="100%" stop-color="#23339b" stop-opacity="0.12"/>
+            </linearGradient>
+            <radialGradient id="nodeGlow">
+              <stop offset="0%" stop-color="#9aabee"/>
+              <stop offset="100%" stop-color="#23339b"/>
+            </radialGradient>
+          </defs>
+
+          <g stroke="url(#lineGrad)" stroke-width="1.4" fill="none">
+            <path class="dash-line" d="M120 360 L240 240" />
+            <path class="dash-line" d="M240 240 L370 110" />
+            <path class="dash-line" d="M240 240 L130 130" />
+            <path class="dash-line" d="M240 240 L360 300" />
+            <path class="dash-line" d="M130 130 L260 80" />
+            <path class="dash-line" d="M360 300 L420 380" />
+            <path d="M120 360 L130 130" stroke-opacity="0.2"/>
+            <path d="M370 110 L260 80" stroke-opacity="0.2"/>
+          </g>
+
+          <circle cx="240" cy="240" r="13" fill="url(#nodeGlow)" class="node-dot"/>
+          <circle cx="120" cy="360" r="7" fill="#6c81d6" class="node-dot" style="animation-delay:.3s"/>
+          <circle cx="370" cy="110" r="7" fill="#6c81d6" class="node-dot" style="animation-delay:.6s"/>
+          <circle cx="130" cy="130" r="6" fill="#7e94ea" class="node-dot" style="animation-delay:.9s"/>
+          <circle cx="360" cy="300" r="6" fill="#7e94ea" class="node-dot" style="animation-delay:1.2s"/>
+          <circle cx="260" cy="80" r="5" fill="#8c8e98" class="node-dot" style="animation-delay:1.5s"/>
+          <circle cx="420" cy="380" r="5" fill="#8c8e98" class="node-dot" style="animation-delay:1.8s"/>
+        </svg>
+      </div>
+
+      <div class="absolute top-6 right-2 hairline bg-card/80 backdrop-blur rounded-2xl px-4 py-3 shadow-card animate-floatSlow">
+        <div class="flex items-center gap-2 text-xs text-secondary"><i data-lucide="mail" class="w-3.5 h-3.5 text-royal-light"></i> מייל חדש מסווג אוטומטית</div>
+      </div>
+      <div class="absolute bottom-10 left-0 hairline bg-card/80 backdrop-blur rounded-2xl px-4 py-3 shadow-card animate-floatSlow" style="animation-delay:1.2s">
+        <div class="flex items-center gap-2 text-xs text-secondary"><i data-lucide="database" class="w-3.5 h-3.5 text-royal-light"></i> ליד עודכן ב-CRM</div>
+      </div>
+      <div class="absolute bottom-32 right-10 hairline bg-card/80 backdrop-blur rounded-2xl px-4 py-3 shadow-card animate-floatSlow" style="animation-delay:.6s">
+        <div class="flex items-center gap-2 text-xs text-secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-royal-light shrink-0"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+          דוח שבועי נשלח להנהלה
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ FOMO ============ -->
+<section id="how-it-works" class="relative bg-panel py-24 md:py-28 hairline-top overflow-hidden">
+  <svg class="absolute inset-0 w-full h-full opacity-[0.07] pointer-events-none" viewBox="0 0 1200 400" preserveAspectRatio="none" aria-hidden="true">
+    <polyline points="0,360 150,330 300,340 450,260 600,280 750,180 900,200 1050,90 1200,60" fill="none" stroke="#7e94ea" stroke-width="3"/>
+  </svg>
+
+  <div class="relative max-w-4xl mx-auto px-6 md:px-10 text-center" data-reveal>
+    <span class="eyebrow justify-center"><span class="dot"></span>לאן הולך השוק</span>
+    <h2 class="mt-4 font-display font-extrabold text-3xl md:text-[2.6rem] leading-tight text-primary">
+      העולם כבר השתנה
+    </h2>
+    <p class="mt-5 text-lg text-secondary leading-relaxed max-w-2xl mx-auto">
+      ב-2026 כמעט כל עסק מבין ש-AI משנה את הדרך שבה עובדים. אבל רוב העסקים עדיין תקועים בשלב הדיבורים —
+      בעוד אחרים כבר פועלים אחרת.
+    </p>
+
+    <div class="mt-12 grid sm:grid-cols-2 gap-6 max-w-3xl mx-auto text-right">
+
+      <div class="rounded-3xl overflow-hidden hairline2 bg-gradient-to-br from-card2 to-card" data-reveal>
+        <div class="relative h-56 sm:h-64">
+          <img src="assets/field-photo.jpg" alt="תכנון ואיפיון אישי של התהליך אצל הלקוח" class="absolute inset-0 w-full h-full object-cover object-[50%_62%]">
+          <div class="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/10 to-transparent"></div>
+          <span class="absolute bottom-4 right-4 text-xs text-white/85 bg-ink/50 backdrop-blur rounded-full px-3 py-1.5">תכנון ואיפיון אישי</span>
+        </div>
+        <div class="p-6 md:p-7">
+          <h3 class="font-display font-bold text-lg text-primary">אנחנו נכנסים פנימה</h3>
+          <p class="mt-2 text-[15px] text-secondary leading-relaxed">לא שאלון מרחוק — תכנון ואיפיון אישי של התהליך שלכם, לפני שכותבים שורת קוד.</p>
+        </div>
+      </div>
+
+      <div class="rounded-3xl overflow-hidden hairline2 bg-gradient-to-br from-card2 to-card" data-reveal data-reveal-delay="2">
+        <a href="assets/story-video.mp4" target="_blank" rel="noopener" class="relative h-56 sm:h-64 block group">
+          <img src="assets/poster.jpg" alt="תמונת תצוגה מקדימה לסרטון שמסביר איך פעילות העסק נראית לפני ואחרי סרבי" class="absolute inset-0 w-full h-full object-cover object-[50%_15%]">
+          <div class="absolute inset-0 bg-ink/25 group-hover:bg-ink/35 transition-colors flex items-center justify-center">
+            <span class="grid place-items-center w-14 h-14 rounded-full bg-white/90 shadow-lg group-hover:scale-105 transition-transform"><i data-lucide="play" class="w-6 h-6 text-ink ml-0.5"></i></span>
+          </div>
+        </a>
+        <div class="p-6 md:p-7 flex items-center justify-between gap-4">
+          <div>
+            <h3 class="font-display font-bold text-lg text-primary">מה זה סרבי?</h3>
+            <p class="mt-2 text-[15px] text-secondary leading-relaxed">לא שאלון מרחוק — מיפוי אמיתי של התהליך שלכם לפני ואחרי.</p>
+          </div>
+          <a href="assets/story-video.mp4" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full hairline text-primary text-sm font-medium px-4 py-2.5 hover:bg-card transition-colors shrink-0">
+            לצפייה
+            <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="mt-12 font-display font-bold text-xl md:text-2xl text-primary leading-snug">
+      השאלה היא לא אם AI ייכנס לעסק שלכם.<br class="hidden sm:block">
+      <span class="text-gradient">השאלה היא אם זה יקרה לפני המתחרים שלכם.</span>
+    </p>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============
+     PLACEHOLDER CONTENT — replace every [בסוגריים] with real client quotes,
+     names, roles and companies before publishing. Do not launch with fake
+     testimonials attributed to real-looking names. -->
+<section id="testimonials" class="relative bg-panel py-24 md:py-32 hairline-top">
+  <div class="max-w-7xl mx-auto px-6 md:px-10">
+    <div class="max-w-2xl mx-auto text-center" data-reveal>
+      <span class="eyebrow justify-center"><span class="dot"></span>לקוחות</span>
+      <h2 class="mt-4 font-display font-extrabold text-3xl md:text-[2.6rem] leading-tight text-primary">
+        עובדים איתנו
+      </h2>
+    </div>
+
+    <!-- Client logo placeholders below (grey boxes with company name) — swap the two
+         boxes for real <img> logo files (PNG/SVG) once provided. -->
+    <div class="mt-14 grid sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
+
+      <div class="hairline rounded-3xl bg-card p-7" data-reveal>
+        <img src="assets/sela-logo-white.png" alt="לוגו סלע בינוי" class="h-8 w-auto mb-6">
+        <h3 class="font-display font-bold text-lg text-primary">סלע בינוי</h3>
+        <p class="mt-3 text-[15px] text-secondary leading-relaxed">חברת נדל"ן הפועלת מאז 2002 בייזום, שיווק והקמה של פרויקטי מגורים, מסחר ומשרדים ברחבי הארץ. למעלה מ-20 שנות ניסיון בפרויקטי בנייה בהיקפים גדולים.</p>
+      </div>
+
+      <div class="hairline rounded-3xl bg-card p-7" data-reveal data-reveal-delay="2">
+        <img src="assets/landman-logo-white.png" alt="לוגו לנדמן אלומיניום" class="h-16 w-auto mb-4">
+        <h3 class="font-display font-bold text-lg text-primary">לנדמן אלומיניום</h3>
+        <p class="mt-3 text-[15px] text-secondary leading-relaxed">משרד ייעוץ הנדסי למעטפת הבניין הפועל מאז 1971, מהוותיקים והמובילים בתחומו בישראל. למעלה מ-50 שנות ניסיון בליווי פרויקטים אדריכליים מהגדולים בארץ.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ CASE STUDY ============ -->
+<section id="case-study" class="relative bg-panel py-24 md:py-32 hairline-top">
+  <div class="max-w-7xl mx-auto px-6 md:px-10">
+    <div class="grid lg:grid-cols-5 gap-12 items-start">
+
+      <div class="lg:col-span-2" data-reveal>
+        <span class="inline-flex items-center gap-1.5 text-xs hairline rounded-full px-3 py-1 text-muted">
+          <i data-lucide="info" class="w-3 h-3"></i> דוגמה להמחשה
+        </span>
+        <h2 class="mt-5 font-display font-extrabold text-3xl md:text-[2.4rem] leading-tight text-primary">
+          כך נראית הטמעה בארגון<br>שמוצף בפניות מייל
+        </h2>
+        <p class="mt-6 text-[15px] text-secondary leading-relaxed">
+          ארגון בינוני מקבל מדי שבוע מאות מיילים — מלקוחות, מספקים, משותפים עסקיים, פניות שירות ובקשות
+          מידע. הצוות הפנימי בילה חלק ניכר מהיום רק במיון תיבת הדואר, עוד לפני שבכלל התחיל לטפל בתוכן
+          של כל פנייה.
+        </p>
+        <p class="mt-4 text-[15px] text-secondary leading-relaxed">
+          צוות Servi מיפה את כל סוגי הפניות שמגיעות לתיבה, ובנה מערכת AI שיושבת על תיבת המייל הארגונית
+          ומלווה כל הודעה מהרגע שהיא נכנסת ועד שהיא מטופלת ומתועדת כראוי.
+        </p>
+      </div>
+
+      <div class="lg:col-span-3 min-w-0" data-reveal data-reveal-delay="2">
+        <div class="rounded-2xl overflow-hidden hairline2 bg-card2 shadow-card mb-6">
+          <div class="flex items-center gap-1.5 px-4 py-3 hairline-top bg-card">
+            <span class="w-2.5 h-2.5 rounded-full bg-white/15"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-white/15"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-white/15"></span>
+          </div>
+          <img src="assets/case-study-screenshot.jpg" alt="ממשק מנוע חיפוש המיילים שנבנה עבור הארגון" class="w-full max-h-[280px] object-cover object-top">
+        </div>
+        <div class="grid sm:grid-cols-2 gap-5 items-stretch min-w-0">
+
+          <div class="rounded-2xl p-[1px] bg-gradient-to-br from-royal-light/60 to-royal-dark/40 min-w-0">
+            <div class="rounded-2xl bg-card2 p-6 h-full min-w-0">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-royal-light tracking-wide">המערכת שבנינו</span>
+                <span class="grid place-items-center w-7 h-7 rounded-lg bg-grad-royal shrink-0">
+                  <i data-lucide="arrow-left" class="w-3.5 h-3.5 text-white"></i>
+                </span>
+              </div>
+              <ul class="mt-4 flex flex-col gap-3.5">
+                <li class="flex items-start gap-2.5 text-[15px] text-primary leading-relaxed min-w-0"><i data-lucide="check" class="w-4 h-4 text-royal-light mt-0.5 shrink-0"></i>מזהה כל מייל חדש ומסווגת את סוג הפנייה</li>
+                <li class="flex items-start gap-2.5 text-[15px] text-primary leading-relaxed min-w-0"><i data-lucide="check" class="w-4 h-4 text-royal-light mt-0.5 shrink-0"></i>מייצרת כותרת ברורה ושומרת את המידע במקום הנכון</li>
+                <li class="flex items-start gap-2.5 text-[15px] text-primary leading-relaxed min-w-0"><i data-lucide="check" class="w-4 h-4 text-royal-light mt-0.5 shrink-0"></i>מנסחת טיוטת תשובה על בסיס תגובות עבר</li>
+                <li class="flex items-start gap-2.5 text-[15px] text-primary leading-relaxed min-w-0"><i data-lucide="check" class="w-4 h-4 text-royal-light mt-0.5 shrink-0"></i>מתעדת את הפעילות ומפנה כל פנייה לגורם הרלוונטי</li>
+                <li class="flex items-start gap-2.5 text-[15px] text-primary leading-relaxed min-w-0"><i data-lucide="check" class="w-4 h-4 text-royal-light mt-0.5 shrink-0"></i>מונעת איבוד מידע</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="hairline rounded-2xl bg-card p-6 flex flex-col min-w-0">
+            <span class="text-xs font-medium text-muted tracking-wide">לפני</span>
+            <ul class="mt-4 flex flex-col gap-5">
+              <li class="flex items-start gap-2.5 text-[15px] text-secondary leading-relaxed min-w-0"><i data-lucide="x" class="w-4 h-4 text-muted mt-0.5 shrink-0"></i>כל מייל נקרא וממוין ידנית, אחד אחד, בלי שום עזרה אוטומטית</li>
+              <li class="flex items-start gap-2.5 text-[15px] text-secondary leading-relaxed min-w-0"><i data-lucide="x" class="w-4 h-4 text-muted mt-0.5 shrink-0"></i>פניות של לקוחות, ספקים ושירות מגיעות לאותה תיבה ומתערבבות זו בזו</li>
+              <li class="flex items-start gap-2.5 text-[15px] text-secondary leading-relaxed min-w-0"><i data-lucide="x" class="w-4 h-4 text-muted mt-0.5 shrink-0"></i>אי אפשר לדעת בקלות מי כבר טיפל בפנייה ומי לא</li>
+              <li class="flex items-start gap-2.5 text-[15px] text-secondary leading-relaxed min-w-0"><i data-lucide="x" class="w-4 h-4 text-muted mt-0.5 shrink-0"></i>מידע חשוב לפעמים פשוט הולך לאיבוד בין עשרות הודעות שממתינות לטיפול</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <p class="mt-5 text-xs text-muted leading-relaxed">
+          * הדוגמה מבוססת על תרחיש מייצג להמחשת סוג השיפור האפשרי בעקבות הטמעת מערכת AI מותאמת אישית.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section id="contact" class="relative bg-panel py-24 md:py-32 hairline-top overflow-hidden">
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[50rem] h-[28rem] bg-royal/10 blur-[140px] pointer-events-none"></div>
+
+  <div class="relative max-w-7xl mx-auto px-6 md:px-10">
+    <div class="grid lg:grid-cols-2 gap-16 items-start">
+
+      <div data-reveal>
+        <h2 class="font-display font-extrabold text-3xl md:text-[2.8rem] leading-[1.15] text-primary">
+          מוכנים להפסיק לעבוד קשה יותר,<br>
+          <span class="text-gradient">ולהתחיל לעבוד חכם יותר?</span>
+        </h2>
+
+        <div class="mt-10 flex flex-col gap-5">
+          <a href="https://wa.me/972586555442" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 text-secondary hover:text-primary transition-colors">
+            <span class="grid place-items-center w-10 h-10 rounded-lg bg-card hairline shrink-0">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-royal-light">
+                <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1v3.5c0 .6-.4 1-1 1C10.6 21.1 2.9 13.4 2.9 4c0-.6.4-1 1-1H7.4c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1l-2.2 2.2Z"/>
+              </svg>
+            </span>
+            <span class="flex items-center gap-2">
+              <span dir="ltr">058-655-5442</span>
+              <span class="text-xs text-muted">(זמין בוואטסאפ בלבד)</span>
+            </span>
+          </a>
+          <a href="mailto:servichatbot@gmail.com" class="flex items-center gap-3 text-secondary hover:text-primary transition-colors">
+            <span class="grid place-items-center w-10 h-10 rounded-lg bg-card hairline shrink-0">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-royal-light">
+                <rect x="3" y="5" width="18" height="14" rx="2"/>
+                <path d="m3 7 9 6 9-6"/>
+              </svg>
+            </span>
+            <span dir="ltr">servichatbot@gmail.com</span>
+          </a>
+          <a href="https://instagram.com/servi_ai" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 text-secondary hover:text-primary transition-colors">
+            <span class="grid place-items-center w-10 h-10 rounded-lg bg-card hairline shrink-0">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-royal-light">
+                <rect x="3" y="3" width="18" height="18" rx="5"/>
+                <circle cx="12" cy="12" r="4"/>
+                <circle cx="17.3" cy="6.7" r="0.6" fill="currentColor" stroke="none"/>
+              </svg>
+            </span>
+            <span dir="ltr">@servi_ai</span>
+          </a>
+          <a href="https://www.linkedin.com/in/gevarozner" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 text-secondary hover:text-primary transition-colors">
+            <span class="grid place-items-center w-10 h-10 rounded-lg bg-card hairline shrink-0">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-royal-light">
+                <rect x="3" y="3" width="18" height="18" rx="3"/>
+                <path d="M7.5 10.5v6M7.5 7.5v.01M11.5 16.5v-3.5c0-1.4 1-2.5 2.5-2.5s2.5 1.1 2.5 2.5v3.5M11.5 10.5v6"/>
+              </svg>
+            </span>
+            <span dir="ltr">gevarozner</span>
+          </a>
+        </div>
+
+        <div class="mt-10 hidden sm:flex items-center gap-6 text-xs text-muted">
+          <span class="flex items-center gap-1.5"><i data-lucide="shield-check" class="w-3.5 h-3.5"></i>מידע מאובטח</span>
+          <span class="flex items-center gap-1.5"><i data-lucide="clock" class="w-3.5 h-3.5"></i>מענה תוך יום עסקים</span>
+          <span class="flex items-center gap-1.5"><i data-lucide="ban" class="w-3.5 h-3.5"></i>ללא התחייבות</span>
+        </div>
+      </div>
+
+      <div class="hairline2 bg-card2 rounded-3xl p-7 md:p-9 shadow-card" data-reveal data-reveal-delay="2">
+        <form id="contactForm" class="flex flex-col gap-5">
+          <div>
+            <label class="block text-sm text-secondary mb-2" for="fullName">שם מלא *</label>
+            <input required id="fullName" name="fullName" type="text" placeholder="ישראל ישראלי" maxlength="80" autocomplete="name"
+              class="w-full rounded-xl bg-ink hairline px-4 py-3 text-primary placeholder:text-muted focus:border-royal-light/60 outline-none transition-colors">
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-sm text-secondary mb-2" for="phone">טלפון *</label>
+              <input required id="phone" name="phone" type="tel" placeholder="050-1234567" dir="ltr" maxlength="20" autocomplete="tel"
+                pattern="^[0-9+\-\s]{7,20}$" title="מספר טלפון תקין, ספרות בלבד (אפשר +, -, רווחים)"
+                class="w-full rounded-xl bg-ink hairline px-4 py-3 text-primary placeholder:text-muted focus:border-royal-light/60 outline-none transition-colors">
+            </div>
+            <div>
+              <label class="block text-sm text-secondary mb-2" for="email">אימייל *</label>
+              <input required id="email" name="email" type="email" placeholder="you@company.com" dir="ltr" maxlength="120" autocomplete="email"
+                class="w-full rounded-xl bg-ink hairline px-4 py-3 text-primary placeholder:text-muted focus:border-royal-light/60 outline-none transition-colors">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm text-secondary mb-2" for="company">שם העסק</label>
+            <input id="company" name="company" type="text" placeholder="שם החברה שלכם" maxlength="100" autocomplete="organization"
+              class="w-full rounded-xl bg-ink hairline px-4 py-3 text-primary placeholder:text-muted focus:border-royal-light/60 outline-none transition-colors">
+          </div>
+
+          <div>
+            <label class="block text-sm text-secondary mb-2" for="bizType">תחום עיסוק</label>
+            <select id="bizType" name="bizType"
+              class="w-full rounded-xl bg-ink hairline px-4 py-3 text-primary focus:border-royal-light/60 outline-none transition-colors appearance-none">
+              <option>בעל עסק עצמאי</option>
+              <option>חברת שירותים</option>
+              <option>סוכנות</option>
+              <option>אחר</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm text-secondary mb-2" for="message">ספרו לנו בקצרה על האתגר המרכזי שלכם</label>
+            <textarea id="message" name="message" rows="3" maxlength="1000" placeholder="לדוגמה: פניות של דיירים על יחידות ותיקוני בדק מתפזרות בין וואטסאפ, מייל וטלפון בלי מעקב מסודר..."
+              class="w-full rounded-xl bg-ink hairline px-4 py-3 text-primary placeholder:text-muted focus:border-royal-light/60 outline-none transition-colors resize-none"></textarea>
+          </div>
+
+          <!-- honeypot field – invisible to people, but a plain "display:none" field is a known bot
+               tell, so this is pushed off-screen instead of hidden, and paired with a name a script
+               is more likely to auto-fill ("url") plus a minimum-time check in the JS below. -->
+          <div style="position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;" aria-hidden="true">
+            <label for="url">השאירו שדה זה ריק</label>
+            <input type="text" name="url" id="url" tabindex="-1" autocomplete="off">
+          </div>
+
+          <button type="submit" id="submitBtn" class="mt-2 w-full inline-flex items-center justify-center gap-2 rounded-full bg-grad-royal text-white font-medium text-base px-7 py-3.5 shadow-glow transition-all hover:scale-[1.02] disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100">
+            <span id="submitBtnText">קבעו שיחת אבחון עכשיו</span>
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          </button>
+
+          <p id="errorMsg" class="hidden text-xs text-center text-red-400 leading-relaxed">
+            משהו השתבש בשליחה. אפשר לנסות שוב, או ליצור קשר ישירות בטלפון/אימייל.
+          </p>
+
+          <p class="text-xs text-muted text-center leading-relaxed flex items-center justify-center gap-1.5">
+            <i data-lucide="lock" class="w-3 h-3"></i>
+            הפרטים שלכם מאובטחים ולא יועברו לצד שלישי
+          </p>
+        </form>
+
+        <div id="successMsg" class="hidden flex-col items-center text-center py-10">
+          <span class="grid place-items-center w-14 h-14 rounded-full bg-grad-royal shadow-glow-sm mb-5">
+            <i data-lucide="check" class="w-7 h-7 text-white"></i>
+          </span>
+          <h3 class="font-display font-bold text-xl text-primary">הפרטים נשלחו בהצלחה</h3>
+          <p class="mt-2 text-secondary text-[15px]">ניצור איתכם קשר בהקדם לתיאום שיחת האבחון.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- ============ FAQ ============ -->
+<section id="faq" class="relative bg-ink py-24 md:py-32 hairline-top">
+  <div class="max-w-4xl mx-auto px-6 md:px-10">
+    <div class="text-center" data-reveal>
+      <span class="eyebrow justify-center"><span class="dot"></span>שאלות נפוצות</span>
+      <h2 class="mt-4 font-display font-extrabold text-3xl md:text-[2.6rem] leading-tight text-primary">
+        כל מה שרציתם לדעת לפני שמתחילים
+      </h2>
+    </div>
+
+    <div class="mt-14 flex flex-col gap-4" id="faqList">
+
+      <div class="hairline rounded-2xl bg-card overflow-hidden" data-reveal>
+        <button class="faq-toggle w-full flex items-center justify-between gap-4 text-right p-6" aria-expanded="false">
+          <span class="font-display font-semibold text-base md:text-lg text-primary">למה לא פשוט להשתמש ב-ChatGPT?</span>
+          <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-royal-light shrink-0 transition-transform"></i>
+        </button>
+        <div class="faq-panel"><div class="px-6 pb-6 text-[15px] text-secondary leading-relaxed">כלים כלליים מצוינים למשימות חד-פעמיות, אבל הם לא מחוברים למערכות שלכם, לא זוכרים את ההקשר העסקי שלכם ולא פועלים באופן עצמאי לאורך זמן. Servi בונה מערכת שמותאמת לתהליכים שלכם, מחוברת לכלים שלכם ופועלת ברקע — בלי שמישהו צריך להפעיל אותה בכל פעם מחדש.</div></div>
+      </div>
+
+      <div class="hairline rounded-2xl bg-card overflow-hidden" data-reveal>
+        <button class="faq-toggle w-full flex items-center justify-between gap-4 text-right p-6" aria-expanded="false">
+          <span class="font-display font-semibold text-base md:text-lg text-primary">כמה זמן לוקח להטמיע מערכת בעסק?</span>
+          <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-royal-light shrink-0 transition-transform"></i>
+        </button>
+        <div class="faq-panel"><div class="px-6 pb-6 text-[15px] text-secondary leading-relaxed">שלב האפיון אורך בדרך כלל שבוע עד שבועיים, ולאחריו בניית המערכת וההתאמה האישית. ברוב המקרים המערכת עולה לאוויר תוך מספר שבועות, בהתאם להיקף ולמורכבות התהליכים.</div></div>
+      </div>
+
+      <div class="hairline rounded-2xl bg-card overflow-hidden" data-reveal>
+        <button class="faq-toggle w-full flex items-center justify-between gap-4 text-right p-6" aria-expanded="false">
+          <span class="font-display font-semibold text-base md:text-lg text-primary">האם המערכת מתאימה גם לעסק קטן, או רק לחברות גדולות?</span>
+          <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-royal-light shrink-0 transition-transform"></i>
+        </button>
+        <div class="faq-panel"><div class="px-6 pb-6 text-[15px] text-secondary leading-relaxed">Servi בונה מערכות בהתאמה אישית לעסקים בכל גודל — מעסק עצמאי ועד חברה עם מספר סניפים. ההיקף והמורכבות מותאמים לצרכים ולתקציב שלכם.</div></div>
+      </div>
+
+      <div class="hairline rounded-2xl bg-card overflow-hidden" data-reveal>
+        <button class="faq-toggle w-full flex items-center justify-between gap-4 text-right p-6" aria-expanded="false">
+          <span class="font-display font-semibold text-base md:text-lg text-primary">האם המערכת יכולה להתחבר לכלים שאני כבר עובד איתם?</span>
+          <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-royal-light shrink-0 transition-transform"></i>
+        </button>
+        <div class="faq-panel"><div class="px-6 pb-6 text-[15px] text-secondary leading-relaxed">כן. המערכת מתחברת לכלים הקיימים שלכם — CRM, וואטסאפ עסקי, מייל, יומן, מערכות סליקה ועוד — כך שלא צריך להחליף תשתיות קיימות כדי להתחיל.</div></div>
+      </div>
+
+      <div class="hairline rounded-2xl bg-card overflow-hidden" data-reveal>
+        <button class="faq-toggle w-full flex items-center justify-between gap-4 text-right p-6" aria-expanded="false">
+          <span class="font-display font-semibold text-base md:text-lg text-primary">כמה זה עולה?</span>
+          <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-royal-light shrink-0 transition-transform"></i>
+        </button>
+        <div class="faq-panel"><div class="px-6 pb-6 text-[15px] text-secondary leading-relaxed">העלות תלויה בהיקף המערכת ובמורכבות התהליכים שמוטמעים. בשיחת האבחון נבין את הצרכים שלכם ונציע הצעת מחיר מותאמת אישית, בלי התחייבות.</div></div>
+      </div>
+
+      <div class="hairline rounded-2xl bg-card overflow-hidden" data-reveal>
+        <button class="faq-toggle w-full flex items-center justify-between gap-4 text-right p-6" aria-expanded="false">
+          <span class="font-display font-semibold text-base md:text-lg text-primary">מה קורה אם ללקוח יש שאלה שהמערכת לא יודעת לענות עליה?</span>
+          <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-royal-light shrink-0 transition-transform"></i>
+        </button>
+        <div class="faq-panel"><div class="px-6 pb-6 text-[15px] text-secondary leading-relaxed">המערכת מזהה מקרים שדורשים מענה אנושי ומעבירה אותם אוטומטית לנציג המתאים, יחד עם כל ההקשר הרלוונטי — כך שאף פנייה לא נשארת בלי טיפול.</div></div>
+      </div>
+
+      <div class="hairline rounded-2xl bg-card overflow-hidden" data-reveal>
+        <button class="faq-toggle w-full flex items-center justify-between gap-4 text-right p-6" aria-expanded="false">
+          <span class="font-display font-semibold text-base md:text-lg text-primary">האם המידע של העסק והלקוחות שלי מאובטח?</span>
+          <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-royal-light shrink-0 transition-transform"></i>
+        </button>
+        <div class="faq-panel"><div class="px-6 pb-6 text-[15px] text-secondary leading-relaxed">כן. אנחנו עובדים בהתאם לסטנדרטים מחמירים של אבטחת מידע ופרטיות, וכל מערכת נבנית כך שהגישה למידע רגיש מוגבלת ומבוקרת.</div></div>
+      </div>
+
+      <div class="hairline rounded-2xl bg-card overflow-hidden" data-reveal>
+        <button class="faq-toggle w-full flex items-center justify-between gap-4 text-right p-6" aria-expanded="false">
+          <span class="font-display font-semibold text-base md:text-lg text-primary">האם יש תמיכה וליווי אחרי ההטמעה?</span>
+          <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-royal-light shrink-0 transition-transform"></i>
+        </button>
+        <div class="faq-panel"><div class="px-6 pb-6 text-[15px] text-secondary leading-relaxed">כן. הליווי לא נגמר בהפעלה — אנחנו עוקבים אחרי ביצועי המערכת, מבצעים אופטימיזציה ומתאימים אותה ככל שהעסק שלכם משתנה וגדל.</div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============ FOOTER ============ -->
+<footer class="bg-ink hairline-top py-14">
+  <div class="max-w-7xl mx-auto px-6 md:px-10">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
+
+      <div class="lg:col-span-2">
+        <div class="flex items-center gap-3">
+          <span class="grid place-items-center w-8 h-8 rounded-lg bg-grad-royal">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+              <circle cx="6" cy="18" r="2.4" fill="white"/>
+              <circle cx="18" cy="6" r="2.4" fill="white"/>
+              <circle cx="18" cy="18" r="2.4" fill="white" fill-opacity="0.55"/>
+              <path d="M8 16.5L16 7.5" stroke="white" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="font-display font-extrabold text-lg text-primary">Servi</span>
+        </div>
+        <p class="mt-4 text-[15px] text-secondary leading-relaxed max-w-xs">
+          תשתית AI מותאמת אישית לעסקים שרוצים לצמוח בלי לגדול בכוח אדם.
+        </p>
+      </div>
+
+      <div>
+        <h4 class="font-display font-semibold text-sm text-primary">יכולות</h4>
+        <ul class="mt-4 flex flex-col gap-3 text-[14px] text-secondary">
+          <li><a href="#contact" class="hover:text-primary transition-colors">סוכני AI אוטונומיים</a></li>
+          <li><a href="#contact" class="hover:text-primary transition-colors">תפעול אוטונומי</a></li>
+          <li><a href="#contact" class="hover:text-primary transition-colors">תשתית ניהול לקוחות</a></li>
+          <li><a href="#contact" class="hover:text-primary transition-colors">מערכת שירות אוטונומית</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-display font-semibold text-sm text-primary">חברה</h4>
+        <ul class="mt-4 flex flex-col gap-3 text-[14px] text-secondary">
+          <li><a href="#how-it-works" class="hover:text-primary transition-colors">התהליך שלנו</a></li>
+          <li><a href="#case-study" class="hover:text-primary transition-colors">תוצאות</a></li>
+          <li><a href="#faq" class="hover:text-primary transition-colors">שאלות נפוצות</a></li>
+          <li><a href="#contact" class="hover:text-primary transition-colors">צרו קשר</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="mt-14 pt-7 border-t border-hairline flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted">
+      <span>© 2026 Servi. כל הזכויות שמורות.</span>
+      <span class="flex items-center gap-1.5"><i data-lucide="map-pin" class="w-3.5 h-3.5"></i> ישראל</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  lucide.createIcons();
+
+  // mobile menu
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  menuBtn.addEventListener('click', () => {
+    const isOpen = !mobileMenu.classList.contains('hidden');
+    mobileMenu.classList.toggle('hidden');
+    menuBtn.setAttribute('aria-expanded', String(!isOpen));
+    menuBtn.innerHTML = isOpen
+      ? '<i data-lucide="menu" class="w-5 h-5"></i>'
+      : '<i data-lucide="x" class="w-5 h-5"></i>';
+    lucide.createIcons();
+  });
+  document.querySelectorAll('.mobile-link').forEach(function (el) {
+    el.addEventListener('click', function () {
+      mobileMenu.classList.add('hidden');
+      menuBtn.setAttribute('aria-expanded', 'false');
+      menuBtn.innerHTML = '<i data-lucide="menu" class="w-5 h-5"></i>';
+      lucide.createIcons();
+    });
+  });
+
+  // scroll reveal
+  const revealEls = document.querySelectorAll('[data-reveal]');
+  const io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+  revealEls.forEach(function (el) { io.observe(el); });
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-toggle').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+    });
+  });
+
+  // ============================================================
+  // EmailJS — sends every contact-form submission to servichatbot@gmail.com
+  // ============================================================
+  // SETUP (one-time, ~5 minutes, no backend needed):
+  // 1. Create a free account at https://www.emailjs.com (sign in with servichatbot@gmail.com)
+  // 2. Email Services → Add New Service → connect the Gmail servichatbot@gmail.com
+  //    → copy the "Service ID" it gives you.
+  // 3. Email Templates → Create New Template. This account's template currently uses
+  //    {{name}}, {{email}} and {{message}} as its variables — the JS below packs phone,
+  //    company name and business type into the {{message}} body (clearly labeled) so no
+  //    field is lost even though the template only exposes those three placeholders.
+  //    SECURITY: hardcode the template's "To Email" field to servichatbot@gmail.com directly
+  //    in the EmailJS dashboard — do NOT make it a template variable. The service ID, template
+  //    ID and public key below are visible to anyone who views this page's source, so if "To
+  //    Email" were driven by a client-side value, anyone could redirect submissions elsewhere
+  //    or spam arbitrary inboxes through your account. Hardcoding it in the dashboard closes
+  //    that off — the SDK can only ever trigger your one preconfigured template.
+  //    → copy the "Template ID".
+  // 4. Account → General → copy your "Public Key".
+  // 5. Account → Security → restrict this key to your real domain(s) ("Allowed origins"), so
+  //    the key can't be lifted from this page and reused to send mail from another site.
+  // 6. Paste the three values below.
+  const EMAILJS_PUBLIC_KEY  = 'm2AeBfmBZ9ug8vcMg';   // Servi EmailJS Public Key
+  const EMAILJS_SERVICE_ID  = 'service_8uec7sf';     // Servi EmailJS Service ID
+  const EMAILJS_TEMPLATE_ID = 'template_cnpfbkh';    // Servi EmailJS Template ID
+  const CONTACT_EMAIL = 'servichatbot@gmail.com';  // used only for the mailto: fallback below
+
+  const emailjsReady = typeof emailjs !== 'undefined'
+    && EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY'
+    && EMAILJS_SERVICE_ID !== 'YOUR_SERVICE_ID'
+    && EMAILJS_TEMPLATE_ID !== 'YOUR_TEMPLATE_ID';
+
+  if (emailjsReady) {
+    emailjs.init({
+      publicKey: EMAILJS_PUBLIC_KEY,
+      blockHeadless: true,             // reject automated/headless-browser submissions
+      limitRate: { id: 'servi-contact-form', throttle: 20000 } // max 1 submission / 20s per visitor
+    });
+  } else {
+    console.warn('Servi: EmailJS is not configured yet — fill in EMAILJS_PUBLIC_KEY / SERVICE_ID / TEMPLATE_ID at the top of the script to activate the contact form.');
+  }
+
+  // contact form submission
+  const form = document.getElementById('contactForm');
+  const successMsg = document.getElementById('successMsg');
+  const errorMsg = document.getElementById('errorMsg');
+  const submitBtn = document.getElementById('submitBtn');
+  const submitBtnText = document.getElementById('submitBtnText');
+  const formLoadedAt = Date.now();
+  const MIN_HUMAN_FILL_MS = 2500; // real visitors rarely fill+submit a form faster than this
+
+  function showSuccess() {
+    form.classList.add('hidden');
+    successMsg.classList.remove('hidden');
+    successMsg.classList.add('flex');
+  }
+
+  function showError(text) {
+    if (!errorMsg) return;
+    errorMsg.textContent = text;
+    errorMsg.classList.remove('hidden');
+  }
+
+  function resetSubmitButton() {
+    submitBtn.disabled = false;
+    submitBtnText.textContent = 'קבעו שיחת אבחון עכשיו';
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+
+    // honeypot + time-trap — if the hidden field got filled in, or the form was submitted
+    // implausibly fast, treat it as a bot: pretend success without sending anything, so the
+    // bot doesn't learn it was detected.
+    const tookTooLittleTime = (Date.now() - formLoadedAt) < MIN_HUMAN_FILL_MS;
+    if (form.url.value || tookTooLittleTime) {
+      showSuccess();
+      return;
+    }
+
+    if (errorMsg) errorMsg.classList.add('hidden');
+
+    // basic sanitization: trim whitespace and hard-cap length defensively, even though the
+    // inputs already have maxlength set, in case of a tampered/raw form submission
+    const data = {
+      fullName: form.fullName.value.trim().slice(0, 80),
+      phone: form.phone.value.trim().slice(0, 20),
+      email: form.email.value.trim().slice(0, 120),
+      company: form.company.value.trim().slice(0, 100),
+      bizType: form.bizType.value,
+      message: form.message.value.trim().slice(0, 1000)
+    };
+
+    if (!emailjsReady) {
+      // EmailJS keys haven't been filled in yet — fall back to a mailto link so nothing gets lost
+      const subject = encodeURIComponent('פנייה חדשה מאתר Servi — ' + data.fullName);
+      const body = encodeURIComponent(
+        'שם מלא: ' + data.fullName + '\n' +
+        'טלפון: ' + data.phone + '\n' +
+        'אימייל: ' + data.email + '\n' +
+        'שם העסק: ' + data.company + '\n' +
+        'תחום עיסוק: ' + data.bizType + '\n' +
+        'הודעה: ' + data.message
+      );
+      window.location.href = 'mailto:' + CONTACT_EMAIL + '?subject=' + subject + '&body=' + body;
+      showSuccess();
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtnText.textContent = 'שולח...';
+
+    // NOTE: no "to_email" is sent here on purpose — the recipient address must be hardcoded
+    // in the EmailJS template itself (see setup notes above), not controlled from the client.
+    // reply_to is included so the business can hit "reply" and write straight back to the lead.
+    // The EmailJS template only defines {{name}}, {{email}} and {{message}} as variables —
+    // so phone / company / business type are folded into a clearly-labeled message body
+    // instead of being dropped, while reply_to still lets you hit "reply" straight to the lead.
+    const templateParams = {
+      reply_to: data.email,
+      name: data.fullName,
+      email: data.email,
+      message:
+        'טלפון: ' + data.phone + '\n' +
+        'שם העסק: ' + (data.company || '-') + '\n' +
+        'תחום עיסוק: ' + data.bizType + '\n\n' +
+        'הודעה:\n' + (data.message || '-')
+    };
+
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+      .then(function () {
+        showSuccess();
+      })
+      .catch(function (err) {
+        console.error('EmailJS error:', err);
+        resetSubmitButton();
+        const status = err && err.status;
+        if (status === 429) {
+          showError('כבר נשלחה פנייה מהמכשיר הזה ממש עכשיו. אפשר לנסות שוב בעוד רגע, או לפנות ישירות בטלפון/אימייל.');
+        } else {
+          showError('משהו השתבש בשליחה. אפשר לנסות שוב, או ליצור קשר ישירות בטלפון/אימייל.');
+        }
+      });
+  });
+</script>
+
+</body>
+</html>

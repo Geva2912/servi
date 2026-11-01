@@ -13,6 +13,7 @@
      files with a nonce — frame-ancestors / X-Frame-Options also require a real HTTP header
      from your hosting server to take effect; this meta tag cannot enforce them. -->
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.emailjs.com https://unpkg.com https://cdn.jsdelivr.net; object-src 'none'; base-uri 'self'; form-action 'self';">
+<link rel="icon" type="image/png" href="../assets/favicon.png">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,25 +33,27 @@
     theme: {
       extend: {
         colors: {
-          ink: '#08090b',
-          panel: '#0c0d10',
-          card: '#121317',
-          card2: '#15161b',
-          hairline: 'rgba(255,255,255,0.08)',
-          hairline2: 'rgba(255,255,255,0.15)',
-          primary: '#f1f2f4',
-          secondary: '#989aa4',
-          muted: '#5a5c66',
-          royal: { DEFAULT: '#3a56c9', dark: '#23339b', light: '#7e94ea' },
+          ink: '#ffffff',
+          panel: '#f4f8f3',
+          card: '#ffffff',
+          card2: '#fbfdfa',
+          night: '#0c1f11',
+          mint: '#e8f4ea',
+          hairline: 'rgba(14,31,19,0.09)',
+          hairline2: 'rgba(14,31,19,0.15)',
+          primary: '#0e1f13',
+          secondary: '#4a5a4f',
+          muted: '#7a877e',
+          royal: { DEFAULT: '#2a7d35', dark: '#1d5e27', light: '#2f9140' },
         },
         fontFamily: {
           heebo: ['Heebo', 'sans-serif'],
           rubik: ['Rubik', 'sans-serif'],
         },
         boxShadow: {
-          glow: '0 0 0 1px rgba(58,86,201,0.3), 0 20px 60px -15px rgba(58,86,201,0.35)',
-          'glow-sm': '0 8px 30px -10px rgba(58,86,201,0.5)',
-          card: '0 1px 0 0 rgba(255,255,255,0.04) inset, 0 20px 50px -25px rgba(0,0,0,0.65)',
+          glow: '0 0 0 1px rgba(42,125,53,0.10), 0 24px 60px -24px rgba(29,94,39,0.35)',
+          'glow-sm': '0 8px 24px -10px rgba(29,94,39,0.45)',
+          card: '0 1px 2px rgba(14,31,19,0.04), 0 18px 48px -28px rgba(14,31,19,0.22)',
         },
         keyframes: {
           fadeUp: { '0%': { opacity: 0, transform: 'translateY(24px)' }, '100%': { opacity: 1, transform: 'translateY(0)' } },
@@ -69,37 +72,73 @@
 </script>
 
 <style>
-  :root { color-scheme: dark; }
+  :root { color-scheme: light; }
   html { scroll-behavior: smooth; }
-  body { background-color: #08090b; font-feature-settings: "tnum" 1; }
-  ::selection { background: #3a56c9; color: #fff; }
+  body { background-color: #ffffff; font-feature-settings: "tnum" 1; }
+  ::selection { background: #2a7d35; color: #fff; }
 
   ::-webkit-scrollbar { width: 10px; }
-  ::-webkit-scrollbar-track { background: #08090b; }
-  ::-webkit-scrollbar-thumb { background: #202126; border-radius: 8px; border: 2px solid #08090b; }
+  ::-webkit-scrollbar-track { background: #f4f8f3; }
+  ::-webkit-scrollbar-thumb { background: #c9d6cb; border-radius: 8px; border: 2px solid #f4f8f3; }
 
   .font-display { font-family: 'Heebo', sans-serif; }
   .font-body { font-family: 'Rubik', sans-serif; }
 
   .text-gradient {
-    background: linear-gradient(90deg, #c3cdf5, #7e94ea 55%, #3a56c9);
+    background: linear-gradient(90deg, #1d5e27, #2a7d35 50%, #3fa44d);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
 
-  .bg-grad-royal { background: linear-gradient(135deg, #7e94ea, #23339b); }
-  .bg-grad-royal:hover { background: linear-gradient(135deg, #93a6ee, #2c3fac); }
+  /* ---------- buttons ---------- */
+  .bg-grad-royal {
+    position: relative; isolation: isolate; overflow: hidden;
+    background: linear-gradient(180deg, #34923f 0%, #2a7d35 55%, #236b2d 100%);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), 0 1px 2px rgba(14,31,19,0.18), 0 10px 26px -12px rgba(29,94,39,0.65);
+    transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s ease, background .25s ease !important;
+  }
+  .bg-grad-royal::after {
+    content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.32) 50%, transparent 70%);
+    transform: translateX(120%); transition: transform .7s cubic-bezier(.2,.8,.2,1);
+  }
+  a.bg-grad-royal:hover, button.bg-grad-royal:hover:not(:disabled) {
+    transform: translateY(-2px) !important;
+    background: linear-gradient(180deg, #3aa046 0%, #2e8a3a 55%, #26732f 100%);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 2px 4px rgba(14,31,19,0.15), 0 18px 34px -14px rgba(29,94,39,0.7);
+  }
+  a.bg-grad-royal:hover::after, button.bg-grad-royal:hover:not(:disabled)::after { transform: translateX(-120%); }
+  a.bg-grad-royal:active, button.bg-grad-royal:active { transform: translateY(0) scale(.98) !important; }
+  .bg-grad-royal svg, .btn-ghost svg { transition: transform .3s cubic-bezier(.2,.8,.2,1); }
+  a.bg-grad-royal:hover svg, button.bg-grad-royal:hover svg, a.btn-ghost:hover svg { transform: translateX(-4px); }
+  span.bg-grad-royal { box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 8px 20px -10px rgba(29,94,39,0.6); }
 
-  .bg-radial-glow {
-    background: radial-gradient(60% 60% at 50% 30%, rgba(58,86,201,0.14) 0%, rgba(8,9,11,0) 70%);
+  .btn-ghost { background: #fff; border: 1px solid rgba(14,31,19,0.14); transition: transform .25s cubic-bezier(.2,.8,.2,1), border-color .25s ease, background .25s ease, box-shadow .25s ease, color .25s ease; }
+  .btn-ghost:hover { border-color: #2a7d35; color: #1d5e27; background: #f3faf4; transform: translateY(-2px); box-shadow: 0 12px 26px -16px rgba(29,94,39,0.5); }
+
+  .cta-hero { animation: ctaPulse 3.2s ease-in-out infinite; }
+  @keyframes ctaPulse {
+    0%,100% { box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), 0 0 0 0 rgba(42,125,53,0.35), 0 10px 26px -12px rgba(29,94,39,0.65); }
+    50% { box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), 0 0 0 10px rgba(42,125,53,0), 0 10px 26px -12px rgba(29,94,39,0.65); }
   }
 
-  .hairline-top { border-top: 1px solid rgba(255,255,255,0.08); }
-  .hairline { border: 1px solid rgba(255,255,255,0.08); }
+  .bg-radial-glow {
+    background: radial-gradient(60% 55% at 50% 0%, rgba(63,164,77,0.13) 0%, rgba(255,255,255,0) 70%);
+  }
+  .bg-dots {
+    background-image: radial-gradient(rgba(14,31,19,0.07) 1px, transparent 1px);
+    background-size: 22px 22px;
+    -webkit-mask-image: radial-gradient(70% 60% at 50% 30%, #000 30%, transparent 75%);
+            mask-image: radial-gradient(70% 60% at 50% 30%, #000 30%, transparent 75%);
+  }
 
-  .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; letter-spacing: 0.06em; color: #989aa4; }
-  .eyebrow .dot { width: 6px; height: 6px; border-radius: 999px; background: #7e94ea; }
+  .hairline-top { border-top: 1px solid rgba(14,31,19,0.08); }
+  .hairline { border: 1px solid rgba(14,31,19,0.09); }
+  .hairline2 { border: 1px solid rgba(14,31,19,0.11); box-shadow: 0 1px 2px rgba(14,31,19,0.04), 0 18px 48px -30px rgba(14,31,19,0.25); }
+
+  .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; letter-spacing: 0.06em; color: #2a7d35; }
+  .eyebrow .dot { width: 6px; height: 6px; border-radius: 999px; background: #3fa44d; }
 
   [data-reveal] { opacity: 0; transform: translateY(28px); transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1); }
   [data-reveal].is-visible { opacity: 1; transform: translateY(0); }
@@ -114,41 +153,41 @@
   .faq-toggle[aria-expanded="true"] .faq-icon { transform: rotate(180deg); }
   .faq-toggle[aria-expanded="true"] + .faq-panel { grid-template-rows: 1fr; opacity: 1; }
   .faq-panel { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows .45s cubic-bezier(.16,1,.3,1), opacity .35s ease; }
-  .faq-panel > div { overflow: hidden; }
+  .faq-panel > div { overflow: hidden; padding-bottom: 0 !important; transition: padding .45s cubic-bezier(.16,1,.3,1); }
+  .faq-toggle[aria-expanded="true"] + .faq-panel > div { padding-bottom: 1.5rem !important; }
 
   .card-hover { transition: transform .45s cubic-bezier(.16,1,.3,1), border-color .45s ease, box-shadow .45s ease; }
-  .card-hover:hover { transform: translateY(-6px); border-color: rgba(126,148,234,0.45); box-shadow: 0 24px 60px -25px rgba(58,86,201,0.4); }
+  .card-hover:hover { transform: translateY(-6px); border-color: rgba(42,125,53,0.35); box-shadow: 0 28px 60px -30px rgba(29,94,39,0.35); }
 
   .nav-link { position: relative; }
-  .nav-link::after { content: ''; position: absolute; right: 0; bottom: -6px; width: 0; height: 1px; background: #7e94ea; transition: width .35s ease; }
+  .nav-link::after { content: ''; position: absolute; right: 0; bottom: -6px; width: 0; height: 2px; border-radius: 2px; background: #2a7d35; transition: width .35s ease; }
   .nav-link:hover::after { width: 100%; }
 
-  input::placeholder, textarea::placeholder { color: #5a5c66; }
-  input, textarea, select { color-scheme: dark; }
+  input::placeholder, textarea::placeholder { color: #9aa59d; }
+  input, textarea, select { color-scheme: light; }
+  input:focus, textarea:focus, select:focus { box-shadow: 0 0 0 4px rgba(42,125,53,0.12); }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
     [data-reveal] { opacity: 1; transform: none; }
   }
 
-  :focus-visible { outline: 2px solid #7e94ea; outline-offset: 3px; border-radius: 4px; }
+  :focus-visible { outline: 2px solid #2a7d35; outline-offset: 3px; border-radius: 4px; }
 </style>
 </head>
 
 <body class="bg-ink text-primary font-body antialiased selection:bg-royal">
 
-<header class="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-ink/70 border-b border-hairline">
+<header class="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-white/80 border-b border-hairline">
   <div class="max-w-7xl mx-auto px-6 md:px-10">
     <div class="flex items-center justify-between h-20">
       <a href="../index.html" class="flex items-center gap-3">
-        <span class="grid place-items-center w-9 h-9 rounded-xl bg-grad-royal shadow-glow-sm">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="6" cy="18" r="2.4" fill="white"/><circle cx="18" cy="6" r="2.4" fill="white"/><circle cx="18" cy="18" r="2.4" fill="white" fill-opacity="0.55"/><path d="M8 16.5L16 7.5" stroke="white" stroke-width="1.4" stroke-linecap="round"/><path d="M18 8.4V15.6" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-opacity="0.6"/></svg>
-        </span>
-        <span class="font-display font-extrabold text-xl tracking-tight text-primary">Servi</span>
+        <img src="../assets/logo-mark.png" alt="" class="w-9 h-9" width="36" height="36">
+        <span class="font-display font-extrabold text-xl tracking-tight text-royal-dark">Servi</span>
       </a>
       <div class="flex items-center gap-3 sm:gap-5">
         <a href="../index.html#portfolio" class="hidden sm:inline-flex items-center gap-2 text-[15px] text-secondary hover:text-primary transition-colors"><i data-lucide="arrow-right" class="w-4 h-4"></i>לכל הפרויקטים</a>
-        <a href="../index.html#contact" class="inline-flex items-center gap-2 rounded-full bg-grad-royal text-white text-sm sm:text-[15px] font-medium px-4 sm:px-5 py-2.5 shadow-glow-sm transition-all hover:scale-[1.03]">קבעו שיחת אבחון<i data-lucide="arrow-left" class="w-4 h-4"></i></a>
+        <a href="../index.html#contact" class="inline-flex items-center gap-2 rounded-full bg-grad-royal text-white text-sm sm:text-[15px] font-medium px-4 sm:px-5 py-2.5 shadow-glow-sm">קבעו שיחת אבחון<i data-lucide="arrow-left" class="w-4 h-4"></i></a>
       </div>
     </div>
   </div>
@@ -156,6 +195,7 @@
 
 <main>
 <section class="relative overflow-hidden pt-36 pb-16 md:pt-44 md:pb-20">
+  <div class="absolute inset-0 bg-dots pointer-events-none"></div>
   <div class="absolute inset-0 bg-radial-glow pointer-events-none"></div>
   <div class="relative max-w-4xl mx-auto px-6 md:px-10 text-center">
     <span class="eyebrow justify-center rounded-full hairline bg-card/60 px-4 py-1.5"><span class="dot"></span>תיק עבודות · חברת יזמות ובנייה</span>
@@ -167,7 +207,7 @@
   <div class="relative max-w-6xl mx-auto px-4 sm:px-6 md:px-10 mt-14">
     <figure class="relative rounded-3xl overflow-hidden hairline2 shadow-glow bg-card">
       <img src="../assets/project-chat.jpg" alt="צ&#x27;אט AI ארגוני שמחובר ל-CRM" class="w-full h-auto block">
-      <span class="absolute top-4 right-4 text-xs text-white/85 bg-ink/60 backdrop-blur rounded-full px-3 py-1.5">הדמיה</span>
+      <span class="absolute top-4 right-4 text-xs text-white bg-night/55 backdrop-blur rounded-full px-3 py-1.5">הדמיה</span>
     </figure>
     <figcaption class="mt-4 text-center text-xs text-muted">התמונה היא הדמיה של הממשק. המערכת עצמה פרטית ונמצאת בשימוש פנימי אצל הלקוח, וכל הנתונים בתמונה מומצאים.</figcaption>
   </div>
@@ -179,7 +219,7 @@
       <span class="inline-flex items-center gap-2 text-sm font-medium text-muted"><i data-lucide="target" class="w-4 h-4"></i>האתגר</span>
       <p class="mt-4 text-[17px] text-primary/90 leading-relaxed">החברה מנהלת אלפי יחידות דיור בכמה פרויקטים במקביל. המידע על לקוחות, לידים, דירות פנויות וסטטוס עסקאות פזור במערכת ה-CRM, ועובדים רבים מבזבזים זמן יקר בחיפוש ידני, במסננים ובדוחות כדי לענות על שאלה פשוטה.</p>
     </div>
-    <div class="rounded-3xl p-[1px] bg-gradient-to-br from-royal-light/60 to-royal-dark/40">
+    <div class="rounded-3xl p-[1px] bg-gradient-to-br from-royal/50 to-royal-dark/20">
       <div class="rounded-3xl bg-card2 p-7 md:p-9 h-full">
         <span class="inline-flex items-center gap-2 text-sm font-medium text-royal-light"><i data-lucide="lightbulb" class="w-4 h-4"></i>הפתרון שבנינו</span>
         <p class="mt-4 text-[17px] text-primary leading-relaxed">בנינו צ&#x27;אט ארגוני שמחובר ישירות ל-CRM. העובד שואל בשפה חופשית, המערכת מבינה מה צריך לשלוף, מושכת רק את הנתונים שהוא מורשה לראות, ומנסחת תשובה ברורה בעברית, עם הפניה לרשומה המקורית.</p>
@@ -260,10 +300,10 @@
     <div class="lg:col-span-2 hairline2 rounded-3xl bg-card2 p-7 md:p-8 lg:mt-16">
       <h3 class="font-display font-bold text-xl text-primary">שאלות שעובדים שואלים</h3>
       <ul class="mt-5 flex flex-col gap-3">
-          <li class="flex items-start gap-3 rounded-xl bg-ink hairline px-4 py-3.5 text-[15px] text-primary/90"><i data-lucide="quote" class="w-4 h-4 text-royal-light mt-1 shrink-0"></i>כמה לידים חדשים נכנסו לפרויקט החודש?</li>
-          <li class="flex items-start gap-3 rounded-xl bg-ink hairline px-4 py-3.5 text-[15px] text-primary/90"><i data-lucide="quote" class="w-4 h-4 text-royal-light mt-1 shrink-0"></i>מה הסטטוס של הלקוח שנפגשנו איתו ביום ראשון?</li>
-          <li class="flex items-start gap-3 rounded-xl bg-ink hairline px-4 py-3.5 text-[15px] text-primary/90"><i data-lucide="quote" class="w-4 h-4 text-royal-light mt-1 shrink-0"></i>אילו דירות 4 חדרים עדיין פנויות?</li>
-          <li class="flex items-start gap-3 rounded-xl bg-ink hairline px-4 py-3.5 text-[15px] text-primary/90"><i data-lucide="quote" class="w-4 h-4 text-royal-light mt-1 shrink-0"></i>ומה לגבי הפרויקט השני?</li>
+          <li class="flex items-start gap-3 rounded-xl bg-white hairline px-4 py-3.5 text-[15px] text-primary/90"><i data-lucide="quote" class="w-4 h-4 text-royal-light mt-1 shrink-0"></i>כמה לידים חדשים נכנסו לפרויקט החודש?</li>
+          <li class="flex items-start gap-3 rounded-xl bg-white hairline px-4 py-3.5 text-[15px] text-primary/90"><i data-lucide="quote" class="w-4 h-4 text-royal-light mt-1 shrink-0"></i>מה הסטטוס של הלקוח שנפגשנו איתו ביום ראשון?</li>
+          <li class="flex items-start gap-3 rounded-xl bg-white hairline px-4 py-3.5 text-[15px] text-primary/90"><i data-lucide="quote" class="w-4 h-4 text-royal-light mt-1 shrink-0"></i>אילו דירות 4 חדרים עדיין פנויות?</li>
+          <li class="flex items-start gap-3 rounded-xl bg-white hairline px-4 py-3.5 text-[15px] text-primary/90"><i data-lucide="quote" class="w-4 h-4 text-royal-light mt-1 shrink-0"></i>ומה לגבי הפרויקט השני?</li>
       </ul>
           <p class="mt-6 flex items-start gap-2.5 text-sm text-secondary"><i data-lucide="clock" class="w-4 h-4 text-royal-light mt-0.5 shrink-0"></i>כ-3 חודשים מאפיון ועד השקה, כולל פיילוט עם צוות עובדים נבחר.</p>
     </div>
@@ -276,8 +316,8 @@
     <h2 class="font-display font-extrabold text-3xl md:text-[2.6rem] leading-tight text-primary">רוצים מערכת כזו <span class="text-gradient">לעסק שלכם?</span></h2>
     <p class="mt-5 text-lg text-secondary leading-relaxed">בשיחת אבחון של 20 דקות נבין איפה הולכים אצלכם זמן וכסף, ונראה לכם מה אפשר לבנות.</p>
     <div class="mt-9 flex flex-col sm:flex-row items-center justify-center gap-4">
-      <a href="../index.html#contact" class="inline-flex items-center justify-center gap-2 rounded-full bg-grad-royal text-white font-medium text-base px-7 py-3.5 shadow-glow transition-all hover:scale-[1.03] w-full sm:w-auto">קבעו שיחת אבחון ללא עלות<i data-lucide="arrow-left" class="w-4 h-4"></i></a>
-      <a href="https://wa.me/972586555442" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 rounded-full hairline text-primary font-medium text-base px-7 py-3.5 hover:bg-card transition-all w-full sm:w-auto">דברו איתנו בוואטסאפ</a>
+      <a href="../index.html#contact" class="inline-flex items-center justify-center gap-2 rounded-full bg-grad-royal text-white font-medium text-base px-7 py-3.5 shadow-glow w-full sm:w-auto cta-hero">קבעו שיחת אבחון ללא עלות<i data-lucide="arrow-left" class="w-4 h-4"></i></a>
+      <a href="https://wa.me/972586555442" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 btn-ghost rounded-full text-primary font-medium text-base px-7 py-3.5 w-full sm:w-auto">דברו איתנו בוואטסאפ</a>
     </div>
   </div>
 </section>

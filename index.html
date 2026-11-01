@@ -201,18 +201,17 @@
   .act-row time { margin-inline-start: auto; font-size: 11px; color: #8d93b8; white-space: nowrap; }
   @keyframes actIn { from { opacity: 0; transform: translateY(-8px) scale(.98); } to { opacity: 1; transform: none; } }
   @media (prefers-reduced-motion: reduce) { .app-win::before, .app-win::after, .flow-line::after, .live-badge::before, .act-row { animation: none; } }
-  .review-slider { position: relative; overflow: hidden; padding: .5rem 0 1.25rem; -webkit-mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent); }
-  .review-track { display: flex; gap: 1.25rem; width: max-content; padding: .25rem 0; animation: review-marquee var(--dur, 40s) linear infinite; }
-  .review-slider:hover .review-track, .review-slider.is-paused .review-track { animation-play-state: paused; }
-  @keyframes review-marquee { from { transform: translateX(0); } to { transform: translateX(var(--shift, 0px)); } }
-  @media (prefers-reduced-motion: reduce) { .review-slider { overflow-x: auto; -webkit-mask-image: none; mask-image: none; } .review-track { animation: none; } }
-  .review-slide { flex: 0 0 auto; width: 15rem; border-radius: 1.5rem; overflow: hidden; background: #fff; border: 1px solid rgba(17,94,89,0.12); box-shadow: 0 18px 40px -28px rgba(17,94,89,0.45); cursor: zoom-in; padding: 0; transition: transform .3s, box-shadow .3s; }
-  .review-slide:hover { transform: translateY(-4px); box-shadow: 0 24px 50px -26px rgba(17,94,89,0.5); }
-  .review-slide img { display: block; width: 100%; height: auto; }
-  .review-dialog { padding: 0; border: 0; border-radius: 1.25rem; background: transparent; width: min(92vw, 438px); max-height: 92vh; overflow: visible; }
-  .review-dialog::backdrop { background: rgba(4,20,19,0.7); backdrop-filter: blur(3px); }
-  .review-dialog img { display: block; width: 100%; height: auto; max-height: 92vh; object-fit: contain; border-radius: 1.25rem; }
-  .review-dialog-close { position: absolute; top: .6rem; left: .6rem; width: 2rem; height: 2rem; border-radius: 999px; background: rgba(0,0,0,0.55); color: #fff; font-size: 1rem; line-height: 1; }
+  .review-slider { position: relative; overflow: hidden; border-radius: 1.5rem; padding: .25rem 0; touch-action: pan-y; }
+  .review-track { display: flex; transition: transform .7s cubic-bezier(.16,1,.3,1); }
+  .review-slide { flex: 0 0 100%; display: flex; justify-content: center; }
+  .review-slide img { display: block; width: min(100%, 26rem, 47vh); height: auto; border-radius: 1.75rem; border: 1px solid rgba(17,94,89,0.12); box-shadow: 0 24px 50px -28px rgba(17,94,89,0.55); background: #fff; }
+  .review-nav { display: flex; align-items: center; justify-content: center; gap: .9rem; margin-top: 1rem; }
+  .review-arrow { width: 2.5rem; height: 2.5rem; border-radius: 999px; background: #fff; color: #115E59; font-size: 1.15rem; font-weight: 700; border: 1px solid rgba(17,94,89,0.2); box-shadow: 0 10px 24px -14px rgba(17,94,89,0.5); transition: background .2s; }
+  .review-arrow:hover { background: #E6F4F3; }
+  .review-dots { display: flex; gap: .45rem; }
+  .review-dot { width: .55rem; height: .55rem; border-radius: 999px; background: rgba(17,94,89,0.25); transition: background .2s, width .3s; }
+  .review-dot[aria-current="true"] { width: 1.4rem; background: #0F766E; }
+  @media (prefers-reduced-motion: reduce) { .review-track { transition: none; } }
   .calc-range { width: 100%; accent-color: #0F766E; margin-top: .35rem; }
   .topbar { background: linear-gradient(90deg, #115E59, #0F766E 55%, #115E59); }
   .topbar-msg { color: rgba(255,255,255,0.92); transition: color .2s; }
@@ -631,19 +630,20 @@
           <h3 class="font-display font-extrabold text-2xl text-primary">מה הלקוחות אומרים</h3>
           <p class="mt-2 text-[15px] text-secondary">הודעות אמיתיות מלקוחות, בלי עריכה</p>
         </div>
-        <div class="review-slider mt-6" id="review-slider">
-          <div class="review-track" tabindex="0" aria-label="ביקורות לקוחות">
-            <button type="button" class="review-slide" aria-label="הגדלת הביקורת של עומרי (TERA)"><img src="assets/review-omri.png" alt="צילום מסך של הודעת הוואטסאפ מעומרי (TERA) עם ביקורת על העבודה" loading="lazy"></button>
-            <button type="button" class="review-slide" aria-label="הגדלת הביקורת של גלעד ביטוח"><img src="assets/review-gilad.png" alt="צילום מסך של הודעת הוואטסאפ מגלעד ביטוח עם ביקורת על העבודה" loading="lazy"></button>
+        <div class="review-slider mt-6" id="review-slider" aria-roledescription="קרוסלה" aria-label="ביקורות לקוחות">
+          <div class="review-track">
+            <div class="review-slide"><img src="assets/review-omri.png" alt="צילום מסך של הודעת הוואטסאפ מעומרי (TERA) עם ביקורת על העבודה"></div>
+            <div class="review-slide"><img src="assets/review-gilad.png" alt="צילום מסך של הודעת הוואטסאפ מגלעד ביטוח עם ביקורת על העבודה"></div>
           </div>
+        </div>
+        <div class="review-nav" id="review-nav">
+          <button type="button" class="review-arrow" data-dir="1" aria-label="הבא">→</button>
+          <div class="review-dots" id="review-dots"></div>
+          <button type="button" class="review-arrow" data-dir="-1" aria-label="הקודם">←</button>
         </div>
       </div>
 
     </div>
-    <dialog id="review-dialog" class="review-dialog" aria-label="ביקורת לקוח">
-      <img src="" alt="">
-      <button type="button" class="review-dialog-close" aria-label="סגירה">✕</button>
-    </dialog>
   </div>
 </section>
 
@@ -1303,51 +1303,50 @@
     renderStart();
   })();
 
-// Reviews carousel: endless marquee (slides are cloned to fill the loop), pauses on hover/touch,
-// click on a slide opens it enlarged.
+// Reviews carousel: one large screenshot at a time, auto-advances, arrows/dots/swipe, loops.
 (function () {
   const slider = document.getElementById('review-slider');
   if (!slider) return;
   const track = slider.querySelector('.review-track');
-  const dlg = document.getElementById('review-dialog');
-  const dlgImg = dlg.querySelector('img');
-  const originals = Array.from(track.children);
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function build() {
-    track.querySelectorAll('[data-clone]').forEach((n) => n.remove());
-    if (reduce) return;
-    const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
-    const setW = originals.reduce((w, el) => w + el.offsetWidth + gap, 0);
-    if (!setW) return;
-    const copies = Math.max(1, Math.ceil(slider.clientWidth / setW));
-    for (let i = 0; i < copies; i++) {
-      originals.forEach((el) => {
-        const c = el.cloneNode(true);
-        c.dataset.clone = '1';
-        c.setAttribute('aria-hidden', 'true');
-        c.tabIndex = -1;
-        track.appendChild(c);
-      });
-    }
-    // RTL: content extends to the left, so it travels right by exactly one set
-    track.style.setProperty('--shift', setW + 'px');
-    track.style.setProperty('--dur', (setW / 35) + 's');
+  const slides = track.children.length;
+  const nav = document.getElementById('review-nav');
+  const dotsBox = document.getElementById('review-dots');
+  let idx = 0, timer = null;
+  const dots = [];
+  for (let i = 0; i < slides; i++) {
+    const d = document.createElement('button');
+    d.type = 'button';
+    d.className = 'review-dot';
+    d.setAttribute('aria-label', 'ביקורת ' + (i + 1));
+    d.addEventListener('click', () => { go(i); restart(); });
+    dotsBox.appendChild(d);
+    dots.push(d);
   }
-  build();
-  window.addEventListener('load', build);
-  let rt;
-  window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(build, 200); });
-  slider.addEventListener('touchstart', () => slider.classList.add('is-paused'), { passive: true });
-  slider.addEventListener('touchend', () => setTimeout(() => slider.classList.remove('is-paused'), 2500), { passive: true });
-  track.addEventListener('click', (e) => {
-    const slide = e.target.closest('.review-slide');
-    if (!slide) return;
-    const img = slide.querySelector('img');
-    dlgImg.src = img.currentSrc || img.src;
-    dlgImg.alt = img.alt;
-    dlg.showModal();
-  });
-  dlg.addEventListener('click', (e) => { if (e.target === dlg || e.target.closest('.review-dialog-close')) dlg.close(); });
+  nav.hidden = slides < 2;
+  function go(i) {
+    idx = (i + slides) % slides;
+    // RTL: slides sit right-to-left, so the next one is reached by moving the track right
+    track.style.transform = 'translateX(' + (idx * 100) + '%)';
+    dots.forEach((d, n) => d.setAttribute('aria-current', n === idx ? 'true' : 'false'));
+  }
+  function restart() {
+    clearInterval(timer);
+    if (slides < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    timer = setInterval(() => go(idx + 1), 5000);
+  }
+  nav.querySelectorAll('.review-arrow').forEach((b) => b.addEventListener('click', () => { go(idx + Number(b.dataset.dir)); restart(); }));
+  let x0 = null;
+  slider.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+  slider.addEventListener('touchend', (e) => {
+    if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0;
+    x0 = null;
+    if (Math.abs(dx) > 40) { go(idx + (dx > 0 ? 1 : -1)); restart(); }
+  }, { passive: true });
+  slider.addEventListener('mouseenter', () => clearInterval(timer));
+  slider.addEventListener('mouseleave', restart);
+  go(0);
+  restart();
 })();
 </script>
 <script>

@@ -159,8 +159,8 @@
   .bg-radial-glow {
     background: radial-gradient(60% 55% at 50% 0%, rgba(20,184,166,0.13) 0%, rgba(255,255,255,0) 70%);
   }
-  .side-rail { display: none; position: absolute; top: 8rem; bottom: 8rem; width: 14rem; z-index: 5; }
-  @media (min-width: 1800px) { .side-rail { display: block; } }
+  .side-rail { display: none; position: absolute; top: 12rem; width: 14rem; z-index: 5; }
+  @media (min-width: 1280px) { .side-rail { display: block; } }
   .rail-card { display: flex; align-items: center; gap: .6rem; border-radius: 1rem; background: rgba(255,255,255,0.9); backdrop-filter: blur(8px); border: 1px solid rgba(17,94,89,0.12); padding: .7rem .85rem; font-size: .85rem; color: #0F172A; box-shadow: 0 10px 24px -16px rgba(17,94,89,0.35); animation: floatSlow 6s ease-in-out infinite; }
   .rail-icon { display: grid; place-items: center; flex-shrink: 0; width: 28px; height: 28px; border-radius: 9px; background: #fde8e8; color: #c0392b; }
   .rail-step { display: grid; place-items: center; flex-shrink: 0; width: 26px; height: 26px; border-radius: 999px; background: #E6F4F3; color: #115E59; font-weight: 700; font-size: .8rem; }
@@ -480,21 +480,33 @@
     </p>
   </div>
 
-  <!-- floating activity chips (desktop) -->
-  <div class="hidden xl:block pointer-events-none" aria-hidden="true">
-    <div class="float-chip absolute top-[22%] right-[5%] flex items-center gap-2.5 rounded-2xl bg-white/90 backdrop-blur hairline2 px-4 py-3 text-sm text-primary">
-      <span class="grid place-items-center w-8 h-8 rounded-xl bg-mint"><i data-lucide="mail-check" class="w-4 h-4 text-royal"></i></span>מייל חדש סווג אוטומטית
+  <!-- side rail (right): problems we solve -->
+  <aside class="side-rail right-6" aria-label="הבעיות שאנחנו פותרים">
+    <div class="flex flex-col gap-3">
+      <p class="text-xs font-semibold tracking-wide text-royal mb-1">נשמע מוכר?</p>
+      <div class="rail-card"><span class="rail-icon"><i data-lucide="copy" class="w-4 h-4"></i></span>לידים מועתקים ידנית ל-CRM</div>
+      <div class="rail-card" style="animation-delay:.15s"><span class="rail-icon"><i data-lucide="inbox" class="w-4 h-4"></i></span>מיילים חשובים נקברים בתיבה</div>
+      <div class="rail-card" style="animation-delay:.3s"><span class="rail-icon"><i data-lucide="phone-off" class="w-4 h-4"></i></span>אין מעקב על שיחות מכירה</div>
+      <div class="rail-card" style="animation-delay:.45s"><span class="rail-icon"><i data-lucide="unplug" class="w-4 h-4"></i></span>הכלים לא מדברים אחד עם השני</div>
+      <a href="#contact" class="mt-1 text-sm font-medium text-royal hover:text-royal-dark inline-flex items-center gap-1.5">את זה בדיוק אנחנו פותרים <i data-lucide="arrow-left" class="w-4 h-4"></i></a>
     </div>
-    <div class="float-chip absolute top-[39%] right-[7%] flex items-center gap-2.5 rounded-2xl bg-white/90 backdrop-blur hairline2 px-4 py-3 text-sm text-primary" style="animation-delay:1.4s">
-      <span class="grid place-items-center w-8 h-8 rounded-xl bg-mint"><i data-lucide="file-chart-column" class="w-4 h-4 text-royal"></i></span>דוח שבועי נשלח להנהלה
+  </aside>
+  <!-- side rail (left): savings calculator -->
+  <aside class="side-rail left-6" aria-label="מחשבון זמן אבוד">
+    <div class="rounded-2xl bg-white hairline2 shadow-card p-5">
+      <p class="font-display font-bold text-primary leading-snug">כמה זמן הולך לאיבוד אצלכם?</p>
+      <label class="mt-4 block text-xs text-secondary" for="calcPeople">עובדים שעושים עבודה ידנית: <b id="calcPeopleVal" class="text-primary">5</b></label>
+      <input id="calcPeople" type="range" min="1" max="30" value="5" class="calc-range">
+      <label class="mt-3 block text-xs text-secondary" for="calcHours">שעות בשבוע לעובד: <b id="calcHoursVal" class="text-primary">4</b></label>
+      <input id="calcHours" type="range" min="1" max="15" value="4" class="calc-range">
+      <div class="mt-4 rounded-xl bg-mint px-4 py-3 text-center">
+        <p class="text-xs text-secondary">בשבוע זה יוצא</p>
+        <p class="font-display font-extrabold text-3xl text-royal-dark"><span id="calcResult">20</span> שעות</p>
+        <p class="text-xs text-secondary">≈ <span id="calcDays">2.2</span> ימי עבודה</p>
+      </div>
+      <a href="#contact" class="mt-4 block text-center rounded-full bg-grad-royal text-white text-sm font-medium px-4 py-2.5">בואו נחזיר את הזמן הזה</a>
     </div>
-    <div class="float-chip absolute top-[26%] left-[5%] flex items-center gap-2.5 rounded-2xl bg-white/90 backdrop-blur hairline2 px-4 py-3 text-sm text-primary" style="animation-delay:.7s">
-      <span class="grid place-items-center w-8 h-8 rounded-xl bg-mint"><i data-lucide="user-plus" class="w-4 h-4 text-royal"></i></span>ליד חדש עודכן ב-CRM
-    </div>
-    <div class="float-chip absolute top-[42%] left-[4%] flex items-center gap-2.5 rounded-2xl bg-white/90 backdrop-blur hairline2 px-4 py-3 text-sm text-primary" style="animation-delay:2.1s">
-      <span class="grid place-items-center w-8 h-8 rounded-xl bg-mint"><i data-lucide="audio-lines" class="w-4 h-4 text-royal"></i></span>שיחת מכירה נותחה · ציון 88
-    </div>
-  </div>
+  </aside>
 </section>
 
 
@@ -509,33 +521,6 @@
 <!-- ============ PORTFOLIO ============
      Project images are illustrative mockups (client systems are private). -->
 <section id="portfolio" class="relative bg-panel py-24 md:py-32 hairline-top">
-  <!-- side rail (right): problems we solve -->
-  <aside class="side-rail right-6" aria-label="הבעיות שאנחנו פותרים">
-    <div class="sticky top-36 flex flex-col gap-3">
-      <p class="text-xs font-semibold tracking-wide text-royal mb-1">נשמע מוכר?</p>
-      <div class="rail-card"><span class="rail-icon"><i data-lucide="copy" class="w-4 h-4"></i></span>לידים מועתקים ידנית ל-CRM</div>
-      <div class="rail-card" style="animation-delay:.15s"><span class="rail-icon"><i data-lucide="inbox" class="w-4 h-4"></i></span>מיילים חשובים נקברים בתיבה</div>
-      <div class="rail-card" style="animation-delay:.3s"><span class="rail-icon"><i data-lucide="phone-off" class="w-4 h-4"></i></span>אין מעקב על שיחות מכירה</div>
-      <div class="rail-card" style="animation-delay:.45s"><span class="rail-icon"><i data-lucide="unplug" class="w-4 h-4"></i></span>הכלים לא מדברים אחד עם השני</div>
-      <a href="#contact" class="mt-1 text-sm font-medium text-royal hover:text-royal-dark inline-flex items-center gap-1.5">את זה בדיוק אנחנו פותרים <i data-lucide="arrow-left" class="w-4 h-4"></i></a>
-    </div>
-  </aside>
-  <!-- side rail (left): savings calculator -->
-  <aside class="side-rail left-6" aria-label="מחשבון זמן אבוד">
-    <div class="sticky top-36 rounded-2xl bg-white hairline2 shadow-card p-5">
-      <p class="font-display font-bold text-primary leading-snug">כמה זמן הולך לאיבוד אצלכם?</p>
-      <label class="mt-4 block text-xs text-secondary" for="calcPeople">עובדים שעושים עבודה ידנית: <b id="calcPeopleVal" class="text-primary">5</b></label>
-      <input id="calcPeople" type="range" min="1" max="30" value="5" class="calc-range">
-      <label class="mt-3 block text-xs text-secondary" for="calcHours">שעות בשבוע לעובד: <b id="calcHoursVal" class="text-primary">4</b></label>
-      <input id="calcHours" type="range" min="1" max="15" value="4" class="calc-range">
-      <div class="mt-4 rounded-xl bg-mint px-4 py-3 text-center">
-        <p class="text-xs text-secondary">בשבוע זה יוצא</p>
-        <p class="font-display font-extrabold text-3xl text-royal-dark"><span id="calcResult">20</span> שעות</p>
-        <p class="text-xs text-secondary">≈ <span id="calcDays">2.2</span> ימי עבודה</p>
-      </div>
-      <a href="#contact" class="mt-4 block text-center rounded-full bg-grad-royal text-white text-sm font-medium px-4 py-2.5">בואו נחזיר את הזמן הזה</a>
-    </div>
-  </aside>
   <div class="max-w-7xl mx-auto px-6 md:px-10">
     <div class="max-w-2xl mx-auto text-center" data-reveal>
       <h2 class="font-display font-extrabold text-3xl md:text-[2.6rem] leading-tight text-primary">

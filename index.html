@@ -634,7 +634,6 @@
       <div class="min-w-0" data-reveal data-reveal-delay="1">
         <div class="text-center">
           <h3 class="font-display font-extrabold text-2xl text-primary">מה הלקוחות אומרים</h3>
-          <p class="mt-2 text-[15px] text-secondary">הודעות אמיתיות מלקוחות, בלי עריכה</p>
         </div>
         <div class="review-slider mt-6" id="review-slider" aria-roledescription="קרוסלה" aria-label="ביקורות לקוחות">
           <div class="review-track">
@@ -722,7 +721,7 @@
         <form id="contactForm" class="flex flex-col gap-5">
           <div>
             <label class="block text-sm text-secondary mb-2" for="fullName">שם מלא *</label>
-            <input required id="fullName" name="fullName" type="text" placeholder="דנה לוי" maxlength="80" autocomplete="name"
+            <input required id="fullName" name="fullName" type="text" maxlength="80" autocomplete="name"
               class="w-full rounded-xl bg-white hairline px-4 py-3 text-primary placeholder:text-muted focus:border-royal/60 outline-none transition-colors">
           </div>
 
@@ -742,13 +741,13 @@
 
           <div>
             <label class="block text-sm text-secondary mb-2" for="company">שם העסק</label>
-            <input id="company" name="company" type="text" placeholder="לדוגמה: לוי הנדסה ובנייה" maxlength="100" autocomplete="organization"
+            <input id="company" name="company" type="text" maxlength="100" autocomplete="organization"
               class="w-full rounded-xl bg-white hairline px-4 py-3 text-primary placeholder:text-muted focus:border-royal/60 outline-none transition-colors">
           </div>
 
           <div>
             <label class="block text-sm text-secondary mb-2" for="message">ספרו לנו בקצרה על האתגר המרכזי שלכם</label>
-            <textarea id="message" name="message" rows="3" maxlength="1000" placeholder="לדוגמה: לידים נכנסים מהאתר, מפייסבוק ומוואטסאפ, ואנחנו מעתיקים אותם ידנית ל-CRM ומפספסים פניות. רוצים שכל ליד ייקלט, יסווג ויקבל מענה ראשוני אוטומטית..."
+            <textarea id="message" name="message" rows="3" maxlength="1000" placeholder="כתבו לנו כמה מילים, ואנחנו נחזור אליכם עם פתרון!"
               class="w-full rounded-xl bg-white hairline px-4 py-3 text-primary placeholder:text-muted focus:border-royal/60 outline-none transition-colors resize-none"></textarea>
           </div>
 

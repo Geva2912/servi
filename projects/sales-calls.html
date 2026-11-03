@@ -12,7 +12,7 @@
      For a stricter CSP, migrate Tailwind to a compiled build and move scripts to external
      files with a nonce — frame-ancestors / X-Frame-Options also require a real HTTP header
      from your hosting server to take effect; this meta tag cannot enforce them. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.emailjs.com https://unpkg.com https://cdn.jsdelivr.net; object-src 'none'; base-uri 'self'; form-action 'self';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://api.emailjs.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-src 'none'; worker-src 'none'; upgrade-insecure-requests;">
 <link rel="icon" type="image/png" href="../assets/favicon.png">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 
@@ -21,13 +21,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/mockups.css">
 
-<script src="https://cdn.tailwindcss.com"></script>
+<script src="../assets/vendor/tailwind-3.4.17.js"></script>
 <!-- NOTE: pin lucide to an exact tested version (e.g. lucide@1.21.0) once you've verified
      your icon names still resolve under it — some icon names were renamed in Lucide v1
      (e.g. the old "bar-chart-3" became "chart-column"). Using @latest here trades a small
      amount of version-drift risk for guaranteed compatibility with the icon names below. -->
-<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4.4.1/dist/email.min.js"></script>
+<script src="../assets/vendor/lucide-1.67.0.js"></script>
+<script src="../assets/vendor/emailjs-4.4.1.min.js"></script>
 
 <script>
   tailwind.config = {
@@ -240,14 +240,14 @@
 <header class="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-white/80 border-b border-hairline">
   <div class="max-w-7xl mx-auto px-6 md:px-10">
     <div class="flex items-center justify-between h-20">
-      <a href="../index.html?v=20261103c" class="flex items-center gap-3">
+      <a href="../index.html?v=20261103d" class="flex items-center gap-3">
         <img src="../assets/logo-mark.png" alt="" class="w-9 h-9" width="36" height="36">
         <span class="font-display font-extrabold text-xl tracking-tight text-royal-dark">Servi</span>
         <span class="hidden min-[360px]:inline border-r border-hairline pr-3 text-sm text-secondary whitespace-nowrap">מערכות מותאמות אישית</span>
       </a>
       <div class="flex items-center gap-3 sm:gap-5">
-        <a href="../index.html?v=20261103c#portfolio" class="hidden sm:inline-flex items-center gap-2 text-[15px] text-secondary hover:text-primary transition-colors"><i data-lucide="arrow-right" class="w-4 h-4"></i>לכל הפרויקטים</a>
-        <a href="../index.html?v=20261103c#contact" class="inline-flex items-center gap-2 rounded-full bg-grad-royal text-white text-sm sm:text-[15px] font-medium px-4 sm:px-5 py-2.5 shadow-glow-sm">קבעו שיחת אבחון<i data-lucide="arrow-left" class="w-4 h-4"></i></a>
+        <a href="../index.html?v=20261103d#portfolio" class="hidden sm:inline-flex items-center gap-2 text-[15px] text-secondary hover:text-primary transition-colors"><i data-lucide="arrow-right" class="w-4 h-4"></i>לכל הפרויקטים</a>
+        <a href="../index.html?v=20261103d#contact" class="inline-flex items-center gap-2 rounded-full bg-grad-royal text-white text-sm sm:text-[15px] font-medium px-4 sm:px-5 py-2.5 shadow-glow-sm">קבעו שיחת אבחון<i data-lucide="arrow-left" class="w-4 h-4"></i></a>
       </div>
     </div>
   </div>
@@ -292,7 +292,7 @@
     <h2 class="font-display font-extrabold text-3xl md:text-[2.6rem] leading-tight text-primary">רוצים מערכת כזו <span class="text-gradient">לעסק שלכם?</span></h2>
     <p class="mt-5 text-lg text-secondary leading-relaxed">בשיחת אבחון של 20 דקות נבין איפה הולכים אצלכם זמן וכסף, ונראה לכם מה אפשר לבנות.</p>
     <div class="mt-9 flex flex-col sm:flex-row items-center justify-center gap-4">
-      <a href="../index.html?v=20261103c#contact" class="inline-flex items-center justify-center gap-2 rounded-full bg-grad-royal text-white font-medium text-base px-7 py-3.5 shadow-glow w-full sm:w-auto cta-hero">קבעו שיחת אבחון ללא עלות<i data-lucide="arrow-left" class="w-4 h-4"></i></a>
+      <a href="../index.html?v=20261103d#contact" class="inline-flex items-center justify-center gap-2 rounded-full bg-grad-royal text-white font-medium text-base px-7 py-3.5 shadow-glow w-full sm:w-auto cta-hero">קבעו שיחת אבחון ללא עלות<i data-lucide="arrow-left" class="w-4 h-4"></i></a>
       <a href="https://wa.me/972586555442" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 btn-ghost rounded-full text-primary font-medium text-base px-7 py-3.5 w-full sm:w-auto">דברו איתנו בוואטסאפ</a>
     </div>
   </div>
@@ -302,7 +302,7 @@
   <div class="max-w-6xl mx-auto px-6 md:px-10">
     <h2 class="font-display font-bold text-2xl text-primary">פרויקטים נוספים</h2>
     <div class="mt-8 grid sm:grid-cols-2 gap-5">
-        <a href="org-chat.html?v=20261103c" class="card-hover group block rounded-2xl overflow-hidden hairline bg-card">
+        <a href="org-chat.html?v=20261103d" class="card-hover group block rounded-2xl overflow-hidden hairline bg-card">
           <div class="relative aspect-[16/10] overflow-hidden bg-ink">
             <div class="mock" role="img" aria-label="הדמיית ממשק צ'אט ארגוני בעברית שעונה על שאלות מתוך מערכת ה-CRM">
               <div class="mock-win" aria-hidden="true">
@@ -330,7 +330,7 @@
             <i data-lucide="arrow-left" class="w-4 h-4 text-royal-light shrink-0 transition-transform group-hover:-translate-x-1"></i>
           </div>
         </a>
-        <a href="email-search.html?v=20261103c" class="card-hover group block rounded-2xl overflow-hidden hairline bg-card">
+        <a href="email-search.html?v=20261103d" class="card-hover group block rounded-2xl overflow-hidden hairline bg-card">
           <div class="relative aspect-[16/10] overflow-hidden bg-ink">
             <div class="mock" role="img" aria-label="הדמיית מנוע חיפוש במיילים שממיין כל הודעה לפרויקט הנכון">
               <div class="mock-win" aria-hidden="true">
@@ -364,7 +364,7 @@
 <footer class="bg-ink border-t border-hairline py-10">
   <div class="max-w-6xl mx-auto px-6 md:px-10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted">
     <span>© 2026 Servi. כל הזכויות שמורות.</span>
-    <a href="../index.html?v=20261103c" class="inline-block py-2 hover:text-primary transition-colors">חזרה לאתר הראשי</a>
+    <a href="../index.html?v=20261103d" class="inline-block py-2 hover:text-primary transition-colors">חזרה לאתר הראשי</a>
   </div>
 </footer>
 

@@ -410,21 +410,21 @@
       </div>
 
       <div class="rounded-3xl overflow-hidden hairline2 bg-gradient-to-br from-card2 to-card" data-reveal data-reveal-delay="2">
-        <a href="assets/story-video.mp4?v=2" target="_blank" rel="noopener" class="relative h-56 sm:h-64 block group">
+        <button type="button" data-video-open aria-label="הפעלת הסרטון" class="relative h-56 sm:h-64 block w-full group">
           <img src="assets/poster.jpg" alt="תמונת תצוגה מקדימה לסרטון שמסביר איך פעילות העסק נראית לפני ואחרי סרבי" class="absolute inset-0 w-full h-full object-cover object-[50%_15%]">
           <div class="absolute inset-0 bg-night/20 group-hover:bg-night/30 transition-colors flex items-center justify-center">
             <span class="grid place-items-center w-16 h-16 rounded-full bg-white shadow-xl ring-8 ring-white/30 group-hover:scale-105 transition-transform"><i data-lucide="play" class="w-6 h-6 text-royal ml-0.5 fill-current"></i></span>
           </div>
-        </a>
+        </button>
         <div class="p-6 md:p-7 flex items-center justify-between gap-4">
           <div>
             <h3 class="font-display font-bold text-lg text-primary">מה זה סרבי?</h3>
             <p class="mt-2 text-[15px] text-secondary leading-relaxed">אנחנו בונים לעסק שלכם מערכות AI בהתאמה אישית, שעושות את העבודה החוזרת במקומכם.</p>
           </div>
-          <a href="assets/story-video.mp4?v=2" target="_blank" rel="noopener" class="inline-flex items-center gap-2 btn-ghost rounded-full text-primary text-sm font-medium px-4 py-2.5 shrink-0">
+          <button type="button" data-video-open class="inline-flex items-center gap-2 btn-ghost rounded-full text-primary text-sm font-medium px-4 py-2.5 shrink-0">
             לצפייה
             <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
-          </a>
+          </button>
         </div>
       </div>
 
@@ -1319,6 +1319,35 @@
     people.addEventListener('input', update);
     hours.addEventListener('input', update);
     update();
+  })();
+</script>
+<!-- Story video player: plays in-page without a download option -->
+<div id="videoModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/85 p-4" role="dialog" aria-modal="true" aria-label="סרטון: מה זה סרבי?">
+  <button type="button" data-video-close aria-label="סגירה" class="absolute top-4 left-4 grid place-items-center w-11 h-11 rounded-full bg-white/15 text-white hover:bg-white/25"><i data-lucide="x" class="w-5 h-5"></i></button>
+  <video id="storyVideo" class="max-h-[90vh] max-w-full rounded-2xl" controls playsinline preload="none" poster="assets/poster.jpg"
+         controlsList="nodownload noplaybackrate" disablePictureInPicture disableRemotePlayback></video>
+</div>
+<script>
+  (() => {
+    const modal = document.getElementById('videoModal');
+    const video = document.getElementById('storyVideo');
+    const open = () => {
+      if (!video.src) video.src = 'assets/story-video.mp4?v=2';
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      video.play().catch(() => {});
+    };
+    const close = () => {
+      video.pause();
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    };
+    document.querySelectorAll('[data-video-open]').forEach(b => b.addEventListener('click', open));
+    modal.querySelector('[data-video-close]').addEventListener('click', close);
+    modal.addEventListener('click', e => { if (e.target === modal) close(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && !modal.classList.contains('hidden')) close(); });
+    video.addEventListener('contextmenu', e => e.preventDefault());
+    if (window.lucide) lucide.createIcons();
   })();
 </script>
 <style>

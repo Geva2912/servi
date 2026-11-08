@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5 הדברים שה-AI בודק בכל שיחת מכירה | Servi</title>
+<meta name="description" content="מדריך קצר לחברות יזמות ובנייה: חמשת הדברים שמערכת AI שולפת מכל שיחת מכירה ומכניסה ל-CRM, ואיך להתחיל לבדוק אותם כבר מחר.">
+
+<!-- Security hardening: restrict which origins this page may load/connect to.
+     Note: 'unsafe-inline' is required for script-src/style-src because this page uses the
+     Tailwind Play CDN (which injects compiled styles at runtime) and inline <script> blocks.
+     For a stricter CSP, migrate Tailwind to a compiled build and move scripts to external
+     files with a nonce — frame-ancestors / X-Frame-Options also require a real HTTP header
+     from your hosting server to take effect; this meta tag cannot enforce them. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://api.emailjs.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-src 'none'; worker-src 'none'; upgrade-insecure-requests;">
+<link rel="icon" type="image/png" href="../assets/favicon.png">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/mockups.css">
+
+<script src="../assets/vendor/tailwind-3.4.17.js"></script>
+<!-- NOTE: pin lucide to an exact tested version (e.g. lucide@1.21.0) once you've verified
+     your icon names still resolve under it — some icon names were renamed in Lucide v1
+     (e.g. the old "bar-chart-3" became "chart-column"). Using @latest here trades a small
+     amount of version-drift risk for guaranteed compatibility with the icon names below. -->
+<script src="../assets/vendor/lucide-1.67.0.js"></script>
+<script src="../assets/vendor/emailjs-4.4.1.min.js"></script>
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#ffffff',
+          panel: '#F4F7F8',
+          card: '#ffffff',
+          card2: '#FBFDFD',
+          night: '#0F172A',
+          mint: '#E6F4F3',
+          hairline: 'rgba(15,23,42,0.09)',
+          hairline2: 'rgba(15,23,42,0.15)',
+          primary: '#0F172A',
+          secondary: '#475569',
+          muted: '#64748B',
+          royal: { DEFAULT: '#0F766E', dark: '#115E59', light: '#0D9488' },
+        },
+        fontFamily: {
+          heebo: ['Heebo', 'sans-serif'],
+          rubik: ['Rubik', 'sans-serif'],
+        },
+        boxShadow: {
+          glow: '0 0 0 1px rgba(15,118,110,0.10), 0 24px 60px -24px rgba(17,94,89,0.35)',
+          'glow-sm': '0 8px 24px -10px rgba(17,94,89,0.45)',
+          card: '0 1px 2px rgba(15,23,42,0.04), 0 18px 48px -28px rgba(15,23,42,0.22)',
+        },
+        keyframes: {
+          fadeUp: { '0%': { opacity: 0, transform: 'translateY(24px)' }, '100%': { opacity: 1, transform: 'translateY(0)' } },
+          pulseGlow: { '0%,100%': { opacity: 0.4, transform: 'scale(1)' }, '50%': { opacity: 1, transform: 'scale(1.15)' } },
+          floatSlow: { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } },
+          dashFlow: { 'to': { 'stroke-dashoffset': -200 } },
+        },
+        animation: {
+          fadeUp: 'fadeUp 0.8s cubic-bezier(.16,1,.3,1) both',
+          pulseGlow: 'pulseGlow 2.8s ease-in-out infinite',
+          floatSlow: 'floatSlow 6s ease-in-out infinite',
+        },
+      }
+    }
+  }
+</script>
+
+<style>
+  :root { color-scheme: light; }
+  html { scroll-behavior: smooth; }
+  body { background-color: #ffffff; font-feature-settings: "tnum" 1; }
+  ::selection { background: #0F766E; color: #fff; }
+
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: #F4F7F8; }
+  ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 8px; border: 2px solid #F4F7F8; }
+
+  .font-display { font-family: 'Heebo', sans-serif; }
+  .font-body { font-family: 'Rubik', sans-serif; }
+
+  .text-gradient {
+    background: linear-gradient(90deg, #115E59, #0F766E 50%, #14B8A6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* ---------- buttons ---------- */
+  .bg-grad-royal {
+    position: relative; isolation: isolate; overflow: hidden;
+    background: linear-gradient(135deg, #0D9488 0%, #115E59 100%);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 12px 26px -14px rgba(17,94,89,0.75);
+    transition: transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s ease !important;
+  }
+  a.bg-grad-royal::before, button.bg-grad-royal::before {
+    content: ''; position: absolute; z-index: -1; left: 0; top: 50%; width: 140%; aspect-ratio: 1; border-radius: 999px;
+    background: radial-gradient(circle, #14B8A6 0%, #0D9488 60%);
+    transform: translate(-50%, -50%) scale(0); transition: transform .55s cubic-bezier(.2,.8,.2,1);
+  }
+  a.bg-grad-royal:hover::before, button.bg-grad-royal:hover:not(:disabled)::before { transform: translate(-30%, -50%) scale(1.6); }
+  a.bg-grad-royal:hover, button.bg-grad-royal:hover:not(:disabled) {
+    transform: translateY(-2px) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 18px 34px -14px rgba(17,94,89,0.8);
+  }
+  a.bg-grad-royal:active, button.bg-grad-royal:active { transform: translateY(0) scale(.97) !important; }
+  a.bg-grad-royal:has(> svg), button.bg-grad-royal:has(> svg) { padding-left: .4rem !important; gap: .8rem !important; }
+  a.bg-grad-royal > svg, button.bg-grad-royal > svg {
+    width: 2em !important; height: 2em !important; margin-block: -.4em; padding: .45em; flex-shrink: 0;
+    border-radius: 999px; background: #fff; color: #115E59; stroke-width: 2.4;
+    transition: transform .4s cubic-bezier(.2,.8,.2,1), background .3s ease;
+  }
+  a.bg-grad-royal:hover > svg, button.bg-grad-royal:hover:not(:disabled) > svg { transform: translateX(-4px) rotate(-8deg); background: #F0FDFA; }
+  span.bg-grad-royal { box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 8px 20px -10px rgba(17,94,89,0.6); }
+
+  .btn-ghost { background: rgba(255,255,255,0.7); border: 1.5px solid rgba(17,94,89,0.28); color: #115E59; backdrop-filter: blur(6px);
+    transition: transform .3s cubic-bezier(.2,.8,.2,1), border-color .3s ease, background .3s ease, box-shadow .3s ease; }
+  .btn-ghost:hover { border-color: #0F766E; background: #E6F4F3; transform: translateY(-2px); box-shadow: 0 12px 26px -16px rgba(17,94,89,0.55); }
+  .btn-ghost svg { transition: transform .3s cubic-bezier(.2,.8,.2,1); }
+  .btn-ghost:hover svg { transform: translateX(-4px); }
+
+  .cta-hero { animation: ctaPulse 3.2s ease-in-out infinite; }
+  @keyframes ctaPulse {
+    0%,100% { box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 0 0 0 rgba(15,118,110,0.35), 0 12px 26px -14px rgba(17,94,89,0.75); }
+    50% { box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 0 0 12px rgba(15,118,110,0), 0 12px 26px -14px rgba(17,94,89,0.75); }
+  }
+
+  /* ---------- motion ---------- */
+  .text-gradient { background-size: 200% 100%; animation: gradShift 7s ease-in-out infinite; }
+  @keyframes gradShift { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+  .blob { position: absolute; border-radius: 999px; filter: blur(70px); pointer-events: none; animation: drift 18s ease-in-out infinite; }
+  @keyframes drift { 0%,100% { transform: translate(0,0) scale(1); } 33% { transform: translate(40px,-30px) scale(1.08); } 66% { transform: translate(-30px,25px) scale(.95); } }
+  .float-chip { animation: floatSlow 6s ease-in-out infinite; }
+  .marquee { -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
+  .marquee-track { display: flex; width: max-content; animation: marquee 36s linear infinite; }
+  .marquee:hover .marquee-track { animation-play-state: paused; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .live-dot { position: relative; }
+  .live-dot::after { content: ''; position: absolute; inset: -4px; border-radius: 999px; border: 2px solid #14B8A6; animation: ping 2s cubic-bezier(0,0,.2,1) infinite; }
+  @keyframes ping { 0% { transform: scale(.6); opacity: .8; } 100% { transform: scale(1.8); opacity: 0; } }
+  #scrollBar { position: fixed; top: 0; right: 0; height: 3px; width: 100%; transform-origin: right; transform: scaleX(0); background: linear-gradient(90deg, #115E59, #14B8A6); z-index: 60; }
+
+  .bg-radial-glow {
+    background: radial-gradient(60% 55% at 50% 0%, rgba(20,184,166,0.13) 0%, rgba(255,255,255,0) 70%);
+  }
+  .bg-dots {
+    background-image: radial-gradient(rgba(15,23,42,0.07) 1px, transparent 1px);
+    background-size: 22px 22px;
+    -webkit-mask-image: radial-gradient(70% 60% at 50% 30%, #000 30%, transparent 75%);
+            mask-image: radial-gradient(70% 60% at 50% 30%, #000 30%, transparent 75%);
+  }
+
+  .hairline-top { border-top: 1px solid rgba(15,23,42,0.08); }
+  .hairline { border: 1px solid rgba(15,23,42,0.09); }
+  .hairline2 { border: 1px solid rgba(15,23,42,0.11); box-shadow: 0 1px 2px rgba(15,23,42,0.04), 0 18px 48px -30px rgba(15,23,42,0.25); }
+
+  .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; letter-spacing: 0.06em; color: #0F766E; }
+  .eyebrow .dot { width: 6px; height: 6px; border-radius: 999px; background: #14B8A6; }
+
+  [data-reveal] { opacity: 0; transform: translateY(28px); transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1); }
+  [data-reveal].is-visible { opacity: 1; transform: translateY(0); }
+  [data-reveal-delay="1"] { transition-delay: .08s; }
+  [data-reveal-delay="2"] { transition-delay: .16s; }
+  [data-reveal-delay="3"] { transition-delay: .24s; }
+  [data-reveal-delay="4"] { transition-delay: .32s; }
+
+  .node-dot { animation: pulseGlow 3s ease-in-out infinite; }
+  .dash-line { stroke-dasharray: 6 10; animation: dashFlow 6s linear infinite; }
+
+  .faq-toggle[aria-expanded="true"] .faq-icon { transform: rotate(180deg); }
+  .faq-toggle[aria-expanded="true"] + .faq-panel { grid-template-rows: 1fr; opacity: 1; }
+  .faq-panel { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows .45s cubic-bezier(.16,1,.3,1), opacity .35s ease; }
+  .faq-panel > div { overflow: hidden; padding-bottom: 0 !important; transition: padding .45s cubic-bezier(.16,1,.3,1); }
+  .faq-toggle[aria-expanded="true"] + .faq-panel > div { padding-bottom: 1.5rem !important; }
+
+  .card-hover { transition: transform .45s cubic-bezier(.16,1,.3,1), border-color .45s ease, box-shadow .45s ease; }
+  .card-hover:hover { transform: translateY(-6px); border-color: rgba(15,118,110,0.35); box-shadow: 0 28px 60px -30px rgba(17,94,89,0.35); }
+
+  .nav-link { position: relative; }
+  .nav-link::after { content: ''; position: absolute; right: 0; bottom: -6px; width: 0; height: 2px; border-radius: 2px; background: #0F766E; transition: width .35s ease; }
+  .nav-link:hover::after { width: 100%; }
+
+  input::placeholder, textarea::placeholder { color: #94A3B8; }
+  input, textarea, select { color-scheme: light; }
+  input:focus, textarea:focus, select:focus { box-shadow: 0 0 0 4px rgba(15,118,110,0.12); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+    [data-reveal] { opacity: 1; transform: none; }
+  }
+
+  :focus-visible { outline: 2px solid #0F766E; outline-offset: 3px; border-radius: 4px; }
+
+  /* ---------- v3: calm pill buttons + clean type hierarchy ---------- */
+  .bg-grad-royal, a.bg-grad-royal, button.bg-grad-royal {
+    background: #0F766E !important; box-shadow: none !important; overflow: visible;
+    border-radius: 999px; letter-spacing: 0; font-weight: 500;
+    transition: background-color .25s ease, transform .2s ease !important;
+  }
+  a.bg-grad-royal::before, button.bg-grad-royal::before { display: none !important; }
+  a.bg-grad-royal:hover, button.bg-grad-royal:hover:not(:disabled) { background: #115E59 !important; transform: none !important; box-shadow: none !important; }
+  a.bg-grad-royal:active, button.bg-grad-royal:active { transform: scale(.97) !important; }
+  a.bg-grad-royal:has(> svg), button.bg-grad-royal:has(> svg) { padding-left: inherit !important; gap: .5rem !important; }
+  a.bg-grad-royal > svg, button.bg-grad-royal > svg {
+    width: 1em !important; height: 1em !important; margin: 0 !important; padding: 0 !important;
+    background: none !important; color: inherit !important; stroke-width: 2.2;
+  }
+  a.bg-grad-royal:hover > svg, button.bg-grad-royal:hover:not(:disabled) > svg { transform: translateX(-3px) !important; background: none !important; }
+  .cta-hero { animation: none !important; }
+  .btn-ghost { background: transparent !important; backdrop-filter: none; border: 1px solid #0F766E !important; color: #0F766E !important; box-shadow: none !important; }
+  .btn-ghost:hover { background: #0F766E !important; color: #fff !important; transform: none !important; box-shadow: none !important; }
+  .btn-dark { border-width: 1px; }
+  /* white pill for use on dark surfaces */
+  a.btn-light { background: #fff !important; color: #0F172A !important; }
+  a.btn-light:hover { background: #E6F4F3 !important; }
+
+  /* type: one clear hierarchy */
+  h1.font-display { font-weight: 700; letter-spacing: -0.015em; }
+  h2.font-display { font-weight: 700; letter-spacing: -0.01em; line-height: 1.1 !important; font-size: clamp(2rem, 4.6vw, 3.4rem) !important; }
+  h3.font-display { font-weight: 700; letter-spacing: -0.005em; }
+  .text-gradient { background: none !important; -webkit-text-fill-color: currentColor; color: #64748B !important; animation: none !important; }
+  .eyebrow { gap: 0; font-size: 15px; font-weight: 500; letter-spacing: 0; color: #64748B; background: none !important; border: 0 !important; padding: 0 !important; }
+  .eyebrow .dot { display: none; }
+  h1.font-display { font-size: clamp(2.1rem, 6vw, 3.6rem) !important; line-height: 1.05 !important; }
+  .btn-lg { font-size: 17px !important; padding: .9rem 2rem !important; }
+  .lead-sub { margin-top: 1.75rem; font-size: clamp(1.25rem, 2.2vw, 1.6rem); line-height: 1.4; color: #0F172A; font-weight: 500; max-width: 38rem; margin-inline: auto; }
+  .lead-body { margin-top: 1rem; font-size: 1.0625rem; line-height: 1.7; color: #475569; max-width: 34rem; margin-inline: auto; }
+</style>
+</head>
+
+<body class="bg-ink text-primary font-body antialiased selection:bg-royal">
+<div id="scrollBar" aria-hidden="true"></div>
+
+<header class="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-white/80 border-b border-hairline">
+  <div class="max-w-7xl mx-auto px-6 md:px-10">
+    <div class="flex items-center justify-between h-20">
+      <a href="../index.html?v=20261103d" class="flex items-center gap-3">
+        <img src="../assets/logo-mark.png" alt="" class="w-9 h-9" width="36" height="36">
+        <span class="font-display font-extrabold text-xl tracking-tight text-royal-dark">Servi</span>
+        <span class="hidden min-[360px]:inline border-r border-hairline pr-3 text-sm text-secondary whitespace-nowrap">מערכות מותאמות אישית</span>
+      </a>
+      <div class="flex items-center gap-3 sm:gap-5">
+        <a href="../index.html?v=20261103d#portfolio" class="hidden sm:inline-flex items-center gap-2 text-[15px] text-secondary hover:text-primary transition-colors"><i data-lucide="arrow-right" class="w-4 h-4"></i>לכל הפרויקטים</a>
+        <a href="../index.html?v=20261103d#contact" class="inline-flex items-center gap-2 rounded-full bg-grad-royal text-white text-sm sm:text-[15px] font-medium px-4 sm:px-5 py-2.5 shadow-glow-sm">קבעו שיחת אבחון<i data-lucide="arrow-left" class="w-4 h-4"></i></a>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<main>
+<section class="relative overflow-hidden pt-36 pb-14 md:pt-44 md:pb-16">
+  <div class="absolute inset-0 bg-dots pointer-events-none"></div>
+  <div class="absolute inset-0 bg-radial-glow pointer-events-none"></div>
+  <div class="relative max-w-3xl mx-auto px-6 md:px-10 text-center">
+    <span class="eyebrow justify-center rounded-full hairline bg-card/60 px-4 py-1.5"><span class="dot"></span>מדריך קצר · לחברות יזמות ובנייה</span>
+    <h1 class="mt-5 font-display text-primary">5 הדברים שה-AI בודק בכל שיחת מכירה</h1>
+    <p class="lead-sub">אנשי המכירות שלכם מדברים עם עשרות לקוחות ביום. רוב מה שנאמר בשיחות האלה לא מגיע לאף אחד.</p>
+    <p class="lead-body">אלה חמשת הדברים שהמערכת שבנינו לחברת יזמות שולפת מכל שיחה ומכניסה ל-CRM. אפשר להתחיל לבדוק אותם כבר מחר, גם בלי שום מערכת.</p>
+  </div>
+</section>
+
+<section class="bg-panel py-16 md:py-20 border-t border-hairline">
+  <div class="max-w-3xl mx-auto px-5 md:px-10 space-y-5">
+
+    <article class="hairline rounded-3xl bg-card p-6 md:p-9">
+      <div class="flex items-center gap-3"><span class="w-10 h-10 shrink-0 rounded-full bg-mint text-royal-dark font-display font-bold text-lg flex items-center justify-center">1</span><h2 class="font-display font-bold text-xl md:text-2xl text-primary">מה הלקוח באמת מחפש</h2></div>
+      <p class="mt-4 text-[17px] text-secondary leading-relaxed">לא רק "4 חדרים". מה המטרה (מגורים או השקעה), איזו קומה, חנייה, מחסן, מועד כניסה, ומה הוא לא מוכן לוותר עליו.</p>
+      <p class="mt-3 text-[17px] text-secondary leading-relaxed"><b class="text-primary font-medium">למה זה חשוב:</b> כשדירה מתאימה מתפנה, אפשר להתקשר בדיוק ללקוחות שביקשו אותה, במקום לשלוח הודעה לכל הרשימה.</p>
+    </article>
+
+    <article class="hairline rounded-3xl bg-card p-6 md:p-9">
+      <div class="flex items-center gap-3"><span class="w-10 h-10 shrink-0 rounded-full bg-mint text-royal-dark font-display font-bold text-lg flex items-center justify-center">2</span><h2 class="font-display font-bold text-xl md:text-2xl text-primary">מה עוצר אותו</h2></div>
+      <p class="mt-4 text-[17px] text-secondary leading-relaxed">ההתנגדויות כפי שהלקוח אמר אותן: מחיר, משכנתא, מיקום, מועד מסירה, חשש מהיזם או מהפרויקט. וגם איך הנציג ענה.</p>
+      <p class="mt-3 text-[17px] text-secondary leading-relaxed"><b class="text-primary font-medium">למה זה חשוב:</b> כשרואים את כל ההתנגדויות של החודש במקום אחד, מגלים מה חוזר שוב ושוב. לפעמים זה בכלל לא המחיר, אלא משהו שאפשר לפתור בשורה אחת בתסריט או במודעה.</p>
+    </article>
+
+    <article class="hairline rounded-3xl bg-card p-6 md:p-9">
+      <div class="flex items-center gap-3"><span class="w-10 h-10 shrink-0 rounded-full bg-mint text-royal-dark font-display font-bold text-lg flex items-center justify-center">3</span><h2 class="font-display font-bold text-xl md:text-2xl text-primary">האם הוא מוכן לקנות</h2></div>
+      <p class="mt-4 text-[17px] text-secondary leading-relaxed">האם יש הון עצמי, האם יש אישור עקרוני למשכנתא, האם הוא צריך קודם למכור דירה קיימת, ומי עוד מחליט (בן או בת זוג, הורים).</p>
+      <p class="mt-3 text-[17px] text-secondary leading-relaxed"><b class="text-primary font-medium">למה זה חשוב:</b> ככה יודעים על מי לשים את הזמן השבוע, ומי צריך ליווי ארוך יותר.</p>
+    </article>
+
+    <article class="hairline rounded-3xl bg-card p-6 md:p-9">
+      <div class="flex items-center gap-3"><span class="w-10 h-10 shrink-0 rounded-full bg-mint text-royal-dark font-display font-bold text-lg flex items-center justify-center">4</span><h2 class="font-display font-bold text-xl md:text-2xl text-primary">האם נקבע צעד הבא</h2></div>
+      <p class="mt-4 text-[17px] text-secondary leading-relaxed">פגישה במשרד המכירות, סיור באתר, שליחת מפרט או הצעת מחיר, ומתי בדיוק. "נדבר" זה לא צעד הבא.</p>
+      <p class="mt-3 text-[17px] text-secondary leading-relaxed"><b class="text-primary font-medium">למה זה חשוב:</b> שיחה טובה בלי צעד הבא היא ליד שמתקרר. המערכת מסמנת אותן, ומנהל המכירות רואה אותן כבר באותו יום.</p>
+    </article>
+
+    <article class="hairline rounded-3xl bg-card p-6 md:p-9">
+      <div class="flex items-center gap-3"><span class="w-10 h-10 shrink-0 rounded-full bg-mint text-royal-dark font-display font-bold text-lg flex items-center justify-center">5</span><h2 class="font-display font-bold text-xl md:text-2xl text-primary">איך הנציג ניהל את השיחה</h2></div>
+      <p class="mt-4 text-[17px] text-secondary leading-relaxed">כמה הוא דיבר וכמה הקשיב, האם שאל שאלות פתוחות, האם הציג את הפרויקט לפני שדיבר על מחיר, והאם הבטיח משהו שאסור להבטיח.</p>
+      <p class="mt-3 text-[17px] text-secondary leading-relaxed"><b class="text-primary font-medium">למה זה חשוב:</b> אפשר לראות מה עושים הנציגים שסוגרים הכי הרבה עסקאות, וללמד את זה את כל הצוות על בסיס שיחות אמיתיות.</p>
+    </article>
+
+  </div>
+</section>
+
+<section class="bg-ink py-16 md:py-20 border-t border-hairline">
+  <div class="max-w-3xl mx-auto px-5 md:px-10">
+    <h2 class="font-display text-primary text-center">ככה זה נראה ב-CRM</h2>
+    <p class="mt-4 text-center text-secondary">דוגמה לסיכום שהמערכת כותבת אחרי שיחה. השמות והפרטים בדויים.</p>
+    <div class="mt-8 hairline2 rounded-3xl bg-card overflow-hidden">
+      <div class="flex items-center justify-between gap-3 px-6 py-4 bg-panel border-b border-hairline">
+        <b class="font-display text-primary">שיחה עם דנה כ. · פרויקט לדוגמה</b>
+        <span class="text-sm text-royal-dark bg-mint rounded-full px-3 py-1">ליד חם</span>
+      </div>
+      <dl class="divide-y divide-hairline text-[16px]">
+        <div class="grid sm:grid-cols-[9rem_1fr] gap-1 sm:gap-4 px-6 py-4"><dt class="text-muted">מחפשת</dt><dd class="text-primary">4 חדרים לזוג עם 2 ילדים, קומה 5 ומעלה, חנייה צמודה. כניסה עד קיץ הבא.</dd></div>
+        <div class="grid sm:grid-cols-[9rem_1fr] gap-1 sm:gap-4 px-6 py-4"><dt class="text-muted">מה עוצר</dt><dd class="text-primary">חוששת מעיכוב במסירה. המחיר פחות הפריע.</dd></div>
+        <div class="grid sm:grid-cols-[9rem_1fr] gap-1 sm:gap-4 px-6 py-4"><dt class="text-muted">מוכנות</dt><dd class="text-primary">יש אישור עקרוני למשכנתא. בן הזוג עוד לא ראה את הפרויקט.</dd></div>
+        <div class="grid sm:grid-cols-[9rem_1fr] gap-1 sm:gap-4 px-6 py-4"><dt class="text-muted">צעד הבא</dt><dd class="text-primary">פגישה במשרד המכירות ביום ראשון עם בן הזוג. לשלוח לפני כן לוח זמנים של הבנייה.</dd></div>
+        <div class="grid sm:grid-cols-[9rem_1fr] gap-1 sm:gap-4 px-6 py-4"><dt class="text-muted">הערה לנציג</dt><dd class="text-primary">לא התייחסת לחשש מהעיכוב. כדאי לפתוח בזה את הפגישה.</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="bg-panel py-16 md:py-20 border-t border-hairline">
+  <div class="max-w-3xl mx-auto px-5 md:px-10">
+    <h2 class="font-display text-primary">איך מתחילים מחר בבוקר, בלי שום מערכת</h2>
+    <ol class="mt-8 space-y-4 text-[17px] text-secondary leading-relaxed list-decimal pr-6">
+      <li>קחו 10 הקלטות של שיחות מהשבוע האחרון, מכמה נציגים שונים.</li>
+      <li>פתחו גיליון עם 5 עמודות, אחת לכל אחד מהדברים שלמעלה.</li>
+      <li>האזינו לכל שיחה ומלאו שורה. כשמשהו לא נאמר בשיחה, כתבו "לא נאמר".</li>
+      <li>בסוף הסתכלו על העמודות 2 ו-4. מה עוצר לקוחות שוב ושוב? ובכמה שיחות לא נקבע צעד הבא?</li>
+    </ol>
+    <p class="mt-6 text-[17px] text-secondary leading-relaxed">זה לוקח כמה שעות על 10 שיחות. מערכת AI עושה את אותו הדבר על כל השיחות, כל יום, ומכניסה את התוצאה ישר ל-CRM.</p>
+  </div>
+</section>
+
+<section class="relative overflow-hidden bg-ink py-24 md:py-28 border-t border-hairline">
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[50rem] h-[24rem] bg-royal/10 blur-[140px] pointer-events-none"></div>
+  <div class="relative max-w-3xl mx-auto px-6 md:px-10 text-center">
+    <h2 class="font-display text-primary">רוצים לראות את זה על השיחות שלכם?</h2>
+    <p class="mt-5 text-lg text-secondary leading-relaxed">בשיחת אבחון של 20 דקות נבין איך עובד אצלכם צוות המכירות, ונראה לכם מה אפשר לבנות.</p>
+    <div class="mt-9 flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="../index.html?v=20261103d#contact" class="inline-flex items-center justify-center gap-2 rounded-full bg-grad-royal text-white font-medium text-base px-7 py-3.5 shadow-glow w-full sm:w-auto">קבעו שיחת אבחון ללא עלות<i data-lucide="arrow-left" class="w-4 h-4"></i></a>
+      <a href="https://wa.me/972586555442" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 btn-ghost rounded-full text-primary font-medium text-base px-7 py-3.5 w-full sm:w-auto">דברו איתנו בוואטסאפ</a>
+    </div>
+    <a href="../projects/sales-calls.html?v=20261103d" class="mt-8 inline-flex items-center gap-2 text-[15px] text-royal-dark hover:underline">לפרויקט המלא בתיק העבודות<i data-lucide="arrow-left" class="w-4 h-4"></i></a>
+  </div>
+</section>
+</main>
+
+
+<footer class="bg-ink border-t border-hairline py-10">
+  <div class="max-w-6xl mx-auto px-6 md:px-10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted">
+    <span>© 2026 Servi. כל הזכויות שמורות.</span>
+    <a href="../index.html?v=20261103d" class="inline-block py-2 hover:text-primary transition-colors">חזרה לאתר הראשי</a>
+  </div>
+</footer>
+
+<script>lucide.createIcons();
+  // scroll progress bar
+  (function () {
+    var bar = document.getElementById('scrollBar');
+    if (!bar) return;
+    function upd() {
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.transform = 'scaleX(' + (h > 0 ? Math.min(1, window.scrollY / h) : 0) + ')';
+    }
+    window.addEventListener('scroll', upd, { passive: true }); upd();
+  })();
+</script>
+</body>
+</html>
